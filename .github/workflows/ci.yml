@@ -1,0 +1,85 @@
+name: CI
+
+permissions:
+  contents: read
+
+on: ['push', 'pull_request']
+
+jobs:
+  ci:
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      fail-fast: true
+      matrix:
+        operating-system: [ubuntu-latest]
+        php-version: [8.1, 8.2]
+        node-version: [18.0, 20.0]
+        dependency-version: [prefer-lowest, prefer-stable]
+    name: 👷 CI PHP-${{ matrix.php-version }} ${{ matrix.dependency-version }} with Node-${{ matrix.node-version }} on ${{ matrix.operating-system }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Cache dependencies
+        id: composer-cache
+        run: |
+          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+      - uses: actions/cache@v3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.operating-system }}-dependencies-php-${{ matrix.php-version }}-composer-${{ hashFiles('composer.json') }}
+          restore-keys: |
+            ${{ runner.operating-system }}-dependencies-php-${{ matrix.php-version }}-composer-
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: curl, dom, gd, intl, mbstring, openssl, tokenizer, zip
+          ini-values: error_reporting=E_ALL
+          tools: composer:v2, php-cs-fixer, phpunit, vimeo/psalm
+          coverage: pcov
+
+      - name: Install Composer dependencies
+        run: |
+          set -e
+          composer install -q --no-ansi --no-cache --no-interaction --no-scripts --no-progress --prefer-dist
+          composer update --${{ matrix.dependency-version }} --no-interaction --prefer-dist --no-progress
+
+      - name: Update Dependencies with latest stable
+        if: matrix.dependency-version == 'prefer-stable'
+        run: composer update --prefer-stable
+
+      - name: Update Dependencies with lowest stable
+        if: matrix.dependency-version == 'prefer-lowest'
+        run: composer update --prefer-stable --prefer-lowest
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install JavaScript dependencies
+        run: |
+          corepack enable
+          pnpm install
+
+      - name: 🧹 Check code lint
+        run: |
+          pnpm check
+          composer check
+
+      - name: ⚗️ Run static analysis
+        run: |
+          composer analyse
+
+      - name: ✅ Test features
+        run: |
+          pnpm test
+          composer test
+
+      - name: 🧪 Test the whole application
+        run: |
+          composer debug
+          pnpm debug

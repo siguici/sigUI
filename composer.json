@@ -1,0 +1,87 @@
+{
+    "type": "project",
+    "name": "sikessem/ui",
+    "description": "🍱 TailwindCSS, Alpine.js and Laravel Livewire UI kit for Artisans.",
+    "keywords": [
+        "alpinejs",
+        "components",
+        "laravel",
+        "livewire",
+        "php",
+        "phpstan",
+        "rector",
+        "rome",
+        "sikessem",
+        "tailwindcss",
+        "typescript",
+        "tallc",
+        "widgets"
+    ],
+    "homepage": "https://packagist.org/packages/sikessem/ui",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sigui Kessé Emmanuel",
+            "email": "contact@sigui.ci",
+            "homepage": "https://github.com/siguici"
+        }
+    ],
+    "support": {
+        "source": "https://github.com/sikessem/ui",
+        "issues": "https://github.com/sikessem/ui/issues",
+        "chat": "https://github.com/orgs/sikessem/discussions"
+    },
+    "require": {
+        "php": "^8.1||^8.2",
+        "illuminate/view": "^10.0",
+        "livewire/livewire": "^2.12"
+    },
+    "require-dev": {
+        "sikessem/framework": "^0.0.0",
+        "sikessem/laravel-devtools": "^0.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sikessem\\UI\\": "src/"
+        },
+        "files": ["helpers/sikessem-ui.php"]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Sikessem\\UI\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "analyse": "phpstan analyse --ansi --memory-limit=-1 --debug",
+        "check": "pint --test -v",
+        "debug": ["@check", "@analyse", "@review", "@test"],
+        "fix": ["@refactor", "@format", "@lint"],
+        "lint": "pint -v",
+        "test": "pest --colors=always",
+        "review": "rector --dry-run --debug",
+        "refactor": "rector"
+    },
+    "extra": {
+        "laravel": {
+            "providers": ["Sikessem\\UI\\Core\\ServiceProvider"],
+            "aliases": {
+                "UI": "Sikessem\\UI\\Core\\Facade"
+            },
+            "dont-discover": []
+        },
+        "branch-alias": {
+            "dev-main": "0.x-dev"
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

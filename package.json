@@ -1,0 +1,37 @@
+{
+    "private": true,
+    "type": "module",
+    "engines": {
+        "node": ">=18.16",
+        "pnpm": ">=8.0.0",
+        "npm": "prefer using pnpm",
+        "yarn": "prefer using pnpm"
+    },
+    "packageManager": "pnpm@8.6.6",
+    "publishConfig": {
+        "access": "public"
+    },
+    "homepage": "https://sikessem.com",
+    "author": {
+        "name": "SIGUI Kessé Emmanuel",
+        "email": "contact@sigui.ci",
+        "url": "https://sigui.ci"
+    },
+    "scripts": {
+        "check": "rome ci .",
+        "check.format": "rome format .",
+        "check.lint": "rome check .",
+        "debug": "pnpm check && pnpm test",
+        "fix": "pnpm lint && pnpm format",
+        "format": "rome format --write .",
+        "lint": "rome check --apply-unsafe .",
+        "test": "vitest run",
+        "test.ui": "vitest --ui",
+        "test.cov": "vitest run --coverage"
+    },
+    "devDependencies": {
+        "@vitest/coverage-c8": "^0.33.0",
+        "rome": "^12.1.3",
+        "vitest": "^0.32.4"
+    }
+}
