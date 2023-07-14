@@ -7,6 +7,7 @@ use Illuminate\Contracts\View\View as ViewContract;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View as ViewFacade;
 use Illuminate\Support\Str;
+use Livewire\Livewire;
 
 class Manager
 {
@@ -15,19 +16,25 @@ class Manager
     public const ANONYMOUS_COMPONENT_NAMESPACE = 'ui::components';
 
     /**
-     * @var array<array{class:string,alias:string,}>;
+     * @var array<string,string>;
      */
     protected array $components = [];
 
     public function component(string $class, string $alias = null, bool $anonymous = false): void
     {
-        if (! isset($this->components[$class])) {
-            $this->components[$class] = [
-                'class' => ($anonymous ? Manager::ANONYMOUS_COMPONENT_NAMESPACE.'.' : Manager::COMPONENT_NAMESPACE.'\\').$class,
-                'alias' => $alias ?: ($anonymous ? $class : Str::snake($class, '-')),
-            ];
-            Blade::component($this->components[$class]['class'], $this->components[$class]['alias'], 'ui');
+        $alias ??= $anonymous ? $class : Str::snake($class, '-');
+
+        if (! isset($this->components[$alias])) {
+            $class = ($anonymous ? Manager::ANONYMOUS_COMPONENT_NAMESPACE.'.' : Manager::COMPONENT_NAMESPACE.'\\').$class;
+            $this->components[$alias] = $class;
+
+            if (! $anonymous && is_subclass_of($class, LivewireComponent::class)) {
+                Livewire::component("ui-$alias", $class);
+            } else {
+                Blade::component($class, $alias, 'ui');
+            }
         }
+
     }
 
     /**
