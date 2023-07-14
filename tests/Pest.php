@@ -11,6 +11,8 @@
 |
 */
 
+use Livewire\Livewire;
+
 uses(Sikessem\UI\Tests\TestCase::class)->in('Feat', 'Unit');
 
 /*
@@ -25,6 +27,7 @@ uses(Sikessem\UI\Tests\TestCase::class)->in('Feat', 'Unit');
 */
 
 expect()->extend('toBeRenderOf', fn (string $component) => $this->toEqual(render($component)));
+expect()->extend('toSeeInRenderOf', fn (string $component, bool $html = true) => Livewire::test($component)->{$html ? 'assertSeeHtml' : 'assertSee'}($this->value));
 
 /*
 |--------------------------------------------------------------------------
