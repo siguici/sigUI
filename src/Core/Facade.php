@@ -5,6 +5,7 @@ namespace Sikessem\UI\Core;
 use Illuminate\Support\Facades\Facade as BaseFacade;
 
 /**
+ * @method static void component(string $class, string $alias = null, bool $anonymous = false)
  * @method static string renderComponent(string $content, array $data = [], bool $deleteCachedView = true)
  * @method static \Illuminate\Contracts\View\View renderPage(string $content, string $layout = null, Arrayable|array $contentData = [], Arrayable|array $layoutData = [], array $mergeData = [])
  *

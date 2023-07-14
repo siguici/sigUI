@@ -10,23 +10,14 @@ use Illuminate\View\Compilers\BladeCompiler;
 class ServiceProvider extends BaseServiceProvider
 {
     /**
-     * @var array<array{class:string,alias:string,}>;
-     */
-    protected array $components = [];
-
-    /**
      * Bootstrap UI services.
      *
      * @return void
      */
-    public function boot()
+    public function register()
     {
-        $this->registerServices();
-        $this->registerNamespaces();
-        $this->registerTranslations();
-        $this->registerViews();
         $this->registerConfig();
-        $this->registerPublishables();
+        $this->registerServices();
     }
 
     /**
@@ -34,12 +25,13 @@ class ServiceProvider extends BaseServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function boot()
     {
-        $this->callAfterResolving(BladeCompiler::class, function () {
-            $this->registerComponentPath(sikessem_ui_path('res/views/components'));
-            $this->registerComponentPath(sikessem_ui_path('src/Components'), anonymous: true);
-        });
+        $this->registerTranslations();
+        $this->registerViews();
+        $this->registerNamespaces();
+        $this->registerComponents();
+        $this->registerPublishables();
     }
 
     protected function registerServices(): void
@@ -49,10 +41,9 @@ class ServiceProvider extends BaseServiceProvider
         $this->app->alias(Manager::class, 'sikessem.ui');
     }
 
-    protected function registerNamespaces(): void
+    protected function registerConfig(): void
     {
-        Blade::componentNamespace(Manager::COMPONENT_NAMESPACE, 'ui');
-        Blade::anonymousComponentNamespace(Manager::ANONYMOUS_COMPONENT_NAMESPACE, 'ui');
+        $this->mergeConfigFrom(sikessem_ui_path('config/sikessem-ui.php'), 'ui');
     }
 
     protected function registerTranslations(): void
@@ -65,9 +56,18 @@ class ServiceProvider extends BaseServiceProvider
         $this->loadViewsFrom(sikessem_ui_path('res/views'), 'ui');
     }
 
-    protected function registerConfig(): void
+    protected function registerNamespaces(): void
     {
-        $this->mergeConfigFrom(sikessem_ui_path('config/sikessem-ui.php'), 'ui');
+        Blade::componentNamespace(Manager::COMPONENT_NAMESPACE, 'ui');
+        Blade::anonymousComponentNamespace(Manager::ANONYMOUS_COMPONENT_NAMESPACE, 'ui');
+    }
+
+    protected function registerComponents(): void
+    {
+        $this->callAfterResolving(BladeCompiler::class, function () {
+            $this->registerComponentPath(sikessem_ui_path('res/views/components'), anonymous: true);
+            $this->registerComponentPath(sikessem_ui_path('src/Components'));
+        });
     }
 
     protected function registerPublishables(): void
@@ -134,18 +134,7 @@ class ServiceProvider extends BaseServiceProvider
             } else {
                 $component = Str::of("{$base}$separator{$component}")->trim($separator);
             }
-            $this->registerComponent($component->toString(), $anonymous);
-        }
-    }
-
-    protected function registerComponent(string $component, bool $anonymous = false, string $alias = null): void
-    {
-        if (! isset($this->components[$component])) {
-            $this->components[$component] = [
-                'class' => ($anonymous ? Manager::ANONYMOUS_COMPONENT_NAMESPACE.'.' : Manager::COMPONENT_NAMESPACE.'\\').$component,
-                'alias' => 'ui-'.($alias ?: $component),
-            ];
-            Blade::component($this->components[$component]['class'], $this->components[$component]['alias']);
+            Facade::component($component->toString(), anonymous: $anonymous);
         }
     }
 }
