@@ -11,7 +11,7 @@
 |
 */
 
-uses()->in('Feat');
+uses(Sikessem\UI\Tests\TestCase::class)->in('Feat', 'Unit');
 
 /*
 |--------------------------------------------------------------------------
@@ -24,7 +24,7 @@ uses()->in('Feat');
 |
 */
 
-expect()->extend('toBeOne', fn () => $this->toBe(1));
+expect()->extend('toBeRenderOf', fn (string $component) => $this->toEqual(render($component)));
 
 /*
 |--------------------------------------------------------------------------
@@ -39,5 +39,5 @@ expect()->extend('toBeOne', fn () => $this->toBe(1));
 
 function something()
 {
-    // ..
+    // ...
 }
