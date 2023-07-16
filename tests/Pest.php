@@ -11,23 +11,7 @@
 |
 */
 
-use Livewire\Livewire;
-
 uses(Sikessem\UI\Tests\TestCase::class)->in('Feat', 'Unit');
-
-/*
-|--------------------------------------------------------------------------
-| Expectations
-|--------------------------------------------------------------------------
-|
-| When you're writing tests, you often need to check that values meet certain conditions. The
-| "expect()" function gives you access to a set of "expectations" methods that you can use
-| to assert different things. Of course, you may extend the Expectation API at any time.
-|
-*/
-
-expect()->extend('toBeRenderOf', fn (string $component) => $this->toEqual(render($component)));
-expect()->extend('toSeeInRenderOf', fn (string $component, bool $html = true) => Livewire::test($component)->{$html ? 'assertSeeHtml' : 'assertSee'}($this->value));
 
 /*
 |--------------------------------------------------------------------------
