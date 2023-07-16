@@ -3,6 +3,7 @@
 namespace Sikessem\UI\Tests;
 
 use Illuminate\Contracts\Config\Repository;
+use Illuminate\Foundation\Testing\Concerns\InteractsWithViews;
 use Livewire\Livewire;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
@@ -11,6 +12,8 @@ use Sikessem\UI\Core\ServiceProvider;
 
 abstract class TestCase extends BaseTestCase
 {
+    use InteractsWithViews;
+
     /**
      * Define environment setup.
      *
