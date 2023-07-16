@@ -65,8 +65,8 @@ class ServiceProvider extends BaseServiceProvider
     protected function registerComponents(): void
     {
         $this->callAfterResolving(BladeCompiler::class, function () {
-            $this->registerComponentPath(sikessem_ui_path('res/views/components'), anonymous: true);
             $this->registerComponentPath(sikessem_ui_path('src/Components'));
+            $this->registerComponentPath(sikessem_ui_path('res/views/components'), anonymous: true);
         });
     }
 

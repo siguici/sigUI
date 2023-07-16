@@ -34,7 +34,20 @@ class Manager
                 Blade::component($class, $alias, 'ui');
             }
         }
+    }
 
+    /**
+     * @param  array<string>  $classes
+     */
+    public function components(array $classes = [], bool $anonymous = false): void
+    {
+        foreach ($classes as $class => $alias) {
+            if (is_int($class)) {
+                $class = $alias;
+                $alias = null;
+            }
+            $this->component($class, $alias, $anonymous);
+        }
     }
 
     public function isLivewire(string $component, bool $anonymous = false): bool
