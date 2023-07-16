@@ -50,6 +50,47 @@ class Manager
         }
     }
 
+    /**
+     * @return array{class:string,alias:string}|null
+     */
+    public function find(string $name): ?array
+    {
+        foreach ($this->components as $alias => $class) {
+            if ($alias === $name || $class === $name) {
+                return ['class' => $class, 'alias' => $alias];
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @param  mixed[]  $attributes
+     */
+    public function make(string $name, array $attributes = [], string $content = ''): string
+    {
+        $render = '';
+        $slot = new ComponentSlot($content, $attributes);
+
+        if ($component = $this->find($name)) {
+            ['class' => $class, 'alias' => $alias] = $component;
+
+            if ($this->isBlade($class)) {
+                $render = '<x-ui-'.$alias.' '.$slot->attributes;
+                $render .= $slot->isEmpty() ? '/>' : '>'.$slot->toHtml().'</x-ui-'.$alias.'>';
+            } elseif ($this->isLivewire($class)) {
+                $render = '<livewire:ui-'.$alias.' '.$slot->attributes.'>';
+            }
+
+            $render = Blade::render($render);
+        } else {
+            $render = '<'.$name.' '.$slot->attributes;
+            $render .= $slot->isEmpty() ? '/>' : '>'.$slot->toHtml().'</'.$name.'>';
+        }
+
+        return $render;
+    }
+
     public function isLivewire(string $component, bool $anonymous = false): bool
     {
         return ! $anonymous && is_subclass_of($component, LivewireComponent::class);

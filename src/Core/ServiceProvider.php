@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Illuminate\Support\Str;
 use Illuminate\View\Compilers\BladeCompiler;
+use ReflectionClass;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -21,7 +22,7 @@ class ServiceProvider extends BaseServiceProvider
     }
 
     /**
-     * Register Ui services.
+     * Register UI services.
      *
      * @return void
      */
@@ -30,6 +31,7 @@ class ServiceProvider extends BaseServiceProvider
         $this->registerTranslations();
         $this->registerViews();
         $this->registerNamespaces();
+        $this->registerDirectives();
         $this->registerComponents();
         $this->registerPublishables();
     }
@@ -60,6 +62,19 @@ class ServiceProvider extends BaseServiceProvider
     {
         Blade::componentNamespace(Manager::COMPONENT_NAMESPACE, 'ui');
         Blade::anonymousComponentNamespace(Manager::ANONYMOUS_COMPONENT_NAMESPACE, 'ui');
+    }
+
+    protected function registerDirectives(): void
+    {
+        $directivesClass = new ReflectionClass(Directives::class);
+        foreach ($directivesClass->getMethods() as $directiveMethod) {
+            if ($directiveMethod->isStatic() && $directiveMethod->isPublic()) {
+                $directiveName = $directiveMethod->getName();
+                /** @var callable */
+                $directive = [Directives::class, $directiveName];
+                Blade::directive($directiveName, $directive);
+            }
+        }
     }
 
     protected function registerComponents(): void
