@@ -28,13 +28,23 @@ class Manager
             $class = ($anonymous ? Manager::ANONYMOUS_COMPONENT_NAMESPACE.'.' : Manager::COMPONENT_NAMESPACE.'\\').$class;
             $this->components[$alias] = $class;
 
-            if (! $anonymous && is_subclass_of($class, LivewireComponent::class)) {
+            if ($this->isLivewire($class, $anonymous)) {
                 Livewire::component("ui-$alias", $class);
             } else {
                 Blade::component($class, $alias, 'ui');
             }
         }
 
+    }
+
+    public function isLivewire(string $component, bool $anonymous = false): bool
+    {
+        return ! $anonymous && is_subclass_of($component, LivewireComponent::class);
+    }
+
+    public function isBlade(string $component, bool $anonymous = false): bool
+    {
+        return $anonymous || is_subclass_of($component, BladeComponent::class);
     }
 
     /**
