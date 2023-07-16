@@ -12,6 +12,6 @@ class HelloLivewire extends LivewireComponent
 {
     public function render(): View|Factory|Htmlable|Closure|string
     {
-        return view('ui::components.hello');
+        return '<div>Hello</div>';
     }
 }
