@@ -2,6 +2,15 @@
 
 All notable changes to [Sikessem's UI kit](https://github.com/sikessem/ui) will be documented in this file.
 
-## [Unreleased](https://github.com/sikessem/ui/compare/v0.0.0...HEAD)
+## [Unreleased](https://github.com/sikessem/ui/compare/v0.1.0...HEAD)
 
-**Full Changelog:** [v0.0.0...v0.x](https://github.com/sikessem/ui/compare/v0.0.0...v0.x)
+**Full Changelog:** [v0.0.0...v0.1.0](https://github.com/sikessem/ui/compare/v0.0.0...v0.1.0)
+
+## [v0.1.0](https://github.com/sikessem/ui/releases/tag/v0.1.0) - 2023-07-17
+
+- [0.x] Add [inline component](https://github.com/sikessem/ui#inline-component)
+- [0.x] Add [user guide](https://github.com/sikessem/ui#-usage)
+- [0.x] Add [blade directive](https://github.com/sikessem/ui#blade-directive)
+- [0.x] Add [**link** component](https://github.com/sikessem/ui#link-component)
+- [0.x] Add [**text** component](https://github.com/sikessem/ui#text-component)
+- [0.x] Add **base-layout** component
