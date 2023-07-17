@@ -148,6 +148,12 @@ You can find the list of [all components here](#-components).
 </x-ui-component-name>
 ```
 
+- Using the UI inline component:
+
+```html
+<ui-component-name property="value"/>
+```
+
 - Using the UI Blade directive:
 
 ```php

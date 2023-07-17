@@ -30,6 +30,7 @@ class ServiceProvider extends BaseServiceProvider
     {
         $this->registerTranslations();
         $this->registerViews();
+        $this->registerCompilers();
         $this->registerNamespaces();
         $this->registerDirectives();
         $this->registerComponents();
@@ -41,6 +42,7 @@ class ServiceProvider extends BaseServiceProvider
         $this->app->singleton(Manager::class);
         $this->app->instance('ui.path', sikessem_ui_path());
         $this->app->alias(Manager::class, 'sikessem.ui');
+        $this->app->alias('blade.compiler', TemplateCompiler::class);
     }
 
     protected function registerConfig(): void
@@ -74,6 +76,21 @@ class ServiceProvider extends BaseServiceProvider
                 $directive = [Directives::class, $directiveName];
                 Blade::directive($directiveName, $directive);
             }
+        }
+    }
+
+    protected function registerCompilers(): void
+    {
+        $app = $this->app;
+        /** @var TemplateCompiler */
+        $compiler = $app->make('blade.compiler');
+        if (method_exists($compiler, 'precompiler')) {
+            $compiler->precompiler(function ($string) use ($app) {
+                /** @var ComponentCompiler */
+                $precompiler = $app->make(ComponentCompiler::class);
+
+                return $precompiler->compile($string);
+            });
         }
     }
 
