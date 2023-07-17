@@ -10,9 +10,8 @@ class Text extends BladeComponent
 {
     public function __construct(
         public string $value = '',
-        public bool $escape = true,
-        public bool $translate = true,
-        public ?string $tag = null,
+        public bool $escape = false,
+        public bool $translate = false,
     ) {
     }
 
@@ -26,6 +25,6 @@ class Text extends BladeComponent
      */
     public function shouldRender(): bool
     {
-        return ! empty($this->value) || ! empty($this->tag);
+        return ! empty($this->value);
     }
 }

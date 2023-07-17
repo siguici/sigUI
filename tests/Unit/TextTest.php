@@ -3,7 +3,7 @@
 namespace Tests\Unit;
 
 it('should render text component', function () {
-    expect('<div >Hello</div>')
-        ->toBeRenderOf('<x-ui-text value="Hello" tag="div"/>')
-        ->toBeRenderOf('<x-ui::text value="Hello" tag="div"/>');
+    expect('Sigui Kessé Emmanuel&lt;contact@sigui.ci&gt;')
+        ->toBeRenderOf('<x-ui-text value="Sigui Kessé Emmanuel<contact@sigui.ci>" escape/>')
+        ->toBeRenderOf('<x-ui::text value="Sigui Kessé Emmanuel<contact@sigui.ci>" escape/>');
 });
