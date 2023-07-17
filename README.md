@@ -69,14 +69,19 @@
 
 - [🍱 Sikessem's UI kit](#-sikessems-ui-kit)
   - [🔖 Contents](#-contents)
+  - [📋 Requirements](#-requirements)
   - [🎉 Getting Started](#-getting-started)
     - [⚡️ Installation](#️-installation)
+    - [🧑‍💻 Usage](#-usage)
+      - [📝 Syntax](#-syntax)
+      - [🍱 Components](#-components)
+        - [Text component](#text-component)
+        - [Link component](#link-component)
     - [🧪 Testing and debugging](#-testing-and-debugging)
       - [🧹 Keep a modern codebase](#-keep-a-modern-codebase)
       - [⚗️ Run static analysis](#️-run-static-analysis)
       - [✅ Run unit tests](#-run-unit-tests)
       - [🐛 Check all code bugs](#-check-all-code-bugs)
-  - [📋 Requirements](#-requirements)
   - [📖 Documentation](#-documentation)
   - [👏 Contribution](#-contribution)
     - [👷 Code of Conduct](#-code-of-conduct)
@@ -85,6 +90,14 @@
     - [💬 Discussions](#-discussions)
   - [🔐 Security Reports](#-security-reports)
   - [📄 License](#-license)
+
+## 📋 Requirements
+
+> - **Requires [PHP 8.1+](https://php.net/releases/)** (at least 8.1.21 recommended to avoid potential bugs).
+> - **Requires [Node JS 18.16+](https://nodejs.org/)** (at least 18.16.1 recommended to avoid potential bugs).
+> - **Requires [Composer >=2.5.8](https://getcomposer.org/)** to manage [PHP][php-link] dependencies.
+> - **Requires [pnpm@^8.0.0](https://pnpm.io/)** to manage [JS][javascript-link] and [TS][typescript-link] dependencies.
+> - **Requires [Git ~2.40.0](https://git-scm.com/)** to manage source code versions.
 
 ## 🎉 Getting Started
 
@@ -106,6 +119,91 @@ Install [the Sikessem UI kit](https://packagist.org/packages/sikessem/ui) using 
 
 ```shell
 composer require sikessem/ui --no-dev
+```
+
+### 🧑‍💻 Usage
+
+#### 📝 Syntax
+
+There are several ways to use Sikessem's UI components.
+
+In the following examples **component-name** represents the name of the desired UI component.
+If you want to use the text component, replace **component-name** with **text** as needed.
+
+You can find the list of [all components here](#-components).
+
+- Using the UI view namespace:
+
+```html
+<x-ui::component-name property="value">
+  Content
+</x-ui::component-name>
+```
+
+- Using the UI component alias:
+
+```html
+<x-ui-component-name property="value">
+  Content
+</x-ui-component-name>
+```
+
+- Using the UI Blade directive:
+
+```php
+@ui('component-name', ['property' => 'value'], 'content')
+```
+
+- Using the UI Laravel helper:
+
+```php
+ui()->make('component-name', ['property' => 'value'], 'content')
+```
+
+- Using the UI Laravel facade:
+
+```php
+UI::make('component-name', ['property' => 'value'], 'content')
+```
+
+#### 🍱 Components
+
+In the following examples, we will use component aliases. However, the result will be the same if you prefer to [use another syntax](#-syntax).
+
+##### Text component
+
+Allows to translate and/or escape a text:
+
+```html
+<x-ui-text value="Sigui Kessé Emmanuel<contact@sigui.ci>" escape translate/>
+```
+
+This will output the following HTML:
+
+```html
+Sigui Kessé Emmanuel&lt;contact@sigui.ci&gt;
+```
+
+##### Link component
+
+Create an anchor pointing to a route or URL:
+
+```html
+<x-ui-link route="home">Back to home</x-ui-link>
+```
+
+```html
+<x-ui-link href="/">Back to home</x-ui-link>
+```
+
+This will output the following HTML:
+
+```html
+<a href="/">Back to home</a>
+```
+
+```html
+<a href="http://localhost/">Back to home</a>
 ```
 
 ### 🧪 Testing and debugging
@@ -159,14 +257,6 @@ pnpm debug
 ```shell
 composer debug
 ```
-
-## 📋 Requirements
-
-> - **Requires [PHP 8.1+](https://php.net/releases/)** (at least 8.1.21 recommended to avoid potential bugs).
-> - **Requires [Node JS 18.16+](https://nodejs.org/)** (at least 18.16.1 recommended to avoid potential bugs).
-> - **Requires [Composer >=2.5.8](https://getcomposer.org/)** to manage [PHP][php-link] dependencies.
-> - **Requires [pnpm@^8.0.0](https://pnpm.io/)** to manage [JS][javascript-link] and [TS][typescript-link] dependencies.
-> - **Requires [Git ~2.40.0](https://git-scm.com/)** to manage source code versions.
 
 ## 📖 Documentation
 
