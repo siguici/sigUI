@@ -83,6 +83,7 @@
       - [🍱 Components](#-components)
         - [Text component](#text-component)
         - [Link component](#link-component)
+        - [Button component](#button-component)
     - [🧪 Testing and debugging](#-testing-and-debugging)
       - [🧹 Keep a modern codebase](#-keep-a-modern-codebase)
       - [⚗️ Run static analysis](#️-run-static-analysis)
@@ -216,6 +217,36 @@ This will output the following HTML:
 
 ```html
 <a href="http://localhost/">Back to home</a>
+```
+
+##### Button component
+
+Create a button or an anchor:
+
+```html
+<x-ui-button>Click me</x-ui-button>
+```
+
+```html
+<x-ui-button type="submit">Click me</x-ui-button>
+```
+
+```html
+<x-ui-button type="submit" href="/">Click me</x-ui-button>
+```
+
+This will output the following HTML:
+
+```html
+<button type="button">Click me</button>
+```
+
+```html
+<button type="submit">Click me</button>
+```
+
+```html
+<a href="http://localhost">Click me</a>
 ```
 
 ### 🧪 Testing and debugging

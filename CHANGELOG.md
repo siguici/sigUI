@@ -6,6 +6,8 @@ All notable changes to [Sikessem's UI kit](https://github.com/sikessem/ui) will 
 
 **Full Changelog:** [v0.0.0...v0.1.0](https://github.com/sikessem/ui/compare/v0.0.0...v0.1.0)
 
+- [0.x] Add [**button** component](https://github.com/sikessem/ui#button-component)
+
 ## [v0.1.0](https://github.com/sikessem/ui/releases/tag/v0.1.0) - 2023-07-17
 
 - [0.x] Add [inline component](https://github.com/sikessem/ui#inline-component)
