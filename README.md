@@ -74,6 +74,12 @@
     - [⚡️ Installation](#️-installation)
     - [🧑‍💻 Usage](#-usage)
       - [📝 Syntax](#-syntax)
+        - [View namespace](#view-namespace)
+        - [Component alias](#component-alias)
+        - [Inline component](#inline-component)
+        - [Blade directive](#blade-directive)
+        - [ui() helper](#ui-helper)
+        - [UI facade](#ui-facade)
       - [🍱 Components](#-components)
         - [Text component](#text-component)
         - [Link component](#link-component)
@@ -132,7 +138,7 @@ If you want to use the text component, replace **component-name** with **text** 
 
 You can find the list of [all components here](#-components).
 
-- Using the UI view namespace:
+##### View namespace
 
 ```html
 <x-ui::component-name property="value">
@@ -140,7 +146,7 @@ You can find the list of [all components here](#-components).
 </x-ui::component-name>
 ```
 
-- Using the UI component alias:
+##### Component alias
 
 ```html
 <x-ui-component-name property="value">
@@ -148,25 +154,25 @@ You can find the list of [all components here](#-components).
 </x-ui-component-name>
 ```
 
-- Using the UI inline component:
+##### Inline component
 
 ```html
 <ui-component-name property="value"/>
 ```
 
-- Using the UI Blade directive:
+##### Blade directive
 
 ```php
 @ui('component-name', ['property' => 'value'], 'content')
 ```
 
-- Using the UI Laravel helper:
+##### ui() helper
 
 ```php
 ui()->make('component-name', ['property' => 'value'], 'content')
 ```
 
-- Using the UI Laravel facade:
+##### UI facade
 
 ```php
 UI::make('component-name', ['property' => 'value'], 'content')
