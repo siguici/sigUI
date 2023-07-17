@@ -13,5 +13,5 @@ it('should render Blade component', function () {
 });
 
 it('should render Livewire component', function () {
-    expect(render('@ui("hello-livewire")'))->toContain('Hello');
+    expectRender('@ui("hello-livewire")')->toContain('Hello');
 });

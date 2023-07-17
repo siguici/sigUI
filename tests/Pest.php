@@ -1,5 +1,7 @@
 <?php
 
+use Pest\Expectation;
+
 /*
 |--------------------------------------------------------------------------
 | Test Case
@@ -24,7 +26,7 @@ uses(Sikessem\UI\Tests\TestCase::class)->in('Feat', 'Unit');
 |
 */
 
-function something()
+function expectRender(mixed $value = null): Expectation
 {
-    // ...
+    return expect(render($value ?? ''));
 }
