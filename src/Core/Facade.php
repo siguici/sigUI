@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Facade as BaseFacade;
  * @method static array|null find(string $name)
  * @method static bool isBlade(string $component, bool $anonymous = false)
  * @method static bool isLivewire(string $component, bool $anonymous = false)
- * @method static string make(string $name = null, array $attributes = [], string $content = '')
+ * @method static string make(string $name, array|\Illuminate\View\ComponentAttributeBag $attributes = [], string|\Illuminate\View\ComponentSlot $slot = null)
  * @method static string renderComponent(string $content, array $data = [], bool $deleteCachedView = true)
  * @method static \Illuminate\Contracts\View\View renderPage(string $content, string $layout = null, \Illuminate\Contracts\Support\Arrayable|array $contentData = [], \Illuminate\Contracts\Support\Arrayable|array $layoutData = [], array $mergeData = [])
  *

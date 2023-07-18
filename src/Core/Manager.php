@@ -7,6 +7,8 @@ use Illuminate\Contracts\View\View as ViewContract;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View as ViewFacade;
 use Illuminate\Support\Str;
+use Illuminate\View\ComponentAttributeBag as ComponentAttributes;
+use Illuminate\View\ComponentSlot;
 use Livewire\Livewire;
 use RuntimeException;
 
@@ -71,11 +73,19 @@ class Manager
     }
 
     /**
-     * @param  array<string,string>  $attributes
+     * @param  array<string,string>|ComponentAttributes  $attributes
      */
-    public function make(string $name, array $attributes = [], string $contents = null): string
+    public function make(string $name, array|ComponentAttributes $attributes = [], string|ComponentSlot $slot = null): string
     {
-        $slot = new ComponentSlot($contents ?: '', $attributes);
+        if ($attributes instanceof ComponentAttributes) {
+            $attributes = $attributes->getAttributes();
+        }
+
+        if ($slot instanceof ComponentSlot) {
+            $slot = $slot->toHtml();
+        }
+
+        $slot = new ComponentSlot($slot ?: '', $attributes);
 
         if ($render = $this->build($name, $slot)) {
             return $render;
