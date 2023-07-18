@@ -163,8 +163,16 @@ You can find the list of [all components here](#-components).
 
 ##### Blade directive
 
-```php
-@ui('component-name', ['property' => 'value'], 'content')
+```blade
+@ui('component-name', ['property' => 'value'], 'optional content')
+```
+
+Or
+
+```blade
+@ui('element', ['property' => 'value'])
+  Text or Slot
+@endui
 ```
 
 ##### ui() helper

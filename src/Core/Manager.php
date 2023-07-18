@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View as ViewFacade;
 use Illuminate\Support\Str;
 use Livewire\Livewire;
+use RuntimeException;
 
 class Manager
 {
@@ -19,6 +20,11 @@ class Manager
      * @var array<string,string>;
      */
     protected array $components = [];
+
+    /**
+     * @var array<string>
+     */
+    protected array $tags = [];
 
     public function component(string $class, string $alias = null, bool $anonymous = false): void
     {
@@ -65,30 +71,55 @@ class Manager
     }
 
     /**
-     * @param  mixed[]  $attributes
+     * @param  array<string,string>  $attributes
      */
-    public function make(string $name, array $attributes = [], string $content = ''): string
+    public function make(string $name, array $attributes = [], string $contents = null): string
+    {
+        $slot = new ComponentSlot($contents ?: '', $attributes);
+
+        if ($render = $this->build($name, $slot)) {
+            return $render;
+        }
+
+        array_push($this->tags, $name);
+
+        $render = "<{$name} {$slot->attributes->toHtml()}>";
+
+        if (! $slot->isEmpty()) {
+            $render .= $slot->toHtml()."</{$name}>";
+        }
+
+        return $render;
+    }
+
+    public function build(string $name, ComponentSlot $slot): string
     {
         $render = '';
-        $slot = new ComponentSlot($content, $attributes);
 
         if ($component = $this->find($name)) {
             ['class' => $class, 'alias' => $alias] = $component;
 
-            if ($this->isBlade($class)) {
-                $render = '<x-ui-'.$alias.' '.$slot->attributes;
-                $render .= $slot->isEmpty() ? '/>' : '>'.$slot->toHtml().'</x-ui-'.$alias.'>';
-            } elseif ($this->isLivewire($class)) {
-                $render = '<livewire:ui-'.$alias.' '.$slot->attributes.'>';
+            if ($this->isLivewire($class)) {
+                $render = $slot->isEmpty()
+                ? '<livewire:ui-'.$alias.' '.$slot->attributes->toHtml().'>'
+                : "@livewire('ui-$alias', ".$this->stringifyAttributes($slot->attributes->getAttributes()).", key({$slot->toHtml()}))";
+            } else {
+                $render = "<x-ui-$alias {$slot->attributes->toHtml()}";
+                $render .= $slot->isEmpty() ? '/>' : "</x-ui-$alias>";
             }
 
-            $render = Blade::render($render);
-        } else {
-            $render = '<'.$name.' '.$slot->attributes;
-            $render .= $slot->isEmpty() ? '/>' : '>'.$slot->toHtml().'</'.$name.'>';
+            $render = $this->render($render);
         }
 
         return $render;
+    }
+
+    public function end(): string
+    {
+        if ($tag = array_pop($this->tags)) {
+            return "</$tag>";
+        }
+        throw new RuntimeException('No tags to close');
     }
 
     public function isLivewire(string $component, bool $anonymous = false): bool
@@ -122,5 +153,17 @@ class Manager
     public function render(string $content, array $data = [], bool $deleteCachedView = false): string
     {
         return Blade::render($content, $data, $deleteCachedView);
+    }
+
+    /**
+     * @param  array<string,string>  $attributes
+     */
+    protected function stringifyAttributes(array $attributes): string
+    {
+        return collect($attributes)
+            ->map(function (string $value, string $attribute): string {
+                return "'{$attribute}' => {$value}";
+            })
+            ->implode(',');
     }
 }

@@ -4,7 +4,7 @@ namespace Tests\Unit;
 
 it('should render HTML element', function () {
     expect('<div class="app">Hello</div>')->toBeRenderOf('@ui("div", ["class" => "app"], "Hello")');
-    expect('<img src="..."/>')->toBeRenderOf('@ui("img", ["src" => "..."])');
+    expect('<img src="...">')->toBeRenderOf('@ui("img", ["src" => "..."])');
 });
 
 it('should render Blade component', function () {
@@ -14,4 +14,8 @@ it('should render Blade component', function () {
 
 it('should render Livewire component', function () {
     expectRender('@ui("hello-livewire")')->toContain('Hello');
+});
+
+it('should open HTML tag', function () {
+    expectRender('@ui("div")Hello World !@endui')->toEqual('<div >Hello World !</div>');
 });

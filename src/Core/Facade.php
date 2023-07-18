@@ -5,7 +5,9 @@ namespace Sikessem\UI\Core;
 use Illuminate\Support\Facades\Facade as BaseFacade;
 
 /**
+ * @method static string build(string $name, ComponentSlot $slot)
  * @method static void component(string $class, string $alias = null, bool $anonymous = false)
+ * @method static string end()
  * @method static array|null find(string $name)
  * @method static bool isBlade(string $component, bool $anonymous = false)
  * @method static bool isLivewire(string $component, bool $anonymous = false)

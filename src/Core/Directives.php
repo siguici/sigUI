@@ -8,4 +8,9 @@ class Directives
     {
         return '{!! \Sikessem\UI\Core\Facade::make('.$expression.') !!}';
     }
+
+    public static function endui(): string
+    {
+        return '{!! \Sikessem\UI\Core\Facade::end() !!}';
+    }
 }
