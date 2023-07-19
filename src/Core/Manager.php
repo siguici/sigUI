@@ -81,19 +81,26 @@ class Manager
             return $this->end();
         }
 
-        if ($attributes instanceof ComponentAttributes) {
-            $attributes = $attributes->getAttributes();
+        if (! $attributes instanceof ComponentAttributes) {
+            $attributes = new ComponentAttributes($attributes);
         }
+        $attributes = $attributes->merge((array) config("ui.$name.attributes", []));
 
+        /** @var string|ComponentSlot */
+        $defaultSlot = config("ui.$name.slot", '');
+        $slot ??= $defaultSlot;
         if ($slot instanceof ComponentSlot) {
             $slot = $slot->toHtml();
         }
 
-        $slot = new ComponentSlot($slot ?: '', $attributes);
+        $slot = new ComponentSlot($slot, $attributes->getAttributes());
 
         if ($render = $this->build($name, $slot)) {
             return $render;
         }
+
+        /** @var string */
+        $name = config("ui.$name.element", $name);
 
         array_push($this->tags, $name);
 

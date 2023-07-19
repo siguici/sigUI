@@ -6,6 +6,7 @@ All notable changes to [Sikessem's UI kit](https://github.com/sikessem/ui) will 
 
 **Full Changelog:** [v0.0.0...v0.1.0](https://github.com/sikessem/ui/compare/v0.0.0...v0.1.0)
 
+- [0.x] Allow [**custom** components](https://github.com/sikessem/ui#-custom-components)
 - [0.x] Add [**flashes** component](https://github.com/sikessem/ui#flashes-component)
 - [0.x] Add [**flash** component](https://github.com/sikessem/ui#flash-component)
 - [0.x] Add [**label** component](https://github.com/sikessem/ui#label-component)

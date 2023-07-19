@@ -88,6 +88,7 @@
         - [Label component](#label-component)
         - [Flash component](#flash-component)
         - [Flashes component](#flashes-component)
+      - [🎨 Custom components](#-custom-components)
     - [🧪 Testing and debugging](#-testing-and-debugging)
       - [🧹 Keep a modern codebase](#-keep-a-modern-codebase)
       - [⚗️ Run static analysis](#️-run-static-analysis)
@@ -385,6 +386,25 @@ Otherwise, the output will be:
   <li>Info</li>
   <li></li>
 </ul>
+```
+
+#### 🎨 Custom components
+
+Create custom components from `config/ui.php` file.
+
+```blade
+@ui('custom', ['class' => 'element', 'id' => 'myElement'], '')
+  My custom component
+@endui
+```
+
+Output:
+
+```html
+<custom-element class="my custom element" id="myElement">
+  My custom component
+</custom-element>
+
 ```
 
 ### 🧪 Testing and debugging

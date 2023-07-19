@@ -47,7 +47,7 @@ class ServiceProvider extends BaseServiceProvider
 
     protected function registerConfig(): void
     {
-        $this->mergeConfigFrom(sikessem_ui_path('config/sikessem-ui.php'), 'ui');
+        $this->mergeConfigFrom(sikessem_ui_path('config/ui.php'), 'ui');
     }
 
     protected function registerTranslations(): void
@@ -105,11 +105,11 @@ class ServiceProvider extends BaseServiceProvider
     protected function registerPublishables(): void
     {
         $this->publishesToGroups([
-            sikessem_ui_path('config/sikessem-ui.php') => config_path('sikessem-ui.php'),
+            sikessem_ui_path('config/ui.php') => config_path('ui.php'),
         ], ['sikessem', 'ui:config']);
 
         $this->publishesToGroups([
-            sikessem_ui_path('res/langs') => lang_path(),
+            sikessem_ui_path('res/langs') => lang_path('ui'),
         ], ['sikessem', 'ui:langs']);
 
         $this->publishesToGroups([

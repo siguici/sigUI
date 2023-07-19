@@ -13,4 +13,13 @@ return [
             'attributes' => [],
         ],
     ],
+
+    /*
+     * Define custom component
+     */
+    'custom' => [
+        'element' => 'custom-element',
+        'attributes' => ['id' => 'myCustom', 'class' => 'my custom'],
+        'slot' => 'My Content',
+    ],
 ];
