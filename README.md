@@ -86,6 +86,8 @@
         - [Button component](#button-component)
         - [Menu component](#menu-component)
         - [Label component](#label-component)
+        - [Flash component](#flash-component)
+        - [Flashes component](#flashes-component)
     - [🧪 Testing and debugging](#-testing-and-debugging)
       - [🧹 Keep a modern codebase](#-keep-a-modern-codebase)
       - [⚗️ Run static analysis](#️-run-static-analysis)
@@ -329,6 +331,60 @@ This will output the following HTML:
 
 ```html
 <label for="name">Name</label>
+```
+
+##### Flash component
+
+Create a flash:
+
+```html
+<x-ui-flash type="info"/>
+```
+
+```html
+<x-ui-flash element="div" class="alert" type="info" text="Default info"/>
+```
+
+If session "info" was set to "Info", the output will be:
+
+```html
+<p>Info</p>
+```
+
+Otherwise, the output will be:
+
+```html
+<p></p>
+```
+
+Or (in the second example):
+
+```html
+<div class="alert">Default info</div>
+```
+
+##### Flashes component
+
+```html
+<x-ui-flashes :list="['info' => 'Info', 'warning']"/>
+```
+
+If the "info" and "warning" sessions have been set to "Info" and "Warning" respectively, the output will be:
+
+```html
+<ul>
+  <li>Info</li>
+  <li>Warning</li>
+</ul>
+```
+
+Otherwise, the output will be:
+
+```html
+<ul>
+  <li>Info</li>
+  <li></li>
+</ul>
 ```
 
 ### 🧪 Testing and debugging
