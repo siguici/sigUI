@@ -249,7 +249,7 @@ Create a button or an anchor:
 ```
 
 ```html
-<x-ui-button type="submit" href="/">Click me</x-ui-button>
+<x-ui-button href="/">Click me</x-ui-button>
 ```
 
 This will output the following HTML:
