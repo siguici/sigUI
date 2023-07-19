@@ -18,6 +18,31 @@ expect()->extend('toBeRenderOf', function (string $component) {
     $this->value = render($this->value);
     return $this->toEqual(render($component));
 });
+
+expect()->extend('render', function () {
+    echo render($this->value);
+    return $this;
+});
+
+expect()->extend('dumpRender', function () {
+    if (function_exists('dump')) {
+        dump(render($this->value));
+    } else {
+        var_dump(render($this->value));
+    }
+    return $this;
+});
+
+expect()->extend('ddRender', function () {
+    if (function_exists('dd')) {
+        dd(render($this->value));
+    } else {
+        var_dump(render($this->value));
+        exit(1);
+    }
+    return $this;
+});
+
 expect()->extend('toContainInOrder', function (mixed ...$needles) {
     $value = $this->value;
     foreach ($needles as $needle) {
