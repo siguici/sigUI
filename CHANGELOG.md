@@ -2,9 +2,11 @@
 
 All notable changes to [Sikessem's UI kit](https://github.com/sikessem/ui) will be documented in this file.
 
-## [Unreleased](https://github.com/sikessem/ui/compare/v0.1.0...HEAD)
+## [Unreleased](https://github.com/sikessem/ui/compare/v0.2.0...HEAD)
 
-**Full Changelog:** [v0.0.0...v0.1.0](https://github.com/sikessem/ui/compare/v0.0.0...v0.1.0)
+**Full Changelog:** [v0.1.0...v0.2.0](https://github.com/sikessem/ui/compare/v0.1.0...v0.2.0)
+
+## [v0.2.0](https://github.com/sikessem/ui/releases/tag/v0.2.0) - 2023-07-19
 
 - [0.x] Allow [**custom** components](https://github.com/sikessem/ui#-custom-components)
 - [0.x] Add [**flashes** component](https://github.com/sikessem/ui#flashes-component)
