@@ -16,11 +16,13 @@ use PHPUnit\Framework\Assert;
 
 expect()->extend('toBeRenderOf', function (string $component) {
     $this->value = render($this->value);
+
     return $this->toEqual(render($component));
 });
 
 expect()->extend('render', function () {
     echo render($this->value);
+
     return $this;
 });
 
@@ -30,6 +32,7 @@ expect()->extend('dumpRender', function () {
     } else {
         var_dump(render($this->value));
     }
+
     return $this;
 });
 
@@ -40,6 +43,7 @@ expect()->extend('ddRender', function () {
         var_dump(render($this->value));
         exit(1);
     }
+
     return $this;
 });
 

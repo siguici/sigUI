@@ -84,6 +84,7 @@
         - [Text component](#text-component)
         - [Link component](#link-component)
         - [Button component](#button-component)
+        - [Menu component](#menu-component)
     - [🧪 Testing and debugging](#-testing-and-debugging)
       - [🧹 Keep a modern codebase](#-keep-a-modern-codebase)
       - [⚗️ Run static analysis](#️-run-static-analysis)
@@ -263,6 +264,48 @@ This will output the following HTML:
 
 ```html
 <a href="http://localhost">Click me</a>
+```
+
+##### Menu component
+
+Create a menu containing a list of entries:
+
+```html
+<x-ui-menu ordered :list="['Red', 'Green', 'Blue']"/>
+```
+
+```html
+<x-ui-menu href="['Color' => ['Red', 'Green', 'Blue'], 'Author' => ['Kessé Emmanuel', 'Sigui']]"/>
+```
+
+This will output the following HTML:
+
+```html
+<ol>
+  <li>Red</li>
+  <li>Green</li>
+  <li>Blue</li>
+</ol>
+```
+
+```html
+<ul>
+  <li>
+    Color
+    <ul>
+      <li>Red</li>
+      <li>Green</li>
+      <li>Blue</li>
+    </ul>
+  </li>
+  <li>
+    Author
+    <ul>
+      <li>Kessé Emmanuel</li>
+      <li>Sigui</li>
+    </ul>
+  </li>
+</ul>
 ```
 
 ### 🧪 Testing and debugging
