@@ -14,7 +14,10 @@ use PHPUnit\Framework\Assert;
 |
 */
 
-expect()->extend('toBeRenderOf', fn (string $component) => $this->toEqual(render($component)));
+expect()->extend('toBeRenderOf', function (string $component) {
+    $this->value = render($this->value);
+    return $this->toEqual(render($component));
+});
 expect()->extend('toContainInOrder', function (mixed ...$needles) {
     $value = $this->value;
     foreach ($needles as $needle) {
