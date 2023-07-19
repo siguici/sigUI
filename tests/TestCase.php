@@ -14,6 +14,18 @@ abstract class TestCase extends BaseTestCase
     use InteractsWithComponents;
 
     /**
+     * Setup the test environment.
+     */
+    protected function setUp(): void
+    {
+        // Code before application created.
+
+        parent::setUp();
+
+        $this->artisan('optimize:clear');
+    }
+
+    /**
      * Define environment setup.
      *
      * @param  \Illuminate\Foundation\Application  $app
