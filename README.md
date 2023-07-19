@@ -85,6 +85,7 @@
         - [Link component](#link-component)
         - [Button component](#button-component)
         - [Menu component](#menu-component)
+        - [Label component](#label-component)
     - [🧪 Testing and debugging](#-testing-and-debugging)
       - [🧹 Keep a modern codebase](#-keep-a-modern-codebase)
       - [⚗️ Run static analysis](#️-run-static-analysis)
@@ -306,6 +307,28 @@ This will output the following HTML:
     </ul>
   </li>
 </ul>
+```
+
+##### Label component
+
+Create a label:
+
+```html
+<x-ui-label>Content</x-ui-label>
+```
+
+```html
+<x-ui-label for="name" text="Name"/>
+```
+
+This will output the following HTML:
+
+```html
+<label>Content</label>
+```
+
+```html
+<label for="name">Name</label>
 ```
 
 ### 🧪 Testing and debugging
