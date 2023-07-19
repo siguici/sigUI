@@ -191,7 +191,8 @@ class Manager
             '=$1',
             '$1$2',
             '',
-        ], $code);
+        ], $code) ?: $code;
+
         $code = trim($code);
 
         return $code;
