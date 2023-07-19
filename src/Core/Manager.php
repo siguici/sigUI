@@ -165,9 +165,36 @@ class Manager
     /**
      * @param  mixed[]  $data
      */
-    public function render(string $content, array $data = [], bool $deleteCachedView = false): string
+    public function render(string $template, array $data = [], bool $deleteCachedView = false): string
     {
-        return Blade::render($content, $data, $deleteCachedView);
+        $render = Blade::render($template, $data, $deleteCachedView);
+        if (! config('app.debug')) {
+            $render = $this->compress($render);
+        }
+
+        return $render;
+    }
+
+    public function compress(string $code): string
+    {
+        $code = preg_replace([
+            '/(?:\v|\t|\s)+/m',
+            '/[\s ]*\</s',
+            '/[\s ]*(\/?\>)[\s ]*/s',
+            '/=\s+(\"|\')/',
+            '/(\"|\')\s+(\/?\>)/s',
+            '/<!--.*?-->/s',
+        ], [
+            ' ',
+            '<',
+            '$1',
+            '=$1',
+            '$1$2',
+            '',
+        ], $code);
+        $code = trim($code);
+
+        return $code;
     }
 
     /**

@@ -9,7 +9,7 @@ it('should render HTML element', function () {
 
 it('should render Blade component', function () {
     expect('Sikessem')->toBeRenderOf('@ui("text", ["value" => "Sikessem"])');
-    expect('<a href="http://localhost" >Sikessem</a>')->toBeRenderOf('@ui("link", ["href" => "/", "text" => "Sikessem"])');
+    expect('<a href="http://localhost">Sikessem</a>')->toBeRenderOf('@ui("link", ["href" => "/", "text" => "Sikessem"])');
 });
 
 it('should render Livewire component', function () {
@@ -17,7 +17,7 @@ it('should render Livewire component', function () {
 });
 
 it('should open HTML tag', function () {
-    expect('<div >Hello World !</div>')
+    expect('<div>Hello World !</div>')
         ->toBeRenderOf('@ui("div")Hello World !@ui')
         ->toBeRenderOf('@ui("div")Hello World !@endui');
 });
