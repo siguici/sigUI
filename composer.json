@@ -54,6 +54,7 @@
     "scripts": {
         "analyse": "phpstan analyse --ansi --memory-limit=-1 --debug",
         "check": "pint --test -v",
+        "coverage": "pest --coverage",
         "debug": ["@check", "@analyse", "@review", "@test"],
         "discover": "testbench package:discover --ansi",
         "fix": ["@refactor", "@format", "@lint"],
