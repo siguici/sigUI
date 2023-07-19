@@ -75,8 +75,12 @@ class Manager
     /**
      * @param  array<string,string>|ComponentAttributes  $attributes
      */
-    public function make(string $name, array|ComponentAttributes $attributes = [], string|ComponentSlot $slot = null): string
+    public function make(string $name = null, array|ComponentAttributes $attributes = [], string|ComponentSlot $slot = null): string
     {
+        if (is_null($name)) {
+            return $this->end();
+        }
+
         if ($attributes instanceof ComponentAttributes) {
             $attributes = $attributes->getAttributes();
         }
@@ -129,7 +133,8 @@ class Manager
         if ($tag = array_pop($this->tags)) {
             return "</$tag>";
         }
-        throw new RuntimeException('No tags to close');
+
+        throw new RuntimeException('No tags found');
     }
 
     public function isLivewire(string $component, bool $anonymous = false): bool

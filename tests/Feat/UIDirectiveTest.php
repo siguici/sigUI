@@ -17,5 +17,7 @@ it('should render Livewire component', function () {
 });
 
 it('should open HTML tag', function () {
-    expectRender('@ui("div")Hello World !@endui')->toEqual('<div >Hello World !</div>');
+    expect('<div >Hello World !</div>')
+        ->toBeRenderOf('@ui("div")Hello World !@ui')
+        ->toBeRenderOf('@ui("div")Hello World !@endui');
 });

@@ -167,12 +167,20 @@ You can find the list of [all components here](#-components).
 @ui('component-name', ['property' => 'value'], 'optional content')
 ```
 
-Or
+Or:
 
 ```blade
 @ui('element', ['property' => 'value'])
   Text or Slot
 @endui
+```
+
+Or even:
+
+```blade
+@ui('element', ['property' => 'value'])
+  Text or Slot
+@ui
 ```
 
 ##### ui() helper
