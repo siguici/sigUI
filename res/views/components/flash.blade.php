@@ -1,7 +1,3 @@
-@ui($element ?: config('ui.flash.element', 'p'), $attributes)
-@if ($message = session($type, $text))
-<x-ui::text :value="$message"/>
-@else
-{{ $slot }}
+@if ($message)
+    @ui($element, $attributes, $message)
 @endif
-@endui

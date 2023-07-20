@@ -8,11 +8,16 @@ use Sikessem\UI\Core\BladeComponent;
 
 class Flash extends BladeComponent
 {
-    public function __construct(
-        public string $type,
-        public string $element = 'p',
-        public ?string $text = null,
-    ) {
+    public string $element;
+
+    public string $message;
+
+    public function __construct(string $type, string $message = null)
+    {
+        /** @var string */
+        $element = config('ui.flash.element', 'p');
+        $this->element = $element;
+        $this->message = is_string($message = session($type, $message)) ? $message : '';
     }
 
     public function render(): View|Factory

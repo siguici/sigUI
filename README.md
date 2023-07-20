@@ -343,7 +343,7 @@ Create a flash:
 ```
 
 ```html
-<x-ui-flash element="div" class="alert" type="info" text="Default info"/>
+<x-ui-flash class="alert" type="info" message="Default info"/>
 ```
 
 If session "info" was set to "Info", the output will be:
@@ -361,13 +361,13 @@ Otherwise, the output will be:
 Or (in the second example):
 
 ```html
-<div class="alert">Default info</div>
+<p class="alert">Default info</p>
 ```
 
 ##### Flashes component
 
 ```html
-<x-ui-flashes :list="['info' => 'Info', 'warning']"/>
+<x-ui-flashes :messages="['info' => 'Info', 'warning']"/>
 ```
 
 If the "info" and "warning" sessions have been set to "Info" and "Warning" respectively, the output will be:
@@ -384,7 +384,6 @@ Otherwise, the output will be:
 ```html
 <ul>
   <li>Info</li>
-  <li></li>
 </ul>
 ```
 
