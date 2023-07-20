@@ -6,6 +6,7 @@ All notable changes to [Sikessem's UI kit](https://github.com/sikessem/ui) will 
 
 **Full Changelog:** [v0.1.0...v0.2.0](https://github.com/sikessem/ui/compare/v0.1.0...v0.2.0)
 
+- [0.x] Fix end of [blade directive](https://github.com/sikessem/ui#blade-directive)
 - [0.x] Change [**flashes** component](https://github.com/sikessem/ui#flashes-component)
 - [0.x] Change [**flash** component](https://github.com/sikessem/ui#flash-component)
 

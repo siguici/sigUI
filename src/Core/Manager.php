@@ -107,7 +107,8 @@ class Manager
         $render = "<{$name} {$slot->attributes->toHtml()}>";
 
         if (! $slot->isEmpty()) {
-            $render .= $slot->toHtml()."</{$name}>";
+            $render .= $slot->toHtml();
+            $render .= $this->end();
         }
 
         return $render;
