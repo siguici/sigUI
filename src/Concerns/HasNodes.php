@@ -18,7 +18,7 @@ trait HasNodes
     {
         $this->clearNodes();
 
-        return $this->this->addNodes($nodes);
+        return $this->addNodes($nodes);
     }
 
     public function clearNodes(): static

@@ -2,19 +2,20 @@
 
 namespace Sikessem\UI\Concerns;
 
-use Sikessem\UI\Contracts\Attribute;
+use Sikessem\UI\Contracts\Attribute as AttributeContract;
+use Sikessem\UI\Core\Attribute;
 
 trait HasAttributes
 {
     /**
-     * @var Attribute[]
+     * @var AttributeContract[]
      */
     protected array $attributes = [];
 
     public function setAttributes(array $attributes): static
     {
         foreach ($attributes as $name => $attribute) {
-            $attribute instanceof Attribute
+            $attribute instanceof AttributeContract
             ? $this->setAttribute($attribute)
             : $this->setAttribute($name, $attribute);
         }
@@ -23,7 +24,7 @@ trait HasAttributes
     }
 
     /**
-     * @return Attribute[]
+     * @return AttributeContract[]
      */
     public function getAttributes(): array
     {
@@ -40,14 +41,14 @@ trait HasAttributes
         return empty($this->attributes);
     }
 
-    public function setAttribute(string|Attribute $attribute, bool|int|float|string $value = null): static
+    public function setAttribute(string|AttributeContract $attribute, bool|int|float|string $value = null): static
     {
-        if (! $attribute instanceof Attribute) {
+        if (! $attribute instanceof AttributeContract) {
             $attribute = Attribute::from($attribute, $value);
         }
 
-        if ($this->hasAttribute($attribute)) {
-            $this->getAttribute($attribute)->setValue($attribute->getValue());
+        if ($_attribute = $this->getAttribute($attribute)) {
+            $_attribute->setValue($attribute->getValue());
         } else {
             $this->addAttribute($attribute);
         }
@@ -55,16 +56,16 @@ trait HasAttributes
         return $this;
     }
 
-    public function addAttribute(Attribute $attribute): static
+    public function addAttribute(AttributeContract $attribute): static
     {
         $this->attributes[] = $attribute;
 
         return $this;
     }
 
-    public function getAttribute(string|Attribute $attribute, Attribute $default = null): ?Attribute
+    public function getAttribute(string|AttributeContract $attribute, AttributeContract $default = null): ?AttributeContract
     {
-        if (! $attribute instanceof Attribute) {
+        if (! $attribute instanceof AttributeContract) {
             $attribute = Attribute::from($attribute);
         }
 
@@ -77,7 +78,7 @@ trait HasAttributes
         return $default;
     }
 
-    public function hasAttribute(string|Attribute $attribute): bool
+    public function hasAttribute(string|AttributeContract $attribute): bool
     {
         return ! is_null($this->getAttribute($attribute));
     }
