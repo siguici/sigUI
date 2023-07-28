@@ -11,4 +11,6 @@ interface Attribute
     public function setValue(null|bool|int|float|string $value): static;
 
     public function getValue(): null|bool|int|float|string;
+
+    public static function from(string $name, bool|int|float|string $value = null): self;
 }

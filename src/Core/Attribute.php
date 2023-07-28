@@ -2,7 +2,9 @@
 
 namespace Sikessem\UI\Core;
 
-class Attribute
+use Sikessem\UI\Contracts\Attribute as AttributeContract;
+
+class Attribute implements AttributeContract
 {
     protected string $name;
 
@@ -35,5 +37,10 @@ class Attribute
     public function getValue(): null|bool|int|float|string
     {
         return $this->value;
+    }
+
+    public static function from(string $name, bool|int|float|string $value = null): self
+    {
+        return new self($name, $value);
     }
 }

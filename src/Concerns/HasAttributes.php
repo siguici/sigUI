@@ -43,7 +43,7 @@ trait HasAttributes
     public function setAttribute(string|Attribute $attribute, bool|int|float|string $value = null): static
     {
         if (! $attribute instanceof Attribute) {
-            $attribute = new Attribute($attribute, $value);
+            $attribute = Attribute::from($attribute, $value);
         }
 
         if ($this->hasAttribute($attribute)) {
@@ -65,7 +65,7 @@ trait HasAttributes
     public function getAttribute(string|Attribute $attribute, Attribute $default = null): ?Attribute
     {
         if (! $attribute instanceof Attribute) {
-            $attribute = new Attribute($attribute);
+            $attribute = Attribute::from($attribute);
         }
 
         foreach ($this->getAttributes() as $_attribute) {

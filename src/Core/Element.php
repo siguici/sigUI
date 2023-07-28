@@ -17,7 +17,7 @@ class Element extends Base
     /**
      * @param  array<string,bool|int|float|string>|Attribute[]  $attributes
      */
-    public function __construct(string $name, array $attributes, Node ...$nodes)
+    public function __construct(string $name, array $attributes = [], Node ...$nodes)
     {
         $this->setName($name)->setAttributes($attributes)->setNodes($nodes);
     }
