@@ -3,6 +3,7 @@
 namespace Sikessem\UI\Core;
 
 use Illuminate\View\Compilers\ComponentTagCompiler;
+use Illuminate\View\ComponentSlot;
 use Sikessem\UI\Contracts\ComponentCompilerContract;
 
 class ComponentCompiler extends ComponentTagCompiler implements ComponentCompilerContract
@@ -31,7 +32,7 @@ class ComponentCompiler extends ComponentTagCompiler implements ComponentCompile
         $pattern = "/
             <
                 \s*
-                ui[-\:]([\w\-\:\.]*)
+                s[-\:]([\w\-\:\.]*)
                 \s*
                 (?<attributes>
                     (?:
@@ -86,8 +87,29 @@ class ComponentCompiler extends ComponentTagCompiler implements ComponentCompile
     /**
      * @param  array<mixed>  $attributes
      */
-    protected function componentString(string $component, array $attributes, string $content = null)
+    protected function componentString(string $component, array $attributes, string $contents = null): string
     {
-        return "@ui('{$component}', [".$this->attributesToString($attributes, escapeBound: false).'])';
+        $render = '';
+
+        if ($info = Facade::find($component)) {
+            ['class' => $class, 'alias' => $alias] = $info;
+
+            if (Facade::isBlade($class)) {
+                if (! isset($this->aliases[$alias])) {
+                    $this->aliases[$alias] = $class;
+                }
+
+                $render = parent::componentString($alias, $attributes);
+
+                if (is_null($contents)) {
+                    $render .= "\n@endComponentClass##END-COMPONENT-CLASS##";
+                }
+            } else {
+                $slot = new ComponentSlot($contents ?? '', $attributes);
+                $render = "@livewire('ui-$alias', [".$this->attributesToString($attributes, escapeBound: false)."], key({$slot->toHtml()}))";
+            }
+        }
+
+        return $render;
     }
 }

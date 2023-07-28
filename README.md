@@ -77,10 +77,10 @@
         - [View namespace](#view-namespace)
         - [Component alias](#component-alias)
         - [Inline component](#inline-component)
-        - [Blade directive](#blade-directive)
+        - [Blade directives](#blade-directives)
         - [ui() helper](#ui-helper)
         - [UI facade](#ui-facade)
-      - [🍱 Components](#-components)
+      - [🍱 UI Components](#-ui-components)
         - [Text component](#text-component)
         - [Link component](#link-component)
         - [Button component](#button-component)
@@ -142,7 +142,7 @@ There are several ways to use Sikessem's UI components.
 In the following examples **component-name** represents the name of the desired UI component.
 If you want to use the text component, replace **component-name** with **text** as needed.
 
-You can find the list of [all components here](#-components).
+You can find the list of [all components here](#-ui-components).
 
 ##### View namespace
 
@@ -163,30 +163,22 @@ You can find the list of [all components here](#-components).
 ##### Inline component
 
 ```html
-<ui-component-name property="value"/>
+<s-component-name property="value"/>
 ```
 
-##### Blade directive
+##### Blade directives
 
 ```blade
-@ui('component-name', ['property' => 'value'], 'optional content')
+@ui('component-name', ['property' => 'value'], 'Optional component content or slot')
 ```
 
-Or:
-
 ```blade
-@ui('element', ['property' => 'value'])
+@ui('component-name', ['property' => 'value'])
   Text or Slot
 @endui
 ```
 
-Or even:
-
-```blade
-@ui('element', ['property' => 'value'])
-  Text or Slot
-@ui
-```
+If **component-name** is a [UI component](#-ui-components), it will be rendered otherwise a [custom component](#-custom-components) will be rendered.
 
 ##### ui() helper
 
@@ -200,7 +192,7 @@ ui()->make('component-name', ['property' => 'value'], 'content')
 UI::make('component-name', ['property' => 'value'], 'content')
 ```
 
-#### 🍱 Components
+#### 🍱 UI Components
 
 In the following examples, we will use component aliases. However, the result will be the same if you prefer to [use another syntax](#-syntax).
 

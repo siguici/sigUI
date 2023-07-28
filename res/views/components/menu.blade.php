@@ -2,13 +2,11 @@
     @foreach ($list as $key => $value)
         @if (is_string($key) || is_array($value))
             @ui('li', $itemAttributes)
-                <x-ui::text :value="$key"/>
-                <x-ui::menu :list="(array)$value" :ordered="$ordered"/>
+                <s-text :value="$key"/>
+                <s-menu :list="(array)$value" :ordered="$ordered"/>
             @endui
         @else
-            @ui('li', $itemAttributes)
-                {{ $value }}
-            @endui
+            @ui('li', $itemAttributes, $value)
         @endif
     @endforeach
     {{ $slot }}

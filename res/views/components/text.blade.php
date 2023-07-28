@@ -1,9 +1,6 @@
 @php
 $value = $value ?: $slot->toHtml();
+$value = $translated ? $value : __($value);
 @endphp
 
-@if ($escape)
-{{ $translate ? __($value) : $value }}
-@else
-{!! $translate ? __($value) : $value !!}
-@endif
+@if ($escaped) {!! $value !!} @else {{ $value }} @endif

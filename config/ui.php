@@ -14,6 +14,19 @@ return [
         ],
     ],
 
+    'error' => [
+        'element' => 'p',
+        'attributes' => [],
+    ],
+    'errors' => [
+        'element' => 'ul',
+        'attributes' => [],
+        'error' => [
+            'element' => 'li',
+            'attributes' => [],
+        ],
+    ],
+
     /*
      * Define custom component
      */

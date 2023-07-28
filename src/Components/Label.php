@@ -9,7 +9,6 @@ use Sikessem\UI\Core\BladeComponent;
 class Label extends BladeComponent
 {
     public function __construct(
-        public ?string $for = null,
         public ?string $text = null,
     ) {
     }

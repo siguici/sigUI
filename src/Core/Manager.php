@@ -18,6 +18,71 @@ class Manager
 
     public const ANONYMOUS_COMPONENT_NAMESPACE = 'ui::components';
 
+    protected const TAGS = [
+        'orphan' => [
+            'area',
+            'base',
+            'basefont',
+            'br',
+            'col',
+            'command',
+            'embed',
+            'frame',
+            'hr',
+            'img',
+            'input',
+            'isindex',
+            'keygen',
+            'link',
+            'meta',
+            'param',
+            'source',
+            'track',
+            'wbr',
+        ],
+        'inline' => [
+            'a',
+            'abbr',
+            'acronym',
+            'b',
+            'bdi',
+            'bdo',
+            'big',
+            'br',
+            'cite',
+            'code',
+            'data',
+            'del',
+            'dfn',
+            'em',
+            'font',
+            'i',
+            'img',
+            'ins',
+            'kbd',
+            'map',
+            'mark',
+            'object',
+            'q',
+            'rp',
+            'rt',
+            'rtc',
+            'ruby',
+            's',
+            'samp',
+            'small',
+            'span',
+            'strike',
+            'strong',
+            'sub',
+            'sup',
+            'time',
+            'tt',
+            'u',
+            'var',
+        ],
+    ];
+
     /**
      * @var array<string,string>;
      */
@@ -75,74 +140,69 @@ class Manager
     /**
      * @param  array<string,string>|ComponentAttributes  $attributes
      */
-    public function make(string $name = null, array|ComponentAttributes $attributes = [], string|ComponentSlot $slot = null): string
+    public function make(string $name, array|ComponentAttributes $attributes = [], string|ComponentSlot $slot = null): string
     {
-        if (is_null($name)) {
-            return $this->end();
-        }
-
-        if (! $attributes instanceof ComponentAttributes) {
-            $attributes = new ComponentAttributes($attributes);
-        }
-        $attributes = $attributes->merge((array) config("ui.$name.attributes", []));
-
-        /** @var string|ComponentSlot */
-        $defaultSlot = config("ui.$name.slot", '');
-        $slot ??= $defaultSlot;
-        if ($slot instanceof ComponentSlot) {
-            $slot = $slot->toHtml();
-        }
-
-        $slot = new ComponentSlot($slot, $attributes->getAttributes());
-
-        if ($render = $this->build($name, $slot)) {
-            return $render;
-        }
-
-        /** @var string */
-        $name = config("ui.$name.element", $name);
-
-        array_push($this->tags, $name);
-
-        $render = "<{$name} {$slot->attributes->toHtml()}>";
-
-        if (! $slot->isEmpty()) {
-            $render .= $slot->toHtml();
-            $render .= $this->end();
-        }
-
-        return $render;
-    }
-
-    public function build(string $name, ComponentSlot $slot): string
-    {
-        $render = '';
-
         if ($component = $this->find($name)) {
             ['class' => $class, 'alias' => $alias] = $component;
+            $slot = $this->makeComponentSlot($name, $attributes, $slot);
+
+            $render = '';
 
             if ($this->isLivewire($class)) {
-                $render = $slot->isEmpty()
+                $render .= $slot->isEmpty()
                 ? '<livewire:ui-'.$alias.' '.$slot->attributes->toHtml().'>'
-                : "@livewire('ui-$alias', ".$this->stringifyAttributes($slot->attributes->getAttributes()).", key({$slot->toHtml()}))";
+                : "@livewire('ui-$alias', ".$this->attributesToString($slot->attributes).", key({$slot->toHtml()}))";
             } else {
-                $render = "<x-ui-$alias {$slot->attributes->toHtml()}";
+                $render .= "<x-ui-$alias {$this->attributesToHtml($slot->attributes)}";
                 $render .= $slot->isEmpty() ? '/>' : "</x-ui-$alias>";
             }
 
             $render = $this->render($render);
+
+            return $render;
+        }
+
+        return $this->open($name, $attributes, $slot);
+    }
+
+    /**
+     * @param  array<string,string>|ComponentAttributes  $attributes
+     */
+    public function open(string $name, array|ComponentAttributes $attributes = [], string|ComponentSlot $slot = null): string
+    {
+        $slot = $this->makeComponentSlot($name, $attributes, $slot);
+
+        /** @var string */
+        $name = config("ui.$name.element", $name);
+
+        $render = "<{$name} {$this->attributesToHtml($slot->attributes)}";
+
+        if ($this->isOrphan($name)) {
+            return $render .= '/>';
+        }
+
+        $render .= '>';
+
+        array_push($this->tags, $name);
+
+        if (! $slot->isEmpty()) {
+            $render .= $slot->toHtml();
+            $render .= $this->close();
         }
 
         return $render;
     }
 
-    public function end(): string
+    /**
+     * @throws RuntimeException If there is no open tag
+     */
+    public function close(): string
     {
         if ($tag = array_pop($this->tags)) {
             return "</$tag>";
         }
 
-        throw new RuntimeException('No tags found');
+        throw new RuntimeException('No tags open');
     }
 
     public function isLivewire(string $component, bool $anonymous = false): bool
@@ -155,19 +215,39 @@ class Manager
         return $anonymous || is_subclass_of($component, BladeComponent::class);
     }
 
+    public function isOrphan(string $tag): bool
+    {
+        return in_array($tag, self::TAGS['orphan']);
+    }
+
+    public function isPaired(string $tag): bool
+    {
+        return ! $this->isOrphan($tag);
+    }
+
+    public function isInline(string $tag): bool
+    {
+        return in_array($tag, self::TAGS['inline']);
+    }
+
+    public function isBlock(string $tag): bool
+    {
+        return ! $this->isInline($tag);
+    }
+
     /**
-     * @param  Arrayable<int|string,mixed>|mixed[]  $data
+     * @param  Arrayable<int|string,mixed>|mixed[]  $contentData
      * @param  Arrayable<int|string,mixed>|mixed[]  $layoutData
      */
-    public function page(string $content, Arrayable|array $data = [], string $layout = null, Arrayable|array $layoutData = [], array $mergeData = []): ViewContract
+    public function page(string $contentPath, Arrayable|array $contentData = [], string $layoutPath = null, Arrayable|array $layoutData = [], array $mergeData = []): ViewContract
     {
-        if (isset($layout)) {
-            $content = ViewFacade::make("contents.$content", $data, $mergeData)->render();
+        if (isset($layoutPath)) {
+            $content = ViewFacade::make("contents.$contentPath", $contentData, $mergeData)->render();
 
-            return ViewFacade::make("layouts.$layout", compact('content') + $layoutData, array_merge($data instanceof Arrayable ? $data->toArray() : $data, $mergeData));
+            return ViewFacade::make("layouts.$layoutPath", compact('content') + $layoutData, array_merge($contentData instanceof Arrayable ? $contentData->toArray() : $contentData, $mergeData));
         }
 
-        return ViewFacade::make("pages.$content", $data, $mergeData);
+        return ViewFacade::make("pages.$contentPath", $contentData, $mergeData);
     }
 
     /**
@@ -207,14 +287,61 @@ class Manager
     }
 
     /**
-     * @param  array<string,string>  $attributes
+     * @param  array<string,string>|ComponentAttributes  $attributes
      */
-    protected function stringifyAttributes(array $attributes): string
+    protected function makeComponentSlot(string $name = null, array|ComponentAttributes $attributes = [], string|ComponentSlot $slot = null): ComponentSlot
     {
-        return collect($attributes)
-            ->map(function (string $value, string $attribute): string {
-                return "'{$attribute}' => {$value}";
+        $attributes = $this->makeComponentAttributes($name, $attributes);
+        /** @var string|ComponentSlot */
+        $defaultSlot = config("ui.$name.slot", '');
+        $slot ??= $defaultSlot;
+        if ($slot instanceof ComponentSlot) {
+            $slot = $slot->toHtml();
+        }
+
+        return new ComponentSlot($slot, $attributes->getAttributes());
+    }
+
+    /**
+     * @param  array<string,string>|ComponentAttributes  $attributes
+     */
+    protected function makeComponentAttributes(string $name = null, array|ComponentAttributes $attributes = []): ComponentAttributes
+    {
+        if (! $attributes instanceof ComponentAttributes) {
+
+            $attributes = new ComponentAttributes($attributes);
+        }
+
+        return $attributes->merge((array) config("ui.$name.attributes", []));
+    }
+
+    protected function attributesToString(ComponentAttributes $attributes): string
+    {
+        return $this->toArrayString($attributes->getAttributes());
+    }
+
+    protected function attributesToHtml(ComponentAttributes $attributes): string
+    {
+        return $attributes->toHtml();
+    }
+
+    protected function toHtmlString(mixed $value): string
+    {
+        return var_export($value, true);
+    }
+
+    /**
+     * @param  Arrayable<string,string>|iterable<string,string>  $array
+     */
+    protected function toArrayString(Arrayable|iterable $array): string
+    {
+        $array = collect($array)
+            ->map(function (string $value, string $key): string {
+                return "'{$key}' => {$value}";
             })
             ->implode(',');
+        $array = "[$array]";
+
+        return $array;
     }
 }

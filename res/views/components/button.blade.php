@@ -4,11 +4,7 @@ $href = isset($route) ? route($route, $params) : ($href ? url($href) : null);
 @endphp
 
 @isset($href)
-<a href="{{ $href }}" {{ $attributes }}>
-    {{ $slot }}
-</a>
+    @ui('a', $attributes->merge(compact('href')), $slot)
 @else
-<button type="{{ $type }}" {{ $attributes }}>
-    {{ $slot }}
-</button>
+    @ui('button', $attributes->merge(compact('type')), $slot)
 @endisset
