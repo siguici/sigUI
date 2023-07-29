@@ -1,5 +1,5 @@
 @php
-$value = $value ?: $slot->toHtml();
+$value = $value ?? $slot->toHtml();
 $value = $translated ? $value : __($value);
 @endphp
 

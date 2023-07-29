@@ -9,7 +9,7 @@ use Sikessem\UI\Core\BladeComponent;
 class Text extends BladeComponent
 {
     public function __construct(
-        public string $value = '',
+        public ?string $value = null,
         public bool $escaped = false,
         public bool $translated = false,
     ) {

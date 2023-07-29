@@ -15,7 +15,23 @@ class ComponentCompiler extends ComponentTagCompiler implements ComponentCompile
      */
     public function compile(string $value)
     {
+        $value = $this->compileTags($value);
+
+        return $value;
+    }
+
+    /**
+     * Compile the tags within the given string.
+     *
+     * @return string
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function compileTags(string $value)
+    {
         $value = $this->compileSelfClosingTags($value);
+        $value = $this->compileOpeningTags($value);
+        $value = $this->compileClosingTags($value);
 
         return $value;
     }
@@ -23,16 +39,14 @@ class ComponentCompiler extends ComponentTagCompiler implements ComponentCompile
     /**
      * Compile the self-closing tags within the given string.
      *
-     * @return string
-     *
      * @throws \InvalidArgumentException
      */
-    protected function compileSelfClosingTags(string $value)
+    protected function compileSelfClosingTags(string $value): string
     {
         $pattern = "/
             <
                 \s*
-                s[-\:]([\w\-\:\.]*)
+                s-([\w\-\.]*)
                 \s*
                 (?<attributes>
                     (?:
@@ -85,6 +99,80 @@ class ComponentCompiler extends ComponentTagCompiler implements ComponentCompile
     }
 
     /**
+     * Compile the opening tags within the given string.
+     *
+     * @throws \InvalidArgumentException
+     */
+    protected function compileOpeningTags(string $value): string
+    {
+        $pattern = "/
+            <
+                \s*
+                s-([\w\-\.]*)
+                (?<attributes>
+                    (?:
+                        \s+
+                        (?:
+                            (?:
+                                @(?:class)(\( (?: (?>[^()]+) | (?-1) )* \))
+                            )
+                            |
+                            (?:
+                                @(?:style)(\( (?: (?>[^()]+) | (?-1) )* \))
+                            )
+                            |
+                            (?:
+                                \{\{\s*\\\$attributes(?:[^}]+?)?\s*\}\}
+                            )
+                            |
+                            (?:
+                                (\:\\\$)(\w+)
+                            )
+                            |
+                            (?:
+                                [\w\-:.@%]+
+                                (
+                                    =
+                                    (?:
+                                        \\\"[^\\\"]*\\\"
+                                        |
+                                        \'[^\']*\'
+                                        |
+                                        [^\'\\\"=<>]+
+                                    )
+                                )?
+                            )
+                        )
+                    )*
+                    \s*
+                )
+                (?<![\/=\-])
+            >
+        /x";
+
+        return preg_replace_callback($pattern, function (array $matches) {
+            $this->boundAttributes = [];
+
+            $component = $matches[1];
+            $attributes = $this->getAttributesFromAttributeString($matches['attributes']);
+
+            return $this->componentString($component, $attributes, '');
+        }, $value) ?: '';
+    }
+
+    /**
+     * Compile the closing tags within the given string.
+     */
+    protected function compileClosingTags(string $value): string
+    {
+        return preg_replace_callback("/<\/\s*s-([\w\-\.]*)\s*>/", function (array $matches) {
+            return ($component = Facade::find($matches[1])) && Facade::isBlade($component['class'])
+            ? ' '.$this->endComponentString()
+            : '';
+        }, $value) ?: '';
+    }
+
+    /**
      * @param  array<mixed>  $attributes
      */
     protected function componentString(string $component, array $attributes, string $contents = null): string
@@ -102,7 +190,7 @@ class ComponentCompiler extends ComponentTagCompiler implements ComponentCompile
                 $render = parent::componentString($alias, $attributes);
 
                 if (is_null($contents)) {
-                    $render .= "\n@endComponentClass##END-COMPONENT-CLASS##";
+                    $render .= "\n".$this->endComponentString();
                 }
             } else {
                 $slot = new ComponentSlot($contents ?? '', $attributes);
@@ -111,5 +199,10 @@ class ComponentCompiler extends ComponentTagCompiler implements ComponentCompile
         }
 
         return $render;
+    }
+
+    protected function endComponentString(): string
+    {
+        return '@endComponentClass##END-COMPONENT-CLASS##';
     }
 }

@@ -76,7 +76,8 @@
       - [📝 Syntax](#-syntax)
         - [View namespace](#view-namespace)
         - [Component alias](#component-alias)
-        - [Inline component](#inline-component)
+        - [Orphan component](#orphan-component)
+        - [Paired component](#paired-component)
         - [Blade directives](#blade-directives)
         - [ui() helper](#ui-helper)
         - [UI facade](#ui-facade)
@@ -163,10 +164,18 @@ You can find the list of [all components here](#-ui-components).
 </x-ui-component-name>
 ```
 
-##### Inline component
+##### Orphan component
 
 ```html
 <s-component-name property="value"/>
+```
+
+##### Paired component
+
+```html
+<s-component-name property="value">
+  {{ $slot }}
+</s-component-name>
 ```
 
 ##### Blade directives
