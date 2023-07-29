@@ -2,9 +2,11 @@
 
 All notable changes to [Sikessem's UI kit](https://github.com/sikessem/ui) will be documented in this file.
 
-## [Unreleased](https://github.com/sikessem/ui/compare/v0.2.0...HEAD)
+## [Unreleased](https://github.com/sikessem/ui/compare/v0.3.0...HEAD)
 
-**Full Changelog:** [v0.1.0...v0.2.0](https://github.com/sikessem/ui/compare/v0.1.0...v0.2.0)
+**Full Changelog:** [v0.2.0...v0.3.0](https://github.com/sikessem/ui/compare/v0.2.0...v0.3.0)
+
+## [v0.3.0](https://github.com/sikessem/ui/releases/tag/v0.3.0) - 2023-07-29
 
 - [0.x] Add [component slots](https://github.com/sikessem/ui#component-slots)
 - [0.x] Add [paired component](https://github.com/sikessem/ui#component-tags)
