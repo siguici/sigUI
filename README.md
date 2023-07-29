@@ -76,9 +76,8 @@
       - [📝 Syntax](#-syntax)
         - [View namespace](#view-namespace)
         - [Component alias](#component-alias)
-        - [Orphan component](#orphan-component)
-        - [Paired component](#paired-component)
-        - [Blade directives](#blade-directives)
+        - [Component tag](#component-tag)
+        - [Blade directive](#blade-directive)
         - [ui() helper](#ui-helper)
         - [UI facade](#ui-facade)
       - [🍱 UI Components](#-ui-components)
@@ -164,13 +163,11 @@ You can find the list of [all components here](#-ui-components).
 </x-ui-component-name>
 ```
 
-##### Orphan component
+##### Component tag
 
 ```html
 <s-component-name property="value"/>
 ```
-
-##### Paired component
 
 ```html
 <s-component-name property="value">
@@ -178,7 +175,7 @@ You can find the list of [all components here](#-ui-components).
 </s-component-name>
 ```
 
-##### Blade directives
+##### Blade directive
 
 ```blade
 @ui('component-name', ['property' => 'value'], 'Optional component content or slot')
@@ -206,14 +203,14 @@ UI::make('component-name', ['property' => 'value'], 'content')
 
 #### 🍱 UI Components
 
-In the following examples, we will use component aliases. However, the result will be the same if you prefer to [use another syntax](#-syntax).
+In the following examples, we will use [component tags](#component-tag). However, the result will be the same if you prefer to [use another syntax](#-syntax).
 
 ##### Text component
 
 Allows to translate and/or escape a text:
 
 ```html
-<x-ui-text value="Sigui Kessé Emmanuel<contact@sigui.ci>" escape translate/>
+<s-text value="Sigui Kessé Emmanuel<contact@sigui.ci>" escape translate/>
 ```
 
 This will output the following HTML:
@@ -227,11 +224,11 @@ Sigui Kessé Emmanuel&lt;contact@sigui.ci&gt;
 Create an anchor pointing to a route or URL:
 
 ```html
-<x-ui-link route="home">Back to home</x-ui-link>
+<s-link route="home">Back to home</s-link>
 ```
 
 ```html
-<x-ui-link href="/">Back to home</x-ui-link>
+<s-link href="/">Back to home</s-link>
 ```
 
 This will output the following HTML:
@@ -249,15 +246,15 @@ This will output the following HTML:
 Create a button or an anchor:
 
 ```html
-<x-ui-button>Click me</x-ui-button>
+<s-button>Click me</s-button>
 ```
 
 ```html
-<x-ui-button type="submit">Click me</x-ui-button>
+<s-button type="submit">Click me</s-button>
 ```
 
 ```html
-<x-ui-button href="/">Click me</x-ui-button>
+<s-button href="/">Click me</s-button>
 ```
 
 This will output the following HTML:
@@ -279,11 +276,11 @@ This will output the following HTML:
 Create a menu containing a list of entries:
 
 ```html
-<x-ui-menu ordered :list="['Red', 'Green', 'Blue']"/>
+<s-menu ordered :list="['Red', 'Green', 'Blue']"/>
 ```
 
 ```html
-<x-ui-menu href="['Color' => ['Red', 'Green', 'Blue'], 'Author' => ['Kessé Emmanuel', 'Sigui']]"/>
+<s-menu href="['Color' => ['Red', 'Green', 'Blue'], 'Author' => ['Kessé Emmanuel', 'Sigui']]"/>
 ```
 
 This will output the following HTML:
@@ -321,11 +318,11 @@ This will output the following HTML:
 Create a label:
 
 ```html
-<x-ui-label>Content</x-ui-label>
+<s-label>Content</s-label>
 ```
 
 ```html
-<x-ui-label for="name" text="Name"/>
+<s-label for="name" text="Name"/>
 ```
 
 This will output the following HTML:
@@ -343,11 +340,11 @@ This will output the following HTML:
 Create a flash:
 
 ```html
-<x-ui-flash type="info"/>
+<s-flash type="info"/>
 ```
 
 ```html
-<x-ui-flash class="alert" type="info" message="Default info"/>
+<s-flash class="alert" type="info" message="Default info"/>
 ```
 
 If session "info" was set to "Info", the output will be:
@@ -371,7 +368,7 @@ Or (in the second example):
 ##### Flashes component
 
 ```html
-<x-ui-flashes :messages="['info' => 'Info', 'warning']"/>
+<s-flashes :messages="['info' => 'Info', 'warning']"/>
 ```
 
 If the "info" and "warning" sessions have been set to "Info" and "Warning" respectively, the output will be:
@@ -396,9 +393,9 @@ Otherwise, the output will be:
 Create a form:
 
 ```html
-<x-ui-form>
+<s-form>
   Put the form content here
-</x-ui-form>
+</s-form>
 ```
 
 This will output the following HTML:
@@ -415,13 +412,13 @@ This will output the following HTML:
 Create a error:
 
 ```html
-<x-ui-error field="name"/>
+<s-error field="name"/>
 ```
 
 ##### Errors component
 
 ```html
-<x-ui-errors/>
+<s-errors/>
 ```
 
 #### 🎨 Custom components
