@@ -269,6 +269,8 @@ class ComponentCompiler extends ComponentTagCompiler implements ComponentCompile
                 $slot = new ComponentSlot($contents ?? '', $attributes);
                 $render = "@livewire('$alias', [".$this->attributesToString($slot->attributes->getAttributes(), escapeBound: false).']'.($slot->isEmpty() ? '' : ", key({$slot->toHtml()})").')';
             }
+        } else {
+            $render = parent::componentString($component, $attributes);
         }
 
         return $render;
