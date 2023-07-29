@@ -113,7 +113,7 @@ class ServiceProvider extends BaseServiceProvider
         ], ['sikessem', 'ui:langs']);
 
         $this->publishesToGroups([
-            sikessem_ui_path('res/views') => resource_path('views/ui'),
+            sikessem_ui_path('res/views') => resource_path('views/vendor/ui'),
         ], ['sikessem', 'ui:views']);
     }
 
