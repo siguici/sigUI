@@ -1,5 +1,4 @@
 {
-    "type": "project",
     "name": "sikessem/ui",
     "description": "🍱 TailwindCSS, Alpine.js and Laravel Livewire UI kit for Artisans.",
     "keywords": [
