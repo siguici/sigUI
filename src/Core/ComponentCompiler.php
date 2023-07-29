@@ -2,6 +2,7 @@
 
 namespace Sikessem\UI\Core;
 
+use Illuminate\Support\Str;
 use Illuminate\View\Compilers\ComponentTagCompiler;
 use Illuminate\View\ComponentSlot;
 use Sikessem\UI\Contracts\ComponentCompilerContract;
@@ -15,7 +16,76 @@ class ComponentCompiler extends ComponentTagCompiler implements ComponentCompile
      */
     public function compile(string $value)
     {
+        $value = $this->compileSlots($value);
         $value = $this->compileTags($value);
+
+        return $value;
+    }
+
+    /**
+     * Compile the slot tags within the given string.
+     */
+    public function compileSlots(string $value): string
+    {
+        $pattern = "/
+            <
+                \s*
+                s:
+                (?<inlineName>\w+(?:-\w+)*)
+                (?<attributes>
+                    (?:
+                        \s+
+                        (?:
+                            (?:
+                                @(?:class)(\( (?: (?>[^()]+) | (?-1) )* \))
+                            )
+                            |
+                            (?:
+                                @(?:style)(\( (?: (?>[^()]+) | (?-1) )* \))
+                            )
+                            |
+                            (?:
+                                \{\{\s*\\\$attributes(?:[^}]+?)?\s*\}\}
+                            )
+                            |
+                            (?:
+                                [\w\-:.@]+
+                                (
+                                    =
+                                    (?:
+                                        \\\"[^\\\"]*\\\"
+                                        |
+                                        \'[^\']*\'
+                                        |
+                                        [^\'\\\"=<>]+
+                                    )
+                                )?
+                            )
+                        )
+                    )*
+                    \s*
+                )
+                (?<![\/=\-])
+            >
+        /x";
+
+        $value = preg_replace_callback($pattern, function ($matches) {
+            $name = $this->stripQuotes($matches['inlineName']);
+
+            if (Str::contains($name, '-')) {
+                $name = Str::camel($name);
+            }
+
+            $name = "'{$name}'";
+
+            $this->boundAttributes = [];
+
+            $attributes = $this->getAttributesFromAttributeString($matches['attributes']);
+
+            return " @slot({$name}, null, [".$this->attributesToString($attributes).']) ';
+        }, $value) ?: $value;
+
+        $value = preg_replace('/<\/\s*s:[^>]*>/', ' @endslot', $value) ?: $value;
 
         return $value;
     }
@@ -95,7 +165,7 @@ class ComponentCompiler extends ComponentTagCompiler implements ComponentCompile
             $attributes = $this->getAttributesFromAttributeString($matches['attributes']);
 
             return $this->componentString($component, $attributes);
-        }, $value) ?: '';
+        }, $value) ?: $value;
     }
 
     /**
@@ -157,7 +227,7 @@ class ComponentCompiler extends ComponentTagCompiler implements ComponentCompile
             $attributes = $this->getAttributesFromAttributeString($matches['attributes']);
 
             return $this->componentString($component, $attributes, '');
-        }, $value) ?: '';
+        }, $value) ?: $value;
     }
 
     /**
@@ -194,7 +264,7 @@ class ComponentCompiler extends ComponentTagCompiler implements ComponentCompile
                 }
             } else {
                 $slot = new ComponentSlot($contents ?? '', $attributes);
-                $render = "@livewire('ui-$alias', [".$this->attributesToString($attributes, escapeBound: false)."], key({$slot->toHtml()}))";
+                $render = "@livewire('ui-$alias', [".$this->attributesToString($attributes, escapeBound: false).']'.($slot->isEmpty() ? '' : ", key({$slot->toHtml()})").')';
             }
         }
 

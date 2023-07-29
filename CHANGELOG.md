@@ -6,7 +6,8 @@ All notable changes to [Sikessem's UI kit](https://github.com/sikessem/ui) will 
 
 **Full Changelog:** [v0.1.0...v0.2.0](https://github.com/sikessem/ui/compare/v0.1.0...v0.2.0)
 
-- [0.x] Add [**paired** component](https://github.com/sikessem/ui#component-tag)
+- [0.x] Add [component slots](https://github.com/sikessem/ui#component-slots)
+- [0.x] Add [paired component](https://github.com/sikessem/ui#component-tags)
 - [0.x] Add [**errors** component](https://github.com/sikessem/ui#errors-component)
 - [0.x] Add [**error** component](https://github.com/sikessem/ui#error-component)
 - [0.x] Add [**form** component](https://github.com/sikessem/ui#form-component)
@@ -26,7 +27,7 @@ All notable changes to [Sikessem's UI kit](https://github.com/sikessem/ui) will 
 
 ## [v0.1.0](https://github.com/sikessem/ui/releases/tag/v0.1.0) - 2023-07-17
 
-- [0.x] Add [orphan component](https://github.com/sikessem/ui#component-tag)
+- [0.x] Add [orphan component](https://github.com/sikessem/ui#component-tags)
 - [0.x] Add [user guide](https://github.com/sikessem/ui#-usage)
 - [0.x] Add [blade directive](https://github.com/sikessem/ui#blade-directive)
 - [0.x] Add [**link** component](https://github.com/sikessem/ui#link-component)

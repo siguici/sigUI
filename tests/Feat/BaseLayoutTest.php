@@ -11,12 +11,12 @@ BLADE)->assertSeeInOrder(['ui-root', config('app.name', 'Sikessem'), 'ui-app', '
 
     $this->blade(<<<'BLADE'
 <s-base-layout>
-    <x-slot:head>
+    <s:head>
         <meta name="author" content="Sigui Kessé Emmanuel"/>
-    </x-slot:head>
-    <x-slot:body>
+    </s:head>
+    <s:body>
         Hello World!
-    </x-slot:body>
+    </s:body>
 </s-base-layout>
 BLADE)->assertSeeInOrder(['Sigui Kessé Emmanuel', 'Hello World!']);
 });

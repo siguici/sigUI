@@ -76,7 +76,8 @@
       - [📝 Syntax](#-syntax)
         - [View namespace](#view-namespace)
         - [Component alias](#component-alias)
-        - [Component tag](#component-tag)
+        - [Component tags](#component-tags)
+        - [Component slots](#component-slots)
         - [Blade directive](#blade-directive)
         - [ui() helper](#ui-helper)
         - [UI facade](#ui-facade)
@@ -163,7 +164,7 @@ You can find the list of [all components here](#-ui-components).
 </x-ui-component-name>
 ```
 
-##### Component tag
+##### Component tags
 
 ```html
 <s-component-name property="value"/>
@@ -172,6 +173,16 @@ You can find the list of [all components here](#-ui-components).
 ```html
 <s-component-name property="value">
   {{ $slot }}
+</s-component-name>
+```
+
+##### Component slots
+
+```html
+<s-component-name property="value">
+  <s:slot-name slot-property="property-value">
+    My Slot
+  </s:slot-name>
 </s-component-name>
 ```
 
@@ -203,7 +214,7 @@ UI::make('component-name', ['property' => 'value'], 'content')
 
 #### 🍱 UI Components
 
-In the following examples, we will use [component tags](#component-tag). However, the result will be the same if you prefer to [use another syntax](#-syntax).
+In the following examples, we will use [component tags](#component-tags). However, the result will be the same if you prefer to [use another syntax](#-syntax).
 
 ##### Text component
 
