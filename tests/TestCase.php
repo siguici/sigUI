@@ -8,6 +8,7 @@ use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 use Sikessem\UI\Core\Facade;
 use Sikessem\UI\Core\ServiceProvider;
+use Spatie\LaravelRay\RayServiceProvider;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -36,6 +37,7 @@ abstract class TestCase extends BaseTestCase
         return [
             LivewireServiceProvider::class,
             ServiceProvider::class,
+            RayServiceProvider::class,
         ];
     }
 
