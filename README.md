@@ -88,6 +88,9 @@
         - [Label component](#label-component)
         - [Flash component](#flash-component)
         - [Flashes component](#flashes-component)
+        - [Form component](#form-component)
+        - [Error component](#error-component)
+        - [Errors component](#errors-component)
       - [🎨 Custom components](#-custom-components)
     - [🧪 Testing and debugging](#-testing-and-debugging)
       - [🧹 Keep a modern codebase](#-keep-a-modern-codebase)
@@ -377,6 +380,39 @@ Otherwise, the output will be:
 <ul>
   <li>Info</li>
 </ul>
+```
+
+##### Form component
+
+Create a form:
+
+```html
+<x-ui-form>
+  Put the form content here
+</x-ui-form>
+```
+
+This will output the following HTML:
+
+```html
+<form method="GET" action="#">
+  <input type="hidden" name="_token" value="...">
+</form>
+
+```
+
+##### Error component
+
+Create a error:
+
+```html
+<x-ui-error field="name"/>
+```
+
+##### Errors component
+
+```html
+<x-ui-errors/>
 ```
 
 #### 🎨 Custom components
