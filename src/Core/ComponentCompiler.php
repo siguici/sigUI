@@ -4,6 +4,7 @@ namespace Sikessem\UI\Core;
 
 use Illuminate\Support\Str;
 use Illuminate\View\Compilers\ComponentTagCompiler;
+use Illuminate\View\ComponentAttributeBag;
 use Illuminate\View\ComponentSlot;
 use Sikessem\UI\Contracts\ComponentCompilerContract;
 
@@ -252,6 +253,7 @@ class ComponentCompiler extends ComponentTagCompiler implements ComponentCompile
         if ($info = Facade::find($component)) {
             ['class' => $class, 'alias' => $alias] = $info;
             $alias = "ui-$alias";
+            $attributes = (new ComponentAttributeBag($attributes))->merge((array) config("ui.$component.attributes", []))->getAttributes();
 
             if (Facade::isBlade($class)) {
                 if (! isset($this->aliases[$alias])) {
@@ -265,7 +267,7 @@ class ComponentCompiler extends ComponentTagCompiler implements ComponentCompile
                 }
             } else {
                 $slot = new ComponentSlot($contents ?? '', $attributes);
-                $render = "@livewire('$alias', [".$this->attributesToString($attributes, escapeBound: false).']'.($slot->isEmpty() ? '' : ", key({$slot->toHtml()})").')';
+                $render = "@livewire('$alias', [".$this->attributesToString($slot->attributes->getAttributes(), escapeBound: false).']'.($slot->isEmpty() ? '' : ", key({$slot->toHtml()})").')';
             }
         }
 
