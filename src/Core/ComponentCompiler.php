@@ -251,6 +251,7 @@ class ComponentCompiler extends ComponentTagCompiler implements ComponentCompile
 
         if ($info = Facade::find($component)) {
             ['class' => $class, 'alias' => $alias] = $info;
+            $alias = "ui-$alias";
 
             if (Facade::isBlade($class)) {
                 if (! isset($this->aliases[$alias])) {
@@ -264,7 +265,7 @@ class ComponentCompiler extends ComponentTagCompiler implements ComponentCompile
                 }
             } else {
                 $slot = new ComponentSlot($contents ?? '', $attributes);
-                $render = "@livewire('ui-$alias', [".$this->attributesToString($attributes, escapeBound: false).']'.($slot->isEmpty() ? '' : ", key({$slot->toHtml()})").')';
+                $render = "@livewire('$alias', [".$this->attributesToString($attributes, escapeBound: false).']'.($slot->isEmpty() ? '' : ", key({$slot->toHtml()})").')';
             }
         }
 
