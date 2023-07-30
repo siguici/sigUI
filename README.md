@@ -92,6 +92,7 @@
         - [Form component](#form-component)
         - [Error component](#error-component)
         - [Errors component](#errors-component)
+        - [Entry component](#entry-component)
       - [🎨 Custom components](#-custom-components)
     - [🧪 Testing and debugging](#-testing-and-debugging)
       - [🧹 Keep a modern codebase](#-keep-a-modern-codebase)
@@ -442,6 +443,31 @@ Create a error:
 
 ```html
 <s-errors/>
+```
+
+##### Entry component
+
+Create an entry:
+
+```html
+<s-entry type="email"/>
+```
+
+```html
+<s-entry type="textarea" name="comment"/>
+```
+
+This will output the following HTML:
+
+```html
+<input type="email" name="email" id="email" autocomplete="email" aria-invalid="false"/>
+
+```
+
+```html
+<textarea name="comment" id="comment" autocomplete="comment" aria-invalid="false">
+</textarea>
+
 ```
 
 #### 🎨 Custom components
