@@ -1,6 +1,6 @@
 <?php
 
-namespace Sikessem\UI\Core;
+namespace Sikessem\UI;
 
 use Illuminate\Support\Str;
 use Illuminate\View\Compilers\ComponentTagCompiler;
@@ -8,7 +8,7 @@ use Illuminate\View\ComponentAttributeBag;
 use Illuminate\View\ComponentSlot;
 use Sikessem\UI\Contracts\ComponentCompilerContract;
 
-class ComponentCompiler extends ComponentTagCompiler implements ComponentCompilerContract
+class UIComponentCompiler extends ComponentTagCompiler implements ComponentCompilerContract
 {
     /**
      * Compile the component and slot tags within the given string.
@@ -237,7 +237,7 @@ class ComponentCompiler extends ComponentTagCompiler implements ComponentCompile
     protected function compileClosingTags(string $value): string
     {
         return preg_replace_callback("/<\/\s*s-([\w\-\.]*)\s*>/", function (array $matches) {
-            return ($component = Facade::find($matches[1])) && Facade::isBlade($component['class'])
+            return ($component = UIFacade::find($matches[1])) && UIFacade::isBlade($component['class'])
             ? ' '.$this->endComponentString()
             : '';
         }, $value) ?: '';
@@ -250,12 +250,12 @@ class ComponentCompiler extends ComponentTagCompiler implements ComponentCompile
     {
         $render = '';
 
-        if ($info = Facade::find($component)) {
+        if ($info = UIFacade::find($component)) {
             ['class' => $class, 'alias' => $alias] = $info;
             $alias = "ui-$alias";
             $attributes = (new ComponentAttributeBag($attributes))->merge((array) config("ui.$component.attributes", []))->getAttributes();
 
-            if (Facade::isBlade($class)) {
+            if (UIFacade::isBlade($class)) {
                 if (! isset($this->aliases[$alias])) {
                     $this->aliases[$alias] = $class;
                 }

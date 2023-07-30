@@ -1,10 +1,10 @@
 <?php
 
-namespace Sikessem\UI\Core;
+namespace Sikessem\UI;
 
 use Illuminate\View\Compilers\BladeCompiler;
 use Sikessem\UI\Contracts\TemplateCompilerContract;
 
-class TemplateCompiler extends BladeCompiler implements TemplateCompilerContract
+class UITemplateCompiler extends BladeCompiler implements TemplateCompilerContract
 {
 }

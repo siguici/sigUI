@@ -1,6 +1,6 @@
 <?php
 
-namespace Sikessem\UI\Core;
+namespace Sikessem\UI;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\View\View as ViewContract;
@@ -11,8 +11,10 @@ use Illuminate\View\ComponentAttributeBag as ComponentAttributes;
 use Illuminate\View\ComponentSlot;
 use Livewire\Livewire;
 use RuntimeException;
+use Sikessem\UI\Common\BladeComponent;
+use Sikessem\UI\Common\LivewireComponent;
 
-class Manager
+class UIManager
 {
     public const COMPONENT_NAMESPACE = 'Sikessem\\UI\\Components';
 
@@ -98,7 +100,7 @@ class Manager
         $alias ??= $anonymous ? $class : Str::snake($class, '-');
 
         if (! isset($this->components[$alias])) {
-            $class = ($anonymous ? Manager::ANONYMOUS_COMPONENT_NAMESPACE.'.' : Manager::COMPONENT_NAMESPACE.'\\').$class;
+            $class = ($anonymous ? self::ANONYMOUS_COMPONENT_NAMESPACE.'.' : self::COMPONENT_NAMESPACE.'\\').$class;
             $this->components[$alias] = $class;
 
             if ($this->isLivewire($class, $anonymous)) {

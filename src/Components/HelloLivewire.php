@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Sikessem\UI\Core\LivewireComponent;
+use Sikessem\UI\Common\LivewireComponent;
 
 class HelloLivewire extends LivewireComponent
 {

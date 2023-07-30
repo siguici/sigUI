@@ -1,6 +1,6 @@
 <?php
 
-namespace Sikessem\UI\Core;
+namespace Sikessem\UI;
 
 use Illuminate\Support\Facades\Facade as BaseFacade;
 
@@ -16,13 +16,13 @@ use Illuminate\Support\Facades\Facade as BaseFacade;
  * @method static bool isOrphan(string $tag)
  * @method static bool isPaired(string $tag)
  * @method static string make(string $name, array|\Illuminate\View\ComponentAttributeBag $attributes = [], string|\Illuminate\View\ComponentSlot $slot = null)
- * @method static string open(string $name, array|ComponentAttributes $attributes = [], string|ComponentSlot $slot = null)
+ * @method static string open(string $name, array|\Illuminate\View\ComponentAttributeBag $attributes = [], string|\Illuminate\View\ComponentSlot $slot = null)
  * @method static string render(string $template, array $data = [], bool $deleteCachedView = true)
  * @method static \Illuminate\Contracts\View\View page(string $contentPath, \Illuminate\Contracts\Support\Arrayable|array $contentData = [], string $layoutPath = null, \Illuminate\Contracts\Support\Arrayable|array $layoutData = [], array $mergeData = [])
  *
- * @see \Sikessem\UI\Core\Manager
+ * @see \Sikessem\UI\UIManager
  */
-class Facade extends BaseFacade
+class UIFacade extends BaseFacade
 {
     /**
      * Get the registered name of the component.

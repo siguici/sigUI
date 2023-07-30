@@ -6,8 +6,8 @@ use Illuminate\Contracts\Config\Repository;
 use Livewire\Livewire;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
-use Sikessem\UI\Core\Facade;
-use Sikessem\UI\Core\ServiceProvider;
+use Sikessem\UI\UIFacade;
+use Sikessem\UI\UIServiceProvider;
 use Spatie\LaravelRay\RayServiceProvider;
 
 abstract class TestCase extends BaseTestCase
@@ -36,7 +36,7 @@ abstract class TestCase extends BaseTestCase
     {
         return [
             LivewireServiceProvider::class,
-            ServiceProvider::class,
+            UIServiceProvider::class,
             RayServiceProvider::class,
         ];
     }
@@ -51,7 +51,7 @@ abstract class TestCase extends BaseTestCase
     {
         return [
             'Livewire' => Livewire::class,
-            'UI' => Facade::class,
+            'UI' => UIFacade::class,
         ];
     }
 

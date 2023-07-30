@@ -6,7 +6,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
 use Illuminate\View\ComponentAttributeBag;
-use Sikessem\UI\Core\BladeComponent;
+use Sikessem\UI\Common\BladeComponent;
 
 class Flashes extends BladeComponent
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Sikessem\UI\Core;
+namespace Sikessem\UI;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 use Illuminate\View\Compilers\BladeCompiler;
 use ReflectionClass;
 
-class ServiceProvider extends BaseServiceProvider
+class UIServiceProvider extends BaseServiceProvider
 {
     /**
      * Bootstrap UI services.
@@ -39,10 +39,10 @@ class ServiceProvider extends BaseServiceProvider
 
     protected function registerServices(): void
     {
-        $this->app->singleton(Manager::class);
+        $this->app->singleton(UIManager::class);
         $this->app->instance('ui.path', sikessem_ui_path());
-        $this->app->alias(Manager::class, 'sikessem.ui');
-        $this->app->alias('blade.compiler', TemplateCompiler::class);
+        $this->app->alias(UIManager::class, 'sikessem.ui');
+        $this->app->alias('blade.compiler', UITemplateCompiler::class);
     }
 
     protected function registerConfig(): void
@@ -62,18 +62,18 @@ class ServiceProvider extends BaseServiceProvider
 
     protected function registerNamespaces(): void
     {
-        Blade::componentNamespace(Manager::COMPONENT_NAMESPACE, 'ui');
-        Blade::anonymousComponentNamespace(Manager::ANONYMOUS_COMPONENT_NAMESPACE, 'ui');
+        Blade::componentNamespace(UIManager::COMPONENT_NAMESPACE, 'ui');
+        Blade::anonymousComponentNamespace(UIManager::ANONYMOUS_COMPONENT_NAMESPACE, 'ui');
     }
 
     protected function registerDirectives(): void
     {
-        $directivesClass = new ReflectionClass(Directives::class);
+        $directivesClass = new ReflectionClass(UIDirectives::class);
         foreach ($directivesClass->getMethods() as $directiveMethod) {
             if ($directiveMethod->isStatic() && $directiveMethod->isPublic()) {
                 $directiveName = $directiveMethod->getName();
                 /** @var callable */
-                $directive = [Directives::class, $directiveName];
+                $directive = [UIDirectives::class, $directiveName];
                 Blade::directive($directiveName, $directive);
             }
         }
@@ -82,12 +82,12 @@ class ServiceProvider extends BaseServiceProvider
     protected function registerCompilers(): void
     {
         $app = $this->app;
-        /** @var TemplateCompiler */
+        /** @var UITemplateCompiler */
         $compiler = $app->make('blade.compiler');
         if (method_exists($compiler, 'precompiler')) {
             $compiler->precompiler(function ($string) use ($app) {
-                /** @var ComponentCompiler */
-                $precompiler = $app->make(ComponentCompiler::class);
+                /** @var UIComponentCompiler */
+                $precompiler = $app->make(UIComponentCompiler::class);
 
                 return $precompiler->compile($string);
             });
@@ -166,7 +166,7 @@ class ServiceProvider extends BaseServiceProvider
             } else {
                 $component = Str::of("{$base}$separator{$component}")->trim($separator);
             }
-            Facade::component($component->toString(), anonymous: $anonymous);
+            UIFacade::component($component->toString(), anonymous: $anonymous);
         }
     }
 }

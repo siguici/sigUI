@@ -1,6 +1,6 @@
 <?php
 
-namespace Sikessem\UI\Core;
+namespace Sikessem\UI\Common;
 
 use Illuminate\View\Component;
 use Sikessem\UI\Contracts\Component as ComponentContract;
