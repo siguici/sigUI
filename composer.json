@@ -60,6 +60,7 @@
         "lint": "pint -v",
         "post-autoload-dump": ["@discover"],
         "test": "pest --colors=always",
+        "retest": "pest --retry",
         "review": "rector --dry-run --debug",
         "refactor": "rector"
     },
