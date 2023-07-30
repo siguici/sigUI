@@ -1,4 +1,4 @@
 @error($field, $stack)
-    @ui($element, $attributes, $message)
+    @tag($element, $attributes, $message)
     {{ $slot }}
 @enderror

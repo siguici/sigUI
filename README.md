@@ -78,7 +78,7 @@
         - [Component alias](#component-alias)
         - [Component tags](#component-tags)
         - [Component slots](#component-slots)
-        - [Blade directive](#blade-directive)
+        - [Blade directives](#blade-directives)
         - [ui() helper](#ui-helper)
         - [UI facade](#ui-facade)
       - [🍱 UI Components](#-ui-components)
@@ -186,19 +186,31 @@ You can find the list of [all components here](#-ui-components).
 </s-component-name>
 ```
 
-##### Blade directive
+##### Blade directives
+
+Render a UI component:
 
 ```blade
-@ui('component-name', ['property' => 'value'], 'Optional component content or slot')
+@ui('component-name', ['property' => 'value'], 'Optional component slot or content')
 ```
+
+If **component-name** is not a [UI component](#-ui-components) it will be rendered as an HTML element.
+
+Render an HTML orphan tag:
 
 ```blade
-@ui('component-name', ['property' => 'value'])
-  Text or Slot
-@endui
+@tag('element-name', ['property' => 'value'])
 ```
 
-If **component-name** is a [UI component](#-ui-components), it will be rendered otherwise a [custom component](#-custom-components) will be rendered.
+Render an HTML paired tag:
+
+```blade
+@tag('element-name', ['property' => 'value'])
+  Here, element content or nothing.
+@endtag
+```
+
+Note that the name of the element is not specified when closing. This is automatically detected according to the nesting order of the paired elements.
 
 ##### ui() helper
 

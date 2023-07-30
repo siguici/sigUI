@@ -1,8 +1,8 @@
 @if ($errors->any())
-    @ui($element, $attributes)
+    @tag($element, $attributes)
         @foreach ($errors->all() as $error)
-            @ui($errorElement, $errorAttributes, $error)
+            @tag($errorElement, $errorAttributes, $error)
         @endforeach
         {{ $slot }}
-    @endui
+    @endtag
 @endif

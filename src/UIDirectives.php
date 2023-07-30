@@ -4,18 +4,18 @@ namespace Sikessem\UI;
 
 class UIDirectives
 {
-    public static function s(string $expression): string
+    public static function ui(string $expression): string
     {
         return '{!! \Sikessem\UI\UIFacade::make('.$expression.') !!}';
     }
 
-    public static function ui(string $expression): string
+    public static function tag(string $expression): string
     {
-        return '{!! \Sikessem\UI\UIFacade::open('.$expression.') !!}';
+        return '{!! \Sikessem\UI\UIFacade::openTag('.$expression.') !!}';
     }
 
-    public static function endui(): string
+    public static function endtag(): string
     {
-        return '{!! \Sikessem\UI\UIFacade::close() !!}';
+        return '{!! \Sikessem\UI\UIFacade::closeTag() !!}';
     }
 }

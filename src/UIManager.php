@@ -164,13 +164,13 @@ class UIManager
             return $render;
         }
 
-        return $this->open($name, $attributes, $slot);
+        return $this->openTag($name, $attributes, $slot);
     }
 
     /**
      * @param  array<string,string>|ComponentAttributes  $attributes
      */
-    public function open(string $name, array|ComponentAttributes $attributes = [], string|ComponentSlot $slot = null): string
+    public function openTag(string $name, array|ComponentAttributes $attributes = [], string|ComponentSlot $slot = null): string
     {
         $slot = $this->makeComponentSlot($name, $attributes, $slot);
 
@@ -189,7 +189,7 @@ class UIManager
 
         if (! $slot->isEmpty()) {
             $render .= $slot->toHtml();
-            $render .= $this->close();
+            $render .= $this->closeTag();
         }
 
         return $render;
@@ -198,7 +198,7 @@ class UIManager
     /**
      * @throws RuntimeException If there is no open tag
      */
-    public function close(): string
+    public function closeTag(): string
     {
         if ($tag = array_pop($this->tags)) {
             return "</$tag>";

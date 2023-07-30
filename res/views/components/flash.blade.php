@@ -1,3 +1,3 @@
 @if ($message)
-    @ui($element, $attributes, $message)
+    @tag($element, $attributes, $message)
 @endif

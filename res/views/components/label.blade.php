@@ -1,3 +1,3 @@
-@ui('label', $attributes)
+@tag('label', $attributes)
     <s-text :value="$text ?? $slot"/>
-@endui
+@endtag

@@ -1,13 +1,13 @@
-@ui($ordered ? 'ol' : 'ul', $attributes)
+@tag($ordered ? 'ol' : 'ul', $attributes)
     @foreach ($list as $key => $value)
         @if (is_string($key) || is_array($value))
-            @ui('li', $itemAttributes)
+            @tag('li', $itemAttributes)
                 <s-text :value="$key"/>
                 <s-menu :list="(array)$value" :ordered="$ordered"/>
-            @endui
+            @endtag
         @else
-            @ui('li', $itemAttributes, $value)
+            @tag('li', $itemAttributes, $value)
         @endif
     @endforeach
     {{ $slot }}
-@endui
+@endtag
