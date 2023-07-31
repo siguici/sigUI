@@ -93,6 +93,7 @@
         - [Error component](#error-component)
         - [Errors component](#errors-component)
         - [Entry component](#entry-component)
+        - [Icon component](#icon-component)
       - [🎨 Custom components](#-custom-components)
     - [🧪 Testing and debugging](#-testing-and-debugging)
       - [🧹 Keep a modern codebase](#-keep-a-modern-codebase)
@@ -461,13 +462,29 @@ This will output the following HTML:
 
 ```html
 <input type="email" name="email" id="email" autocomplete="email" aria-invalid="false"/>
-
 ```
 
 ```html
 <textarea name="comment" id="comment" autocomplete="comment" aria-invalid="false">
 </textarea>
+```
 
+##### Icon component
+
+```html
+<s-icon name="user-group"/>
+```
+
+```html
+<s-icon element="svg" name="user-group" type="solid" width="20" height="20" size="20"/>
+```
+
+```html
+<s-icon element="i" name="user-group" type="solid" width="20" height="20" size="20"/>
+```
+
+```html
+<s-icon element="img" name="user-group" type="solid" width="20" height="20" size="20"/>
 ```
 
 #### 🎨 Custom components

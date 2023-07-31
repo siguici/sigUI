@@ -27,6 +27,14 @@ return [
         ],
     ],
 
+    'icon' => [
+        'element' => 'svg',
+        'attributes' => [],
+        'size' => 24,
+        'width' => 24,
+        'height' => 24,
+    ],
+
     /*
      * Define custom component
      */
