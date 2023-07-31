@@ -8,7 +8,9 @@ All notable changes to [Sikessem's UI kit](https://github.com/sikessem/ui) will 
 
 ## [v0.4.0](https://github.com/sikessem/ui/releases/tag/v0.4.0) - 2023-07-31
 
-- [0.x] Fix [link](https://github.com/sikessem/ui#link-component) and [form](https://github.com/sikessem/ui#form-component) urls
+- [0.x] Fix [button](https://github.com/sikessem/ui#button-component) href
+- [0.x] Fix [form](https://github.com/sikessem/ui#form-component) action
+- [0.x] Fix [link](https://github.com/sikessem/ui#link-component) href
 - [0.x] Add [**entry** component](https://github.com/sikessem/ui#entry-component)
 - [0.x] Add [tag and endtag directives](https://github.com/sikessem/ui#blade-directives)
 - [0.x] Change [ui directive](https://github.com/sikessem/ui#blade-directives)

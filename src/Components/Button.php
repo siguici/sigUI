@@ -8,16 +8,33 @@ use Sikessem\UI\Common\BladeComponent;
 
 class Button extends BladeComponent
 {
+    public string $type = 'button';
+
+    public ?string $href = null;
+
     /**
-     * @param  array<mixed>  $params
+     * @param  array<mixed>  $parameters
      */
     public function __construct(
-        public string $type = 'button',
-        public ?string $href = null,
+        string $type = 'button',
+        string $href = null,
+        string $route = null,
+        string|array $parameters = [],
         public ?string $text = null,
-        public ?string $route = null,
-        public array $params = [],
     ) {
+        $type = strtolower($type);
+        $parameters = (array) $parameters;
+        if (! is_null($href) || ! is_null($route)) {
+            $parameters = (array) $parameters;
+            if (is_null($route)) {
+                /** @var string */
+                $href = url($href, $parameters);
+            }
+            $href = $route ? route($route, $parameters) : $href;
+        }
+
+        $this->type = $type;
+        $this->href = $href;
     }
 
     public function render(): View|Factory
