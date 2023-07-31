@@ -8,15 +8,25 @@ use Sikessem\UI\Common\BladeComponent;
 
 class Link extends BladeComponent
 {
+    public string $href;
+
     /**
-     * @param  array<mixed>  $params
+     * @param  string|array<mixed>  $parameters
      */
     public function __construct(
-        public string $href = '#',
+        string $href = '#',
+        string $route = null,
+        string|array $parameters = [],
         public ?string $text = null,
-        public ?string $route = null,
-        public array $params = [],
     ) {
+        $parameters = (array) $parameters;
+        if (is_null($route)) {
+            /** @var string */
+            $href = url($href, $parameters);
+        }
+        $href = $route ? route($route, $parameters) : $href;
+
+        $this->href = $href;
     }
 
     public function render(): View|Factory

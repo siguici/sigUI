@@ -6,6 +6,7 @@ All notable changes to [Sikessem's UI kit](https://github.com/sikessem/ui) will 
 
 **Full Changelog:** [v0.2.0...v0.3.0](https://github.com/sikessem/ui/compare/v0.2.0...v0.3.0)
 
+- [0.x] Fix [link](https://github.com/sikessem/ui#link-component) and [form](https://github.com/sikessem/ui#form-component) urls
 - [0.x] Add [**entry** component](https://github.com/sikessem/ui#entry-component)
 - [0.x] Add [tag and endtag directives](https://github.com/sikessem/ui#blade-directives)
 - [0.x] Change [ui directive](https://github.com/sikessem/ui#blade-directives)
