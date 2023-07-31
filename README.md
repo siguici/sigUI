@@ -95,6 +95,8 @@
         - [Entry component](#entry-component)
         - [Icon component](#icon-component)
       - [🎨 Custom components](#-custom-components)
+      - [Component styles](#component-styles)
+      - [Color utilities](#color-utilities)
     - [🧪 Testing and debugging](#-testing-and-debugging)
       - [🧹 Keep a modern codebase](#-keep-a-modern-codebase)
       - [⚗️ Run static analysis](#️-run-static-analysis)
@@ -504,6 +506,14 @@ Output:
   My custom component
 </custom-element>
 
+```
+
+#### Component styles
+
+#### Color utilities
+
+```html
+<div class="text-red bg-red-light-0 border-red-dark-0"></div>
 ```
 
 ### 🧪 Testing and debugging
