@@ -4,7 +4,9 @@ All notable changes to [Sikessem's UI kit](https://github.com/sikessem/ui) will 
 
 ## [Unreleased](https://github.com/sikessem/ui/compare/v0.3.0...HEAD)
 
-**Full Changelog:** [v0.2.0...v0.3.0](https://github.com/sikessem/ui/compare/v0.2.0...v0.3.0)
+**Full Changelog:** [v0.3.0...v0.4.0](https://github.com/sikessem/ui/compare/v0.4.0...v0.3.0)
+
+## [v0.4.0](https://github.com/sikessem/ui/releases/tag/v0.4.0) - 2023-07-31
 
 - [0.x] Fix [link](https://github.com/sikessem/ui#link-component) and [form](https://github.com/sikessem/ui#form-component) urls
 - [0.x] Add [**entry** component](https://github.com/sikessem/ui#entry-component)
