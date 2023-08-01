@@ -28,7 +28,7 @@
     "outDir": "tmp",
     "noEmit": true,
     "typeRoots": [
-      "types",
+      "./plugins/tailwindcss/types",
       "./node_modules/@types",
       "./node_modules",
     ],
