@@ -1,9 +1,15 @@
 import { Plugin } from "./Plugin";
-import { ColorName, ColorValue, ColorValues, ColorVariants, StyleCallbacks, RuleSet } from "./types";
+import {
+    ColorName,
+    ColorValue,
+    ColorValues,
+    ColorVariants,
+    RuleSet,
+    StyleCallbacks,
+} from "./types";
 import colors from "tailwindcss/colors";
 
-export class ColorPlugin extends Plugin
-{
+export class ColorPlugin extends Plugin {
     readonly components = {
         color: {
             link: ["text", "decoration"],

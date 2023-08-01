@@ -1,13 +1,11 @@
 export type RequiredUIOptions = {
-    useColors: boolean,
+    useColors: boolean;
     linksClass: string;
 };
 
-export type UIOptions = Partial<RequiredUIOptions>|undefined;
+export type UIOptions = Partial<RequiredUIOptions> | undefined;
 
-declare function plugin(
-    options?: UIOptions,
-): { handler: () => void };
+declare function plugin(options?: UIOptions): { handler: () => void };
 
 declare namespace plugin {
     const __isOptionsFunction: true;

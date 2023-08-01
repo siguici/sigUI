@@ -1,9 +1,15 @@
-import { DarkModeConfig, PluginAPI } from "tailwindcss/types/config";
 import type { PluginContract } from "./Contracts/Plugin";
-import type { DarkMode, ClassNames, DeclarationBlock, RuleSet, StyleCallbacks, StyleValues } from "./types";
+import type {
+    ClassNames,
+    DarkMode,
+    DeclarationBlock,
+    RuleSet,
+    StyleCallbacks,
+    StyleValues,
+} from "./types";
+import { DarkModeConfig, PluginAPI } from "tailwindcss/types/config";
 
-export abstract class Plugin implements PluginContract
-{
+export abstract class Plugin implements PluginContract {
     protected darkMode: DarkMode = ["media", "prefers-color-scheme: dark"];
 
     constructor(protected api: PluginAPI) {

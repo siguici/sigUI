@@ -1,4 +1,3 @@
-export interface PluginContract
-{
+export interface PluginContract {
     build(): void;
 }
