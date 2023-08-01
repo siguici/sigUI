@@ -4,6 +4,8 @@ import {
     ColorValue,
     ColorValues,
     ColorVariants,
+    DeclarationBlock,
+    PropertyName,
     RuleSet,
     StyleCallbacks,
 } from "./types";
@@ -11,24 +13,20 @@ import colors from "tailwindcss/colors";
 
 export class ColorPlugin extends Plugin {
     readonly components = {
-        color: {
-            link: ["text", "decoration"],
-        },
+        link: ["text", "decoration"],
     };
 
     readonly utilities = {
-        color: {
-            text: "color",
-            bg: "background-color",
-            decoration: "text-decoration-color",
-            border: "border-color",
-            outline: "outline-color",
-            accent: "accent-color",
-            caret: "caret-color",
-            devide: "border-color",
-            shadow: "--tw-shadow-color",
-            ring: "--tw-ring-color",
-        },
+        text: "color",
+        bg: "background-color",
+        decoration: "text-decoration-color",
+        border: "border-color",
+        outline: "outline-color",
+        accent: "accent-color",
+        caret: "caret-color",
+        devide: "border-color",
+        shadow: "--tw-shadow-color",
+        ring: "--tw-ring-color",
     };
 
     public build(): void {
@@ -1227,24 +1225,26 @@ export class ColorPlugin extends Plugin {
 
     public addColorComponents(name: string, value: ColorValue): this {
         const { e } = this.api;
-        const rules: RuleSet[] = [];
+        let rules: RuleSet = {};
 
-        Object.entries(this.components.color).forEach((component) => {
-            Object.entries(this.utilities.color).forEach((utility) => {
-                const properties: string[] = [];
-                component[1].forEach((property) => {
-                    if (utility[0] === property) {
-                        properties.push(utility[1]);
-                    }
-                });
-                rules.push(
-                    this.stylizeComponent(
-                        `${component[0]}-${e(name)}`,
-                        properties,
-                        value,
-                    ),
-                );
+        Object.entries(this.components).forEach((component) => {
+            const componentName = component[0];
+            const componentUtilities = component[1];
+            let properties: DeclarationBlock = {};
+            componentUtilities.forEach((utilityName) => {
+                const propertyName = this.utilities[utilityName];
+                if (propertyName !== undefined) {
+                    properties = {
+                        ...properties,
+                        ...this.stylizeProperty(propertyName, value),
+                    };
+                }
             });
+
+            rules = {
+                ...rules,
+                ...this.stylizeClass(`${componentName}-${e(name)}`, properties),
+            };
         });
 
         return this.addComponents(rules);
@@ -1254,17 +1254,27 @@ export class ColorPlugin extends Plugin {
         const { e } = this.api;
         const rules: StyleCallbacks = {};
 
-        Object.entries(this.components.color).forEach((component) => {
-            Object.entries(this.utilities.color).forEach((utility) => {
-                const properties: string[] = [];
-                component[1].forEach((property) => {
-                    if (utility[0] === property) {
-                        properties.push(utility[1]);
-                    }
-                });
-                rules[`${component[0]}-${e(name)}`] = (value) =>
-                    this.stylizeProperties(properties, value);
+        Object.entries(this.components).forEach((component) => {
+            const componentName = component[0];
+            const componentUtilities = component[1];
+            const componentProperties: PropertyName[] = [];
+            componentUtilities.forEach((utilityName) => {
+                const propertyName = this.utilities[utilityName];
+                if (propertyName !== undefined) {
+                    componentProperties.push(propertyName);
+                }
             });
+
+            rules[`${componentName}-${e(name)}`] = (value) => {
+                let properties: DeclarationBlock = {};
+                componentProperties.forEach((propertyName) => {
+                    properties = {
+                        ...properties,
+                        ...this.stylizeProperty(propertyName, value),
+                    };
+                });
+                return properties;
+            };
         });
 
         return this.matchComponents(rules, values);
@@ -1272,16 +1282,17 @@ export class ColorPlugin extends Plugin {
 
     public addColorUtilities(name: string, value: ColorValue): this {
         const { e } = this.api;
-        const rules: RuleSet[] = [];
+        let rules: RuleSet = {};
 
-        Object.entries(this.utilities.color).forEach((utility) => {
-            rules.push(
-                this.stylizeUtility(
-                    `${utility[0]}-${e(name)}`,
-                    utility[1],
-                    value,
-                ),
-            );
+        Object.entries(this.utilities).forEach((utility) => {
+            const utilityName = utility[0];
+            const propertyName = utility[1];
+            rules = {
+                ...rules,
+                ...this.stylizeClass(`${utilityName}-${e(name)}`, {
+                    [propertyName]: value,
+                }),
+            };
         });
 
         return this.addUtilities(rules);
@@ -1291,9 +1302,11 @@ export class ColorPlugin extends Plugin {
         const { e } = this.api;
         const rules: StyleCallbacks = {};
 
-        Object.entries(this.utilities.color).forEach((utility) => {
-            rules[`${utility[0]}-${e(name)}`] = (value) =>
-                this.stylizeProperty(utility[1], value);
+        Object.entries(this.utilities).forEach((utility) => {
+            const utilityName = utility[0];
+            const propertyName = utility[1];
+            rules[`${utilityName}-${e(name)}`] = (value) =>
+                this.stylizeProperty(propertyName, value);
         });
 
         return this.matchUtilities(rules, values);

@@ -32,14 +32,14 @@ describe.concurrent("suite", () => {
     const config = {
         content: [
             {
-                raw: html`<div class="text-red bg-red-light-0 border-red-dark-0"></div>`,
+                raw: html`<div class="link-red bg-red-light-0 border-red-dark-0"></div>`,
             },
         ],
     };
 
-    it("should have red color class", async () => {
-        return run(config).then((result) => {
-            expect(result.css).toContain(css`.text-red`);
+    it("should have red link class", async () => {
+        return run(config, "@tailwind components").then((result) => {
+            expect(result.css).toContain(css`.link-red`);
         });
     });
 

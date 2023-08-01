@@ -1,6 +1,9 @@
 export type ClassName = string;
 export type ClassNames = ClassName[];
 
+export type PropertyName = string;
+export type PropertyValue = string;
+
 export type DeclarationBlock = Record<string, string>;
 export interface RuleSet {
     [key: string]: DeclarationBlock | RuleSet | string;

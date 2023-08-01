@@ -1,8 +1,10 @@
 import type { PluginContract } from "./Contracts/Plugin";
 import type {
-    ClassNames,
+    ClassName,
     DarkMode,
     DeclarationBlock,
+    PropertyName,
+    PropertyValue,
     RuleSet,
     StyleCallbacks,
     StyleValues,
@@ -61,46 +63,27 @@ export abstract class Plugin implements PluginContract {
         return rules;
     }
 
-    public stylizeComponent(
-        className: string,
-        propertiesList: string[],
-        propertiesValue: string,
+    public stylizeClass(
+        className: ClassName,
+        properties: DeclarationBlock,
     ): RuleSet {
-        return {
-            [`.${className}`]: this.stylizeProperties(
-                propertiesList,
-                propertiesValue,
-            ),
-        };
-    }
-
-    public stylizeUtility(
-        className: string,
-        propertyName: string,
-        propertyValue: string,
-    ): RuleSet {
-        return {
-            [`.${className}`]: this.stylizeProperty(
-                propertyName,
-                propertyValue,
-            ),
-        };
-    }
-
-    public stylizeProperties(
-        properties: string[],
-        value: string,
-    ): DeclarationBlock {
-        const declarations: DeclarationBlock = {};
-
-        properties.forEach((property) => {
-            declarations[property] = value;
+        let declarations: DeclarationBlock = {};
+        Object.entries(properties).forEach((property) => {
+            declarations = {
+                ...declarations,
+                ...this.stylizeProperty(property[0], property[1]),
+            };
         });
 
-        return declarations;
+        return {
+            [`.${className}`]: declarations,
+        };
     }
 
-    public stylizeProperty(property: string, value: string): DeclarationBlock {
+    public stylizeProperty(
+        property: PropertyName,
+        value: PropertyValue,
+    ): DeclarationBlock {
         return {
             [property]: value,
         };
