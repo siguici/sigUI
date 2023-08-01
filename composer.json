@@ -56,7 +56,7 @@
         "coverage": "pest --coverage",
         "debug": ["@check", "@analyse", "@review", "@test"],
         "discover": "testbench package:discover --ansi",
-        "fix": ["@refactor", "@format", "@lint"],
+        "fix": ["@refactor", "@lint"],
         "lint": "pint -v",
         "post-autoload-dump": ["@discover"],
         "test": "pest --colors=always",
