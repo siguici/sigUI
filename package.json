@@ -33,11 +33,7 @@
         "test.cov": "vitest run --coverage"
     },
     "devDependencies": {
-        "@tailwindcss/aspect-ratio": "^0.4.2",
-        "@tailwindcss/container-queries": "^0.1.1",
-        "@tailwindcss/forms": "^0.5.4",
         "@tailwindcss/nesting": "0.0.0-insiders.565cd3e",
-        "@tailwindcss/typography": "^0.5.9",
         "@types/node": "^20.4.5",
         "@vitest/coverage-istanbul": "^0.33.0",
         "autoprefixer": "^10.4.14",

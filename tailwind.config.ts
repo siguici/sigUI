@@ -1,8 +1,4 @@
-import ui from "./plugins/tailwindcss";
-import aspectRadio from "@tailwindcss/aspect-ratio";
-import containerQueries from "@tailwindcss/container-queries";
-import forms from "@tailwindcss/forms";
-import typography from "@tailwindcss/typography";
+import { UIPlugin } from "./plugins/tailwindcss";
 import { Config } from "tailwindcss";
 import defaultTheme from "tailwindcss/defaultTheme";
 
@@ -19,7 +15,7 @@ export const UIConfig: Config = {
         },
     },
 
-    plugins: [aspectRadio, containerQueries, forms, typography, ui],
+    plugins: [UIPlugin],
 };
 
 export default UIConfig;
