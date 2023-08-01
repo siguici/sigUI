@@ -1,6 +1,7 @@
+import type * as Styles from "./styles";
+
 export type RequiredUIOptions = {
-    useColors: boolean;
-    linksClass: string;
+    linkClass: Styles.ClassName;
 };
 
 export type UIOptions = Partial<RequiredUIOptions> | undefined;

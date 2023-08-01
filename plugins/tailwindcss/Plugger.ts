@@ -1,34 +1,24 @@
-import type { RequiredUIOptions, UIOptions } from "./types";
+import type { ClassName, RequiredUIOptions, UIOptions } from "./types";
 
 import { ColorPlugin } from "./ColorPlugin";
 import type { PluggerContract } from "./Contracts/Plugger";
 import type { PluginContract } from "./Contracts/Plugin";
 import { LinkPlugin } from "./LinkPlugin";
-import { Plugin } from "./Plugin";
 import type { PluginAPI } from "tailwindcss/types/config";
 
 export class Plugger implements PluggerContract {
     static DEFAULT_OPTIONS: RequiredUIOptions = {
-        useColors: true,
-        linksClass: "link",
+        linkClass: "link",
     };
-
-    plugins: PluginContract[] = [];
 
     constructor(protected api: PluginAPI) {}
 
     boot(options: UIOptions = undefined): this {
-        const plugOptions = options || Plugger.DEFAULT_OPTIONS;
+        const pluginOptions = options || Plugger.DEFAULT_OPTIONS;
 
-        if (plugOptions.useColors) {
-            this.plugColors();
-        }
-
-        if (plugOptions.linksClass !== undefined) {
-            this.plugLinks(plugOptions.linksClass);
-        }
-
-        return this;
+        return this.plugColors().plugLinks(
+            pluginOptions.linkClass || Plugger.DEFAULT_OPTIONS.linkClass,
+        );
     }
 
     plugColors(): this {
@@ -36,15 +26,12 @@ export class Plugger implements PluggerContract {
         return this.plug(plugin);
     }
 
-    plugLinks(className: string = Plugger.DEFAULT_OPTIONS.linksClass): this {
+    plugLinks(className: ClassName): this {
         const plugin = new LinkPlugin(this.api, className);
         return this.plug(plugin);
     }
 
     plug(plugin: PluginContract): this {
-        if (!this.plugins.find((p) => p.toString() === plugin.toString())) {
-            this.plugins.push(plugin);
-        }
         plugin.build();
         return this;
     }
