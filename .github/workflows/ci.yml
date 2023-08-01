@@ -66,20 +66,14 @@ jobs:
           pnpm install
 
       - name: 🧹 Check code lint
-        run: |
-          pnpm check
-          composer check
+        run: make check
 
       - name: ⚗️ Run static analysis
         run: |
           composer analyse
 
       - name: ✅ Test features
-        run: |
-          pnpm test
-          composer test
+        run: make test
 
       - name: 🧪 Test the whole application
-        run: |
-          composer debug
-          pnpm debug
+        run: make debug
