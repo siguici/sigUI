@@ -7,8 +7,6 @@ import { Config } from "tailwindcss";
 import defaultTheme from "tailwindcss/defaultTheme";
 
 export const UIConfig: Config = {
-    darkMode: ["class", ".dark"],
-
     content: [
         "./config/ui.php",
         "./src/Components/**/*.php",
