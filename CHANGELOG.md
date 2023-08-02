@@ -2,9 +2,11 @@
 
 All notable changes to [Sikessem's UI kit](https://github.com/sikessem/ui) will be documented in this file.
 
-## [Unreleased](https://github.com/sikessem/ui/compare/v0.4.0...HEAD)
+## [Unreleased](https://github.com/sikessem/ui/compare/v0.5.1...HEAD)
 
-**Full Changelog:** [v0.4.0...v0.5.0](https://github.com/sikessem/ui/compare/v0.4.0...v0.5.0)
+**Full Changelog:** [v0.5.0...v0.5.1](https://github.com/sikessem/ui/compare/v0.5.0...v0.5.1)
+
+## [v0.5.1](https://github.com/sikessem/ui/releases/tag/v0.5.1) - 2023-08-02
 
 - [0.x] Improve plugins architecture
 - [0.x] Improve [color utilities](https://github.com/sikessem/ui#color-utilities)
