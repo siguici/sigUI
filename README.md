@@ -6,7 +6,6 @@
 
 [![php-icon]][php-link]
 [![typescript-icon]][typescript-link]
-[![javascript-icon]][javascript-link]
 [![packagist-version-icon]][packagist-version-link]
 [![packagist-download-icon]][packagist-download-link]
 [![license-icon]][license-link]
@@ -25,9 +24,6 @@
 
 [typescript-icon]: https://img.shields.io/badge/TypeScript-294E80.svg?logo=typescript
 [typescript-link]:  https://github.com/sikessem/ui/search?l=typescript "TypeScript code"
-
-[javascript-icon]: https://img.shields.io/badge/JavaScript-yellow.svg?logo=javascript
-[javascript-link]:  https://github.com/sikessem/ui/search?l=javascript "JavaScript code"
 
 [packagist-version-icon]: https://img.shields.io/packagist/v/sikessem/ui
 [packagist-version-link]: https://packagist.org/packages/sikessem/ui "Starter Releases"
@@ -116,7 +112,7 @@
 > - **Requires [PHP 8.1+](https://php.net/releases/)** (at least 8.1.21 recommended to avoid potential bugs).
 > - **Requires [Node JS 18.16+](https://nodejs.org/)** (at least 18.16.1 recommended to avoid potential bugs).
 > - **Requires [Composer >=2.5.8](https://getcomposer.org/)** to manage [PHP][php-link] dependencies.
-> - **Requires [pnpm@^8.0.0](https://pnpm.io/)** to manage [JS][javascript-link] and [TS][typescript-link] dependencies.
+> - **Requires [pnpm@^8.0.0](https://pnpm.io/)** to manage [TypeScript][typescript-link] dependencies.
 > - **Requires [Git ~2.40.0](https://git-scm.com/)** to manage source code versions.
 
 ## 🎉 Getting Started
