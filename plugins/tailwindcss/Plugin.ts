@@ -44,20 +44,26 @@ export abstract class Plugin implements PluginContract {
         const rules: RuleSet = {};
         const { e } = this.api;
 
-        rules[`.${e(className)}`] = lightRules;
-
         if (darkRules !== undefined) {
             if (this.darkMode[0] === "media") {
-                rules[`@media (${this.darkMode[1]})`] = {
-                    [`.dark\\:${e(className)}`]: {
-                        ...darkRules,
+                rules[`.${e(className)}`] = {
+                    ...lightRules,
+                    [`@media (${this.darkMode[1]})`]: {
+                        ["&"]: {
+                            ...darkRules,
+                        },
                     },
                 };
             } else {
-                rules[`:is(${e(this.darkMode[1])} .dark\\:${e(className)})`] = {
-                    ...darkRules,
+                rules[`.${e(className)}`] = {
+                    ...lightRules,
+                    [`:is(${this.darkMode[1]} &)`]: {
+                        ...darkRules,
+                    },
                 };
             }
+        } else {
+            rules[`.${e(className)}`] = lightRules;
         }
 
         return rules;

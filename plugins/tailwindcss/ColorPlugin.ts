@@ -31,7 +31,8 @@ export class ColorPlugin extends Plugin {
 
     public build(): void {
         for (const name in colors) {
-            this.addColor(name, this.getDetailsColorOf(name as ColorName));
+            const colorDetails = this.getDetailsColorOf(name as ColorName);
+            this.addColor(name, colorDetails);
         }
     }
 
@@ -1198,13 +1199,25 @@ export class ColorPlugin extends Plugin {
             if (typeof value === "string") {
                 this.addColorValue(name, value);
             } else {
-                const values =
-                    scheme === "dark" ? variants.dark : variants.light;
-                if (values !== undefined) {
-                    this.matchColorValues(`${name}-${scheme}`, values);
-                }
+                this.matchColorValues(`${name}-${scheme}`, variants[scheme]);
             }
         });
+
+        return this.matchColorScheme(name, variants);
+    }
+
+    public matchColorScheme(name: string, variants: ColorVariants): this {
+        const lightColor = variants.light;
+        const darkColor = variants.dark;
+
+        if (lightColor !== undefined) {
+            this.addComponents(
+                this.stylizeColorSchemeComponent(name, lightColor, darkColor),
+            );
+            this.addUtilities(
+                this.stylizeColorSchemeUtility(name, lightColor, darkColor),
+            );
+        }
 
         return this;
     }
@@ -1224,6 +1237,91 @@ export class ColorPlugin extends Plugin {
     }
 
     public addColorComponents(name: string, value: ColorValue): this {
+        return this.addComponents(this.stylizeColorComponent(name, value));
+    }
+
+    public matchColorComponents(name: string, values: ColorValues): this {
+        return this.matchComponents(
+            this.stylizeColorComponentCallback(name),
+            values,
+        );
+    }
+
+    public addColorUtilities(name: string, value: ColorValue): this {
+        return this.addUtilities(this.stylizeColorUtility(name, value));
+    }
+
+    public matchColorUtilities(name: string, values: ColorValues): this {
+        return this.matchUtilities(
+            this.stylizeColorUtilityCallback(name),
+            values,
+        );
+    }
+
+    public stylizeColorSchemeComponent(
+        name: string,
+        lightValues: ColorValues,
+        darkValues: ColorValues | undefined = undefined,
+    ): RuleSet[] {
+        const style: RuleSet[] = [];
+        Object.entries(this.components).forEach((component) => {
+            const componentName = component[0];
+            const componentUtilities = component[1];
+            componentUtilities.forEach((utilityName) => {
+                const propertyName = this.utilities[utilityName];
+                if (propertyName !== undefined) {
+                    Object.entries(lightValues).forEach((color) => {
+                        const colorKey = color[0];
+                        const colorValue = color[1];
+                        style.push(
+                            this.darken(
+                                `${componentName}-${name}-${colorKey}`,
+                                this.stylizeProperty(propertyName, colorValue),
+                                darkValues === undefined
+                                    ? undefined
+                                    : this.stylizeProperty(
+                                          propertyName,
+                                          darkValues[colorKey],
+                                      ),
+                            ),
+                        );
+                    });
+                }
+            });
+        });
+        return style;
+    }
+
+    public stylizeColorSchemeUtility(
+        name: string,
+        lightValues: ColorValues,
+        darkValues: ColorValues | undefined = undefined,
+    ): RuleSet[] {
+        const style: RuleSet[] = [];
+        Object.entries(this.utilities).forEach((utility) => {
+            Object.entries(lightValues).forEach((color) => {
+                const utilityName = utility[0];
+                const propertyName = utility[1];
+                const colorKey = color[0];
+                const colorValue = color[1];
+                style.push(
+                    this.darken(
+                        `${utilityName}-${name}-${colorKey}`,
+                        this.stylizeProperty(propertyName, colorValue),
+                        darkValues === undefined
+                            ? undefined
+                            : this.stylizeProperty(
+                                  propertyName,
+                                  darkValues[colorKey],
+                              ),
+                    ),
+                );
+            });
+        });
+        return style;
+    }
+
+    public stylizeColorComponent(name: string, value: ColorValue): RuleSet {
         const { e } = this.api;
         let rules: RuleSet = {};
 
@@ -1246,11 +1344,10 @@ export class ColorPlugin extends Plugin {
                 ...this.stylizeClass(`${componentName}-${e(name)}`, properties),
             };
         });
-
-        return this.addComponents(rules);
+        return rules;
     }
 
-    public matchColorComponents(name: string, values: ColorValues): this {
+    public stylizeColorComponentCallback(name: string): StyleCallbacks {
         const { e } = this.api;
         const rules: StyleCallbacks = {};
 
@@ -1276,11 +1373,10 @@ export class ColorPlugin extends Plugin {
                 return properties;
             };
         });
-
-        return this.matchComponents(rules, values);
+        return rules;
     }
 
-    public addColorUtilities(name: string, value: ColorValue): this {
+    public stylizeColorUtility(name: string, value: ColorValue): RuleSet {
         const { e } = this.api;
         let rules: RuleSet = {};
 
@@ -1294,11 +1390,10 @@ export class ColorPlugin extends Plugin {
                 }),
             };
         });
-
-        return this.addUtilities(rules);
+        return rules;
     }
 
-    public matchColorUtilities(name: string, values: ColorValues): this {
+    public stylizeColorUtilityCallback(name: string): StyleCallbacks {
         const { e } = this.api;
         const rules: StyleCallbacks = {};
 
@@ -1308,7 +1403,6 @@ export class ColorPlugin extends Plugin {
             rules[`${utilityName}-${e(name)}`] = (value) =>
                 this.stylizeProperty(propertyName, value);
         });
-
-        return this.matchUtilities(rules, values);
+        return rules;
     }
 }

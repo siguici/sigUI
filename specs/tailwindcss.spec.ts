@@ -12,7 +12,7 @@ const css = String.raw;
 
 function run(
     config: Config,
-    input = "@tailwind utilities",
+    input = "@tailwind base;@tailwind components;@tailwind utilities",
     plugin = tailwindcss,
 ) {
     const { currentTestName } = expect.getState();
@@ -32,26 +32,26 @@ describe.concurrent("suite", () => {
     const config = {
         content: [
             {
-                raw: html`<div class="link-red bg-red-light-0 border-red-dark-0"></div>`,
+                raw: html`<div class="text-red bg-red-0 border-red-4"></div>`,
             },
         ],
     };
 
-    it("should have red link class", async () => {
-        return run(config, "@tailwind components").then((result) => {
-            expect(result.css).toContain(css`.link-red`);
+    it("should have red text class", async () => {
+        return run(config).then((result) => {
+            expect(result.css).toContain(css`.text-red`);
         });
     });
 
-    it("should have dark red color class", async () => {
+    it("should have bg-red-0 class", async () => {
         return run(config).then((result) => {
-            expect(result.css).toContain(css`.bg-red-light-0`);
+            expect(result.css).toContain(css`.bg-red-0`);
         });
     });
 
-    it("should have light red color", async () => {
+    it("should have border-red-4 class", async () => {
         return run(config).then((result) => {
-            expect(result.css).toContain(css`.border-red-dark-0`);
+            expect(result.css).toContain(css`.border-red-4`);
         });
     });
 });
