@@ -1,8 +1,8 @@
-import type { PluginContract } from "./Contracts/Plugin";
 import type {
     ClassName,
     DarkMode,
     DeclarationBlock,
+    PluginContract,
     PropertyName,
     PropertyValue,
     RuleSet,
@@ -11,10 +11,10 @@ import type {
 } from "./types";
 import { DarkModeConfig, PluginAPI } from "tailwindcss/types/config";
 
-export abstract class Plugin implements PluginContract {
-    protected darkMode: DarkMode = ["media", "prefers-color-scheme: dark"];
+export abstract class Plugin<T> implements PluginContract<T> {
+    readonly darkMode: DarkMode = ["media", "prefers-color-scheme: dark"];
 
-    constructor(protected api: PluginAPI) {
+    constructor(readonly api: PluginAPI, readonly options: T) {
         const { config } = api;
         const configDarkMode: Partial<DarkModeConfig> | undefined =
             config().darkMode;
@@ -34,7 +34,7 @@ export abstract class Plugin implements PluginContract {
         }
     }
 
-    abstract build(): void;
+    abstract create(): this;
 
     public darken(
         className: string,

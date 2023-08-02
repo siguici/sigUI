@@ -6,8 +6,8 @@ All notable changes to [Sikessem's UI kit](https://github.com/sikessem/ui) will 
 
 **Full Changelog:** [v0.4.0...v0.5.0](https://github.com/sikessem/ui/compare/v0.4.0...v0.5.0)
 
-- [0.x] Improve [color utilities](https://github.com/sikessem/ui#color-utilities)
 - [0.x] Improve plugins architecture
+- [0.x] Improve [color utilities](https://github.com/sikessem/ui#color-utilities)
 
 ## [v0.5.0](https://github.com/sikessem/ui/releases/tag/v0.5.0) - 2023-08-01
 

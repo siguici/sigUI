@@ -11,7 +11,7 @@ import {
 } from "./types";
 import colors from "tailwindcss/colors";
 
-export class ColorPlugin extends Plugin {
+export class ColorPlugin extends Plugin<void> {
     readonly components = {
         link: ["text", "decoration"],
     };
@@ -29,11 +29,12 @@ export class ColorPlugin extends Plugin {
         ring: "--tw-ring-color",
     };
 
-    public build(): void {
+    public create(): this {
         for (const name in colors) {
             const colorDetails = this.getDetailsColorOf(name as ColorName);
             this.addColor(name, colorDetails);
         }
+        return this;
     }
 
     public getDetailsColorOf(name: ColorName): ColorVariants {

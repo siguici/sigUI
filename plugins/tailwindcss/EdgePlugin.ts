@@ -1,20 +1,9 @@
 import { Plugin } from "./Plugin";
-import { ClassName } from "./types";
+import { RequiredEdgeOptions } from "./types";
 import defaultTheme from "tailwindcss/defaultTheme";
-import { PluginAPI } from "tailwindcss/types/config";
 
-export class EdgePlugin extends Plugin {
-    constructor(
-        api: PluginAPI,
-        readonly classNames: Partial<{
-            entry: ClassName;
-            button: ClassName;
-        }> = {},
-    ) {
-        super(api);
-    }
-
-    build(): void {
+export class EdgePlugin extends Plugin<RequiredEdgeOptions> {
+    create(): this {
         const { spacing, borderWidth, borderRadius } = defaultTheme;
 
         const boxStyle = {
@@ -67,9 +56,9 @@ export class EdgePlugin extends Plugin {
             ...borderStyle,
         };
 
-        this.addComponents({
-            [this.classNames.entry ?? "entry"]: entryStyle,
-            [this.classNames.button ?? "button"]: buttonStyle,
+        return this.addComponents({
+            [this.options.entryClass]: entryStyle,
+            [this.options.buttonClass]: buttonStyle,
         });
     }
 }

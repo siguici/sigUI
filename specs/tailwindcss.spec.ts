@@ -1,4 +1,4 @@
-import { UIPlugin } from "../plugins/tailwindcss";
+import { UI as UIPlugin } from "../plugins/tailwindcss";
 import UIConfig from "../tailwind.config";
 import path from "node:path";
 import postcss from "postcss";
