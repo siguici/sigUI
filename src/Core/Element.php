@@ -9,9 +9,8 @@ use Sikessem\UI\Core\Node as Base;
 
 class Element extends Base
 {
-    protected string $name;
-
     use Concerns\HasAttributes;
+    use Concerns\HasName;
     use Concerns\HasNodes;
 
     /**
@@ -20,18 +19,6 @@ class Element extends Base
     public function __construct(string $name, array $attributes = [], Node ...$nodes)
     {
         $this->setName($name)->setAttributes($attributes)->setNodes($nodes);
-    }
-
-    public function setName(string $name): static
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function getName(): string
-    {
-        return $this->name;
     }
 
     public function isEmpty(): bool
