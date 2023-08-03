@@ -1,4 +1,3 @@
-import { UI as UIPlugin } from "../plugins/tailwindcss";
 import UIConfig from "../tailwind.config";
 import path from "node:path";
 import postcss from "postcss";
@@ -18,7 +17,6 @@ function run(
     const { currentTestName } = expect.getState();
     const fullConfig = resolveConfig({
         presets: [UIConfig],
-        plugins: [UIPlugin],
         corePlugins: { preflight: false },
         ...config,
     });
