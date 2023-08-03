@@ -6,6 +6,7 @@ All notable changes to [Sikessem's UI kit](https://github.com/sikessem/ui) will 
 
 **Full Changelog:** [v0.5.0...v0.5.1](https://github.com/sikessem/ui/compare/v0.5.0...v0.5.1)
 
+- [0.x] Add [**entry**](https://github.com/sikessem/ui#entry-component) datalist
 - [0.x] Improve form control components
 - [0.x] Add [button](https://github.com/sikessem/ui#button-component) types
 

@@ -500,15 +500,28 @@ Create an entry:
 <s-entry type="textarea" name="comment"/>
 ```
 
+```html
+<s-entry type="name" autocomplete :datalist=""/>
+```
+
 This will output the following HTML:
 
 ```html
-<input type="email" name="email" id="email" autocomplete="email" aria-invalid="false"/>
+<input type="email" name="email" id="email" autocomplete="email" :datalist="[\'Emmanuel\', \'Kessé\', \'Sigui\']" aria-invalid="false"/>
 ```
 
 ```html
 <textarea name="comment" id="comment" autocomplete="comment" aria-invalid="false">
 </textarea>
+```
+
+```html
+<input type="name" name="name" id="name" autocomplete="name" list="name-input-datalist" aria-invalid="false"/>
+<datalist id="text-input-datalist">
+  <option >Emmanuel</option>
+  <option >Kessé</option>
+  <option >Sigui</option>
+</datalist>',
 ```
 
 ##### Icon component

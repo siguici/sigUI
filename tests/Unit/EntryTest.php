@@ -15,3 +15,14 @@ it('should render textarea component', function () {
         '</textarea>',
     ], false);
 });
+
+it('should render datalist', function () {
+    $this->withViewErrors([])->blade('<s-entry :datalist="[\'Emmanuel\', \'Kessé\', \'Sigui\']"/>')->assertSeeInOrder([
+        '<input type="text" name="text" id="text" autocomplete="text" list="text-input-datalist" aria-invalid="false"/>',
+        '<datalist id="text-input-datalist">',
+        '<option >Emmanuel</option>',
+        '<option >Kessé</option>',
+        '<option >Sigui</option>',
+        '</datalist>',
+    ], false);
+});

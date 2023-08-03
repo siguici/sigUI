@@ -26,6 +26,7 @@ class Entry extends FormControl
         string|array $value = [],
         string $currentValue = null,
         string $defaultValue = null,
+        public array $datalist = [],
     ) {
         parent::__construct($type);
 
