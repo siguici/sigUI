@@ -4,12 +4,10 @@ namespace Sikessem\UI\Components;
 
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Sikessem\UI\Common\BladeComponent;
+use Sikessem\UI\Common\FormControl;
 
-class Button extends BladeComponent
+class Button extends FormControl
 {
-    public string $type = 'button';
-
     public ?string $href = null;
 
     /**
@@ -24,7 +22,8 @@ class Button extends BladeComponent
         public ?string $value = null,
         public ?string $text = null,
     ) {
-        $type = strtolower($type);
+        parent::__construct($type);
+
         $parameters = (array) $parameters;
         if (! is_null($href) || ! is_null($route)) {
             $parameters = (array) $parameters;

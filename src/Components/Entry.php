@@ -4,41 +4,43 @@ namespace Sikessem\UI\Components;
 
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Sikessem\UI\Common\BladeComponent;
+use Sikessem\UI\Common\FormControl;
 
-class Entry extends BladeComponent
+class Entry extends FormControl
 {
-    public string $type;
-
     public string $name;
 
     public string $id;
 
+    public bool|string $autocomplete;
+
     public ?string $value;
 
-    public string $autocomplete;
+    public bool $chosen;
 
     public function __construct(
-        string $type = 'text', // email, password, number, search, color, date, ...
+        string $type = 'text',
         string $name = null,
         string $id = null,
-        string $autocomplete = null,
+        bool|string $autocomplete = false,
         string|array $value = [],
-        string $current = null,
-        string $default = null,
+        string $currentValue = null,
+        string $defaultValue = null,
     ) {
-        $type = strtolower($type);
+        parent::__construct($type);
+
         $name ??= $type;
         $id ??= $name;
-        $autocomplete ??= $name;
+        $autocomplete = is_string($autocomplete) ? $autocomplete : $name;
         $value = (array) $value;
-        $current = $value['current'] ?? $value[0] ?? $current;
-        $default = $value['default'] ?? $value[1] ?? $default;
-        $this->type = $type;
+        $currentValue ??= $value['current'] ?? $value[0] ?? null;
+        $defaultValue ??= $value['default'] ?? $value[1] ?? $value[0] ?? null;
+        $value = old($name) ?: $currentValue ?? $defaultValue;
         $this->name = $name;
         $this->id = $id;
         $this->autocomplete = $autocomplete;
-        $this->value = old($name) ?: $current ?? $default;
+        $this->value = $value;
+        $this->chosen = isset($value) && ($value === old($name) || $value === 'on');
     }
 
     public function render(): View|Factory

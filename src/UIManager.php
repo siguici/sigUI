@@ -170,9 +170,9 @@ class UIManager
     /**
      * @param  array<string,string>|ComponentAttributes  $attributes
      */
-    public function openTag(string $name, array|ComponentAttributes $attributes = [], string|ComponentSlot $slot = null): string
+    public function openTag(string $name, array|ComponentAttributes $attributes = [], string|ComponentSlot $contents = null): string
     {
-        $slot = $this->makeComponentSlot($name, $attributes, $slot);
+        $slot = $this->makeComponentSlot($name, $attributes, $contents);
 
         /** @var string */
         $name = config("ui.$name.element", $name);
@@ -187,7 +187,7 @@ class UIManager
 
         array_push($this->tags, $name);
 
-        if (! $slot->isEmpty()) {
+        if (! is_null($contents)) {
             $render .= $slot->toHtml();
             $render .= $this->closeTag();
         }

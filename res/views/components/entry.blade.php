@@ -3,9 +3,7 @@ $attributes = $attributes->merge([...compact('name', 'id', 'autocomplete'), 'inv
 @endphp
 
 @if ($type === 'textarea')
-    @tag('textarea', $attributes, $value)
-        {{ $slot }}
-    @endtag
+    @tag('textarea', $attributes, $value ?? $slot)
 @else
     @tag('input', $attributes->merge(compact('type', 'value')))
 @endif
