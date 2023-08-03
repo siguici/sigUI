@@ -32,11 +32,15 @@ class Icon extends BladeComponent
         int $height = null,
         string $fill = null,
     ) {
-        $name = Str::snake($name, '-');
+        $name = Str::squish($name);
+        $name = Str::kebab($name);
 
         if (! file_exists($icon = sikessem_ui_path("res/icons/$size/$type/$name.svg"))) {
             throw new RuntimeException("No icon named $name was found for type $type of size $size.");
         }
+
+        $name = Str::camel($name);
+        $name = Str::snake($name, ' ');
 
         /** @var string $defaultElement */
         $defaultElement = config('ui.icon.element', 'svg');
