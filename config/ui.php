@@ -33,6 +33,7 @@ return [
         'size' => 24,
         'width' => 24,
         'height' => 24,
+        'fill' => 'currentColor',
     ],
 
     /*

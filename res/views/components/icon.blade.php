@@ -5,9 +5,9 @@ $attributes = $attributes->merge(compact('width', 'height'));
 @if ($element === 'svg')
     @tag($element, $attributes->merge(['xmlns' => 'http://www.w3.org/2000/svg', 'fill' => 'none', 'viewBox' => "0 0 $width $height"]), $content)
 @elseif($element === 'img')
-    @tag($element, $attributes->merge(['src' => $url, 'alt' => "$name-icon"]))
+    @tag($element, $attributes->merge(['src' => $url, 'alt' => "$name icon"]))
 @else
-    @tag($element, $attributes->style("content:url($url)"))
+    @tag($element, $attributes->merge(['aria-label' => $slot->isEmpty() ? "$name icon" : null])->style("content:url($url)"))
     {{ $slot }}
     @endtag
 @endif

@@ -30,6 +30,7 @@ class Icon extends BladeComponent
         string $element = null,
         int $width = null,
         int $height = null,
+        string $fill = null,
     ) {
         $name = Str::snake($name, '-');
 
@@ -43,10 +44,13 @@ class Icon extends BladeComponent
         $defaultWidth = config('ui.icon.width', $size);
         /** @var int $defaultHeight */
         $defaultHeight = config('ui.icon.height', $size);
+        /** @var int $defaultFill */
+        $defaultFill = config('ui.icon.fill', 'currentColor');
 
         $element ??= $defaultElement;
         $width ??= $defaultWidth;
         $height ??= $defaultHeight;
+        $fill ??= $defaultFill;
 
         $icon = file_get_contents($icon) or throw new RuntimeException("Cannot read $icon file");
         $icon = str_replace(
@@ -54,11 +58,12 @@ class Icon extends BladeComponent
             '<svg width="'.$width.'" height="'.$height.'" viewBox="0 0 '.$width.' '.$height.'" fill="none" xmlns="http://www.w3.org/2000/svg">',
             $icon,
         );
+        $icon = preg_replace('/fill="[^"]+?"/', 'fill="'.$fill.'"', $icon) ?: $icon;
         $icon = UIFacade::render($icon);
         $url = 'data:image/svg+xml;base64,'.base64_encode($icon);
 
         $content = str_replace(
-            '<svg width="'.$width.'" height="'.$height.'" viewBox="0 0 '.$width.' '.$height.'" fill="none" xmlns="http://www.w3.org/2000/svg">',
+            '<svg width="'.$width.'" height="'.$height.'" viewBox="0 0 '.$width.' '.$height.'" fill="'.$fill.'" xmlns="http://www.w3.org/2000/svg">',
             '',
             $icon,
         );
