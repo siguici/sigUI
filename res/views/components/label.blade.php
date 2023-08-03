@@ -1,3 +1,7 @@
 @tag('label', $attributes)
-    <s-text :value="$text ?? $slot"/>
+    @isset($text)
+        <s-text :value="$text"/>
+    @else
+        {{ $slot }}
+    @endisset
 @endtag

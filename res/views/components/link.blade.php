@@ -1,5 +1,7 @@
 @tag('a', $attributes->merge(compact('href')))
-    <s-text :value="$text">
+    @isset($text)
+        <s-text :value="$text"/>
+    @else
         {{ $slot }}
-    </s-text>
+    @endisset
 @endtag

@@ -8,6 +8,7 @@ All notable changes to [Sikessem's UI kit](https://github.com/sikessem/ui) will 
 
 ## [v0.5.2](https://github.com/sikessem/ui/releases/tag/v0.5.2) - 2023-08-03
 
+- [0.x] Fix component slot rendering
 - [0.x] Add [**entry**](https://github.com/sikessem/ui#entry-component) datalist
 - [0.x] Improve form control components
 - [0.x] Add [button](https://github.com/sikessem/ui#button-component) types
