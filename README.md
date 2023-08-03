@@ -266,32 +266,76 @@ This will output the following HTML:
 
 ##### Button component
 
-Create a button or an anchor:
+The Blade input:
 
 ```html
 <s-button>Click me</s-button>
 ```
 
-```html
-<s-button type="submit">Click me</s-button>
-```
-
-```html
-<s-button href="/">Click me</s-button>
-```
-
-This will output the following HTML:
+The HTML output:
 
 ```html
 <button type="button">Click me</button>
 ```
 
+The Blade input:
+
+```html
+<s-button value="Click me"/>
+```
+
+The HTML output:
+
+```html
+<input type="button" value="Click me"/>
+```
+
+The Blade input:
+
+```html
+<s-button href="/">Click me</s-button>
+```
+
+The HTML output:
+
+```html
+<a href="http://localhost">Click me</a>
+```
+
+The Blade input:
+
+```html
+<s-submit-button>Click me</s-submit-button>
+```
+
+The HTML output:
+
 ```html
 <button type="submit">Click me</button>
 ```
 
+The Blade input:
+
 ```html
-<a href="http://localhost">Click me</a>
+<s-reset-button>Click me</s-reset-button>
+```
+
+The HTML output:
+
+```html
+<button type="reset">Click me</button>
+```
+
+The Blade input:
+
+```html
+<s-image-button src="..." alt="...">Click me</s-image-button>
+```
+
+The HTML output:
+
+```html
+<button type="image" src="..." alt="...">Click me</button>
 ```
 
 ##### Menu component
