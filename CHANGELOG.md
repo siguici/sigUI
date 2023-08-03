@@ -2,9 +2,11 @@
 
 All notable changes to [Sikessem's UI kit](https://github.com/sikessem/ui) will be documented in this file.
 
-## [Unreleased](https://github.com/sikessem/ui/compare/v0.5.1...HEAD)
+## [Unreleased](https://github.com/sikessem/ui/compare/v0.5.2...HEAD)
 
-**Full Changelog:** [v0.5.0...v0.5.1](https://github.com/sikessem/ui/compare/v0.5.0...v0.5.1)
+**Full Changelog:** [v0.5.1...v0.5.2](https://github.com/sikessem/ui/compare/v0.5.1...v0.5.2)
+
+## [v0.5.2](https://github.com/sikessem/ui/releases/tag/v0.5.2) - 2023-08-03
 
 - [0.x] Add [**entry**](https://github.com/sikessem/ui#entry-component) datalist
 - [0.x] Improve form control components
