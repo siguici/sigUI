@@ -2,9 +2,11 @@
 
 All notable changes to [Sikessem's UI kit](https://github.com/sikessem/ui) will be documented in this file.
 
-## [Unreleased](https://github.com/sikessem/ui/compare/v0.5.2...HEAD)
+## [Unreleased](https://github.com/sikessem/ui/compare/v0.5.3...HEAD)
 
-**Full Changelog:** [v0.5.1...v0.5.2](https://github.com/sikessem/ui/compare/v0.5.1...v0.5.2)
+**Full Changelog:** [v0.5.2...v0.5.3](https://github.com/sikessem/ui/compare/v0.5.2...v0.5.3)
+
+## [v0.5.3](https://github.com/sikessem/ui/releases/tag/v0.5.3) - 2023-08-03
 
 - [0.x] Fix [icon component](https://github.com/sikessem/ui#icon-component) name
 - [0.x] Fix [icon component](https://github.com/sikessem/ui#icon-component) fill color
