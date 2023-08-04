@@ -14,6 +14,7 @@ import colors from "tailwindcss/colors";
 export class ColorPlugin extends Plugin<void> {
     readonly components = {
         link: ["text", "decoration"],
+        button: ["text", "border"],
     };
 
     readonly utilities = {
