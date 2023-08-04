@@ -2,9 +2,15 @@
 
 All notable changes to [Sikessem's UI kit](https://github.com/sikessem/ui) will be documented in this file.
 
-## [Unreleased](https://github.com/sikessem/ui/compare/v0.5.3...HEAD)
+## [Unreleased](https://github.com/sikessem/ui/compare/v0.5.4...HEAD)
 
-**Full Changelog:** [v0.5.2...v0.5.3](https://github.com/sikessem/ui/compare/v0.5.2...v0.5.3)
+**Full Changelog:** [v0.5.3...v0.5.4](https://github.com/sikessem/ui/compare/v0.5.3...v0.5.4)
+
+## [v0.5.4](https://github.com/sikessem/ui/releases/tag/v0.5.4) - 2023-08-04
+
+- [0.x] Add button colors
+- [0.x] Add SVG colors
+- [0.x] Fix divide color
 
 ## [v0.5.3](https://github.com/sikessem/ui/releases/tag/v0.5.3) - 2023-08-03
 
