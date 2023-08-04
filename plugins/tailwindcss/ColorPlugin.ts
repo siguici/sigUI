@@ -24,7 +24,7 @@ export class ColorPlugin extends Plugin<void> {
         outline: "outline-color",
         accent: "accent-color",
         caret: "caret-color",
-        devide: "border-color",
+        divide: "border-color",
         shadow: "--tw-shadow-color",
         ring: "--tw-ring-color",
     };
