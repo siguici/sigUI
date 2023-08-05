@@ -4,6 +4,21 @@ export type ClassNames = ClassName[];
 export type PropertyName = string;
 export type PropertyValue = string;
 
+export type UtilityName = string;
+export type UtilityList = {
+    [key: UtilityName]: PropertyName;
+};
+
+export type ComponentName = string;
+
+export interface ComponentList {
+    [key: ComponentName]:
+        | UtilityName
+        | UtilityName[]
+        | UtilityList
+        | Record<UtilityName, UtilityList | UtilityName[]>;
+}
+
 export type DeclarationBlock = Record<string, string>;
 export interface RuleSet {
     [key: string]: DeclarationBlock | RuleSet | string;

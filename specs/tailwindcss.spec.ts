@@ -30,7 +30,7 @@ describe.concurrent("suite", () => {
     const config = {
         content: [
             {
-                raw: html`<div class="text-red bg-red-0 border-red-4"></div>`,
+                raw: html`<div class="text-red bg-red-0 border-red-4"><a href="#" class="button-blue">Click button</a><a href="#" class="link-green">Click link</a></div>`,
             },
         ],
     };
@@ -50,6 +50,18 @@ describe.concurrent("suite", () => {
     it("should have border-red-4 class", async () => {
         return run(config).then((result) => {
             expect(result.css).toContain(css`.border-red-4`);
+        });
+    });
+
+    it("should have button-blue class", async () => {
+        return run(config).then((result) => {
+            expect(result.css).toContain(css`.button-blue`);
+        });
+    });
+
+    it("should have link-green class", async () => {
+        return run(config).then((result) => {
+            expect(result.css).toContain(css`.link-green`);
         });
     });
 });

@@ -1,4 +1,4 @@
-import Plugger from "./Plugger";
+import Plugger from "./plugger";
 
 export const UI = Plugger.plugUI();
 export const UIColors = Plugger.plugColors();

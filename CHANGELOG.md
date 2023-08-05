@@ -6,6 +6,12 @@ All notable changes to [Sikessem's UI kit](https://github.com/sikessem/ui) will 
 
 **Full Changelog:** [v0.5.3...v0.5.4](https://github.com/sikessem/ui/compare/v0.5.3...v0.5.4)
 
+- [0.x] Add more button colors
+- [0.x] Add entry colors
+- [0.x] Add choice colors
+- [0.x] Fix links plugin
+- [0.x] Fix edge plugin
+
 ## [v0.5.4](https://github.com/sikessem/ui/releases/tag/v0.5.4) - 2023-08-04
 
 - [0.x] Add button colors

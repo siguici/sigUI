@@ -1,23 +1,34 @@
-import { Plugin } from "./Plugin";
+import { Plugin } from "./plugin";
 import {
     ColorName,
     ColorValue,
     ColorValues,
     ColorVariants,
-    DeclarationBlock,
-    PropertyName,
+    ComponentList,
     RuleSet,
     StyleCallbacks,
+    UtilityList,
 } from "./types";
 import colors from "tailwindcss/colors";
 
-export class ColorPlugin extends Plugin<void> {
-    readonly components = {
+export class Colors extends Plugin<void> {
+    readonly components: ComponentList = {
         link: ["text", "decoration"],
-        button: ["text", "border"],
+
+        entry: ["text", "caret", "border"],
+
+        choice: ["accent"],
+
+        button: {
+            DEFAULT: ["bg"],
+            link: ["text", "decoration"],
+            ring: ["text", "ring"],
+            bordered: ["text", "border"],
+            outlined: ["text", "outline"],
+        },
     };
 
-    readonly utilities = {
+    readonly utilities: UtilityList = {
         text: "color",
         bg: "background-color",
         decoration: "text-decoration-color",
@@ -1196,7 +1207,7 @@ export class ColorPlugin extends Plugin<void> {
         return color;
     }
 
-    public addColor(name: string, variants: ColorVariants): this {
+    protected addColor(name: string, variants: ColorVariants): this {
         Object.entries(variants).forEach((color) => {
             const scheme = color[0];
             const value = color[1];
@@ -1210,7 +1221,7 @@ export class ColorPlugin extends Plugin<void> {
         return this.matchColorScheme(name, variants);
     }
 
-    public matchColorScheme(name: string, variants: ColorVariants): this {
+    protected matchColorScheme(name: string, variants: ColorVariants): this {
         const lightColor = variants.light;
         const darkColor = variants.dark;
 
@@ -1226,69 +1237,120 @@ export class ColorPlugin extends Plugin<void> {
         return this;
     }
 
-    public matchColorValues(name: string, values: ColorValues): this {
+    protected matchColorValues(name: string, values: ColorValues): this {
         return this.matchColorComponents(name, values).matchColorUtilities(
             name,
             values,
         );
     }
 
-    public addColorValue(name: string, value: ColorValue): this {
+    protected addColorValue(name: string, value: ColorValue): this {
         return this.addColorComponents(name, value).addColorUtilities(
             name,
             value,
         );
     }
 
-    public addColorComponents(name: string, value: ColorValue): this {
-        return this.addComponents(this.stylizeColorComponent(name, value));
+    protected addColorComponents(name: string, value: ColorValue): this {
+        return this.addComponents(this.stylizeComponents(name, value));
     }
 
-    public matchColorComponents(name: string, values: ColorValues): this {
+    protected matchColorComponents(name: string, values: ColorValues): this {
         return this.matchComponents(
-            this.stylizeColorComponentCallback(name),
+            this.stylizeComponentsCallback(name),
             values,
         );
     }
 
-    public addColorUtilities(name: string, value: ColorValue): this {
+    protected addColorUtilities(name: string, value: ColorValue): this {
         return this.addUtilities(this.stylizeColorUtility(name, value));
     }
 
-    public matchColorUtilities(name: string, values: ColorValues): this {
+    protected matchColorUtilities(name: string, values: ColorValues): this {
         return this.matchUtilities(
             this.stylizeColorUtilityCallback(name),
             values,
         );
     }
 
-    public stylizeColorSchemeComponent(
-        name: string,
+    protected stylizeColorSchemeComponent(
+        variant: string,
         lightValues: ColorValues,
         darkValues: ColorValues | undefined = undefined,
     ): RuleSet[] {
+        const { e } = this.api;
         const style: RuleSet[] = [];
         Object.entries(this.components).forEach((component) => {
-            const componentName = component[0];
-            const componentUtilities = component[1];
-            componentUtilities.forEach((utilityName) => {
-                const propertyName = this.utilities[utilityName];
-                if (propertyName !== undefined) {
-                    Object.entries(lightValues).forEach((color) => {
-                        const colorKey = color[0];
-                        const colorValue = color[1];
-                        style.push(
-                            this.darken(
-                                `${componentName}-${name}-${colorKey}`,
-                                this.stylizeProperty(propertyName, colorValue),
-                                darkValues === undefined
-                                    ? undefined
-                                    : this.stylizeProperty(
-                                          propertyName,
-                                          darkValues[colorKey],
-                                      ),
-                            ),
-                        );
+            const name = `${component[0]}-${variant}`;
+            const utilities = component[1];
+
+            Object.entries(lightValues).forEach((color) => {
+                const colorKey = color[0];
+                const colorName = `${name}-${colorKey}`;
+                const colorValue = color[1];
+                if (typeof utilities === "string") {
+                    style.push(
+                        this.darken(
+                            colorName,
+                            this.stylizeUtility(utilities, colorValue),
+                            darkValues === undefined
+                                ? undefined
+                                : this.stylizeProperty(
+                                      utilities,
+                                      darkValues[colorKey],
+                                  ),
+                        ),
+                    );
+                } else if (utilities instanceof Array) {
+                    style.push(
+                        this.darken(
+                            colorName,
+                            this.stylizeUtilities(utilities, colorValue),
+                            darkValues === undefined
+                                ? undefined
+                                : this.stylizeUtilities(
+                                      utilities,
+                                      darkValues[colorKey],
+                                  ),
+                        ),
+                    );
+                } else {
+                    Object.entries(utilities).forEach((utility) => {
+                        const utilityName =
+                            utility[0] === "DEFAULT"
+                                ? colorName
+                                : `${colorName}-${e(utility[0])}`;
+                        const properties = utility[1];
+                        if (typeof properties === "string") {
+                            style.push(
+                                this.darken(
+                                    utilityName,
+                                    this.stylizeUtility(properties, colorValue),
+                                    darkValues === undefined
+                                        ? undefined
+                                        : this.stylizeUtility(
+                                              properties,
+                                              darkValues[colorKey],
+                                          ),
+                                ),
+                            );
+                        } else {
+                            style.push(
+                                this.darken(
+                                    utilityName,
+                                    this.stylizeUtilities(
+                                        properties,
+                                        colorValue,
+                                    ),
+                                    darkValues === undefined
+                                        ? undefined
+                                        : this.stylizeUtilities(
+                                              properties,
+                                              darkValues[colorKey],
+                                          ),
+                                ),
+                            );
+                        }
                     });
                 }
             });
@@ -1296,21 +1358,21 @@ export class ColorPlugin extends Plugin<void> {
         return style;
     }
 
-    public stylizeColorSchemeUtility(
-        name: string,
+    protected stylizeColorSchemeUtility(
+        variant: string,
         lightValues: ColorValues,
         darkValues: ColorValues | undefined = undefined,
     ): RuleSet[] {
         const style: RuleSet[] = [];
         Object.entries(this.utilities).forEach((utility) => {
+            const utilityName = `${utility[0]}-${variant}`;
+            const propertyName = utility[1];
             Object.entries(lightValues).forEach((color) => {
-                const utilityName = utility[0];
-                const propertyName = utility[1];
                 const colorKey = color[0];
                 const colorValue = color[1];
                 style.push(
                     this.darken(
-                        `${utilityName}-${name}-${colorKey}`,
+                        `${utilityName}-${colorKey}`,
                         this.stylizeProperty(propertyName, colorValue),
                         darkValues === undefined
                             ? undefined
@@ -1325,71 +1387,16 @@ export class ColorPlugin extends Plugin<void> {
         return style;
     }
 
-    public stylizeColorComponent(name: string, value: ColorValue): RuleSet {
-        const { e } = this.api;
-        let rules: RuleSet = {};
-
-        Object.entries(this.components).forEach((component) => {
-            const componentName = component[0];
-            const componentUtilities = component[1];
-            let properties: DeclarationBlock = {};
-            componentUtilities.forEach((utilityName) => {
-                const propertyName = this.utilities[utilityName];
-                if (propertyName !== undefined) {
-                    properties = {
-                        ...properties,
-                        ...this.stylizeProperty(propertyName, value),
-                    };
-                }
-            });
-
-            rules = {
-                ...rules,
-                ...this.stylizeClass(`${componentName}-${e(name)}`, properties),
-            };
-        });
-        return rules;
-    }
-
-    public stylizeColorComponentCallback(name: string): StyleCallbacks {
-        const { e } = this.api;
-        const rules: StyleCallbacks = {};
-
-        Object.entries(this.components).forEach((component) => {
-            const componentName = component[0];
-            const componentUtilities = component[1];
-            const componentProperties: PropertyName[] = [];
-            componentUtilities.forEach((utilityName) => {
-                const propertyName = this.utilities[utilityName];
-                if (propertyName !== undefined) {
-                    componentProperties.push(propertyName);
-                }
-            });
-
-            rules[`${componentName}-${e(name)}`] = (value) => {
-                let properties: DeclarationBlock = {};
-                componentProperties.forEach((propertyName) => {
-                    properties = {
-                        ...properties,
-                        ...this.stylizeProperty(propertyName, value),
-                    };
-                });
-                return properties;
-            };
-        });
-        return rules;
-    }
-
-    public stylizeColorUtility(name: string, value: ColorValue): RuleSet {
+    protected stylizeColorUtility(name: string, value: ColorValue): RuleSet {
         const { e } = this.api;
         let rules: RuleSet = {};
 
         Object.entries(this.utilities).forEach((utility) => {
-            const utilityName = utility[0];
+            const utilityName = `${utility[0]}-${e(name)}`;
             const propertyName = utility[1];
             rules = {
                 ...rules,
-                ...this.stylizeClass(`${utilityName}-${e(name)}`, {
+                ...this.stylizeClass(utilityName, {
                     [propertyName]: value,
                 }),
             };
@@ -1397,7 +1404,7 @@ export class ColorPlugin extends Plugin<void> {
         return rules;
     }
 
-    public stylizeColorUtilityCallback(name: string): StyleCallbacks {
+    protected stylizeColorUtilityCallback(name: string): StyleCallbacks {
         const { e } = this.api;
         const rules: StyleCallbacks = {};
 

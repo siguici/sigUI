@@ -1,15 +1,5 @@
 import type { ClassName } from "./styles";
-import type {
-    Config,
-    PluginAPI,
-    PluginCreator,
-} from "tailwindcss/types/config";
-
-export interface PluginContract<T> {
-    readonly api: PluginAPI;
-    readonly options: T;
-    create(): this;
-}
+import type { Config, PluginCreator } from "tailwindcss/types/config";
 
 export type PluginWithoutOptions =
     | PluginCreator
@@ -25,9 +15,9 @@ export type PluginWithOptions<T> = {
     __isOptionsFunction: true;
 };
 
-export type RequiredLinkOptions = {
+export interface RequiredLinkOptions {
     linkClass: ClassName;
-};
+}
 export type LinkOptions = Partial<RequiredLinkOptions>;
 
 export type RequiredEdgeOptions = {

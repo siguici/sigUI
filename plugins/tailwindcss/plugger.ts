@@ -9,9 +9,9 @@ import type {
     UIOptions,
 } from "./types";
 
-import { ColorPlugin } from "./ColorPlugin";
-import { EdgePlugin } from "./EdgePlugin";
-import { LinkPlugin } from "./LinkPlugin";
+import { Colors } from "./colors";
+import { Edges } from "./edges";
+import { Links } from "./links";
 import plugin from "tailwindcss/plugin";
 import { PluginAPI } from "tailwindcss/types/config";
 
@@ -67,7 +67,7 @@ export class Plugger {
                     },
                 ) =>
                 (api) => {
-                    const plugin = new EdgePlugin(
+                    const plugin = new Edges(
                         api,
                         options as RequiredEdgeOptions,
                     );
@@ -76,22 +76,22 @@ export class Plugger {
         );
     }
 
-    protected static useColors(api: PluginAPI): ColorPlugin {
-        return new ColorPlugin(api).create();
+    protected static useColors(api: PluginAPI): Colors {
+        return new Colors(api).create();
     }
 
     protected static useLinks(
         api: PluginAPI,
         options: RequiredLinkOptions,
-    ): LinkPlugin {
-        return new LinkPlugin(api, options as RequiredLinkOptions).create();
+    ): Links {
+        return new Links(api, options as RequiredLinkOptions).create();
     }
 
     protected static useEdges(
         api: PluginAPI,
         options: RequiredEdgeOptions,
-    ): EdgePlugin {
-        return new EdgePlugin(api, options as RequiredEdgeOptions).create();
+    ): Edges {
+        return new Edges(api, options as RequiredEdgeOptions).create();
     }
 }
 
