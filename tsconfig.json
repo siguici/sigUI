@@ -1,18 +1,13 @@
 {
-  "include": [
-    "app/res/assets/types/**/*",
-    "app/res/assets/scripts/**/*",
-    "app/res/views/**/*",
-  ],
   "exclude": [
     "node_modules",
   ],
   "compilerOptions": {
     "allowJs": true,
-    "target": "ES2017",
-    "module": "ES2020",
+    "target": "ES2020",
+    "module": "ESNext",
     "lib": [
-      "es2020",
+      "ES2020",
       "DOM",
       "WebWorker",
       "DOM.Iterable"
@@ -20,7 +15,7 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "moduleResolution": "Node",
+    "moduleResolution": "Bundler",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "incremental": true,
@@ -28,13 +23,14 @@
     "outDir": "tmp",
     "noEmit": true,
     "typeRoots": [
-      "./plugins/tailwindcss/types",
+      "./types",
       "./node_modules/@types",
       "./node_modules",
     ],
     "types": [
       "node",
       "vitest/globals",
+      "vite/client",
     ],
     "baseUrl": ".",
     "paths": {},
@@ -57,6 +53,7 @@
     "downlevelIteration": true,
     "experimentalDecorators": true,
     "importHelpers": true,
+    "allowImportingTsExtensions": true,
   },
-  "files": ["./rome.json"],
+  "files": ["./rome.json", "./designs"],
 }

@@ -19,24 +19,30 @@
         "url": "https://sigui.ci"
     },
     "scripts": {
-        "build": "tsc",
+        "build": "tsc && vite build",
         "check": "rome ci .",
         "check.format": "rome format .",
         "check.lint": "rome check .",
         "debug": "pnpm check && pnpm test",
+        "dev": "concurrently \"vite --host\" \"vitest\"",
         "fix": "pnpm lint && pnpm format",
         "format": "rome format --write .",
         "inspect": "node --inspect-brk ./node_modules/vite/bin/vite.js --force",
         "lint": "rome check --apply-unsafe .",
+        "preview": "vite preview",
         "test": "vitest run",
         "test.ui": "vitest --ui",
-        "test.cov": "vitest run --coverage"
+        "test.cov": "vitest run --coverage",
+        "start": "vite --open"
     },
     "devDependencies": {
         "@tailwindcss/nesting": "0.0.0-insiders.565cd3e",
-        "@types/node": "^20.4.5",
+        "@types/alpinejs": "^3.7.2",
+        "@types/node": "^20.4.7",
         "@vitest/coverage-istanbul": "^0.33.0",
+        "alpinejs": "^3.12.3",
         "autoprefixer": "^10.4.14",
+        "concurrently": "^8.2.0",
         "cssnano": "^6.0.1",
         "postcss": "^8.4.27",
         "postcss-import": "^15.1.0",
@@ -47,6 +53,8 @@
         "ts-node": "^10.9.1",
         "tslib": "^2.6.1",
         "typescript": "^5.1.6",
+        "vite": "^4.4.8",
+        "vite-tsconfig-paths": "^4.2.0",
         "vitest": "^0.33.0"
     }
 }
