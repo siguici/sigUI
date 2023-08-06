@@ -1,13 +1,18 @@
 import { PluginContract } from "./contracts/plugin";
+import {
+    append_rule,
+    stylize_class,
+    stylize_properties,
+    stylize_properties_callback,
+    stylize_property,
+    stylize_property_callback,
+} from "./helpers";
 import type {
-    ClassName,
     ComponentList,
     DarkMode,
-    DeclarationBlock,
     PropertyName,
     PropertyValue,
     RuleSet,
-    StyleCallback,
     StyleCallbacks,
     StyleValues,
     UtilityList,
@@ -54,107 +59,20 @@ export abstract class Plugin<T> implements PluginContract<T> {
         return properties;
     }
 
-    protected darken(
-        className: string,
-        lightRules: RuleSet,
-        darkRules: RuleSet | undefined = undefined,
-    ): RuleSet {
-        const rules: RuleSet = {};
-        const { e } = this.api;
-
-        if (darkRules !== undefined) {
-            if (this.darkMode[0] === "media") {
-                rules[`.${e(className)}`] = {
-                    ...lightRules,
-                    [`@media (${this.darkMode[1]})`]: {
-                        ["&"]: {
-                            ...darkRules,
-                        },
-                    },
-                };
-            } else {
-                rules[`.${e(className)}`] = {
-                    ...lightRules,
-                    [`:is(${this.darkMode[1]} &)`]: {
-                        ...darkRules,
-                    },
-                };
-            }
-        } else {
-            rules[`.${e(className)}`] = lightRules;
-        }
-
-        return rules;
-    }
-
-    protected stylizeClass(
-        className: ClassName,
-        properties: DeclarationBlock,
-    ): RuleSet {
-        let declarations: DeclarationBlock = {};
-        Object.entries(properties).forEach((property) => {
-            declarations = {
-                ...declarations,
-                ...this.stylizeProperty(property[0], property[1]),
-            };
-        });
-
-        return {
-            [`.${className}`]: declarations,
-        };
-    }
-
-    protected stylizeProperty(
-        property: PropertyName,
-        value: PropertyValue,
-    ): DeclarationBlock {
-        return {
-            [property]: value,
-        };
-    }
-
     protected stylizeUtility(utility: UtilityName, value: PropertyValue) {
-        return this.stylizeProperty(this.getPropertyOf(utility), value);
-    }
-
-    protected stylizePropertyCallback(property: PropertyName): StyleCallback {
-        return (value) => {
-            return this.stylizeProperty(property, value);
-        };
+        return stylize_property(this.getPropertyOf(utility), value);
     }
 
     protected stylizeUtilityCallback(utility: UtilityName) {
-        return this.stylizePropertyCallback(this.getPropertyOf(utility));
-    }
-
-    protected stylizeProperties(
-        properties: PropertyName[],
-        value: PropertyValue,
-    ): DeclarationBlock {
-        let rule: DeclarationBlock = {};
-        properties.forEach((propertyName) => {
-            rule = {
-                ...rule,
-                ...this.stylizeProperty(propertyName, value),
-            };
-        });
-        return rule;
+        return stylize_property_callback(this.getPropertyOf(utility));
     }
 
     protected stylizeUtilities(utilities: UtilityName[], value: PropertyValue) {
-        return this.stylizeProperties(this.getPropertiesOf(utilities), value);
-    }
-
-    protected stylizePropertiesCallback(
-        properties: PropertyName[],
-    ): StyleCallback {
-        return (value) => {
-            return this.stylizeProperties(properties, value);
-        };
+        return stylize_properties(this.getPropertiesOf(utilities), value);
     }
 
     protected stylizeUtilitiesCallback(utilities: UtilityName[]) {
-        return this.stylizePropertiesCallback(this.getPropertiesOf(utilities));
+        return stylize_properties_callback(this.getPropertiesOf(utilities));
     }
 
     protected stylizeComponentsCallback(variant: string): StyleCallbacks {
@@ -201,17 +119,14 @@ export abstract class Plugin<T> implements PluginContract<T> {
             const utilities = component[1];
 
             if (typeof utilities === "string") {
-                rules = {
-                    ...rules,
-                    ...this.stylizeClass(
-                        name,
-                        this.stylizeUtility(utilities, value),
-                    ),
-                };
+                rules = append_rule(
+                    stylize_class(name, this.stylizeUtility(utilities, value)),
+                    rules,
+                );
             } else if (utilities instanceof Array) {
                 rules = {
                     ...rules,
-                    ...this.stylizeClass(
+                    ...stylize_class(
                         name,
                         this.stylizeUtilities(utilities, value),
                     ),
@@ -226,7 +141,7 @@ export abstract class Plugin<T> implements PluginContract<T> {
                     if (typeof properties === "string") {
                         rules = {
                             ...rules,
-                            ...this.stylizeClass(
+                            ...stylize_class(
                                 utilityName,
                                 this.stylizeUtility(properties, value),
                             ),
@@ -234,7 +149,7 @@ export abstract class Plugin<T> implements PluginContract<T> {
                     } else {
                         rules = {
                             ...rules,
-                            ...this.stylizeClass(
+                            ...stylize_class(
                                 utilityName,
                                 this.stylizeUtilities(properties, value),
                             ),

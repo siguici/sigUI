@@ -1,3 +1,9 @@
+import {
+    append_rule,
+    darken_class,
+    stylize_class,
+    stylize_property,
+} from "./helpers";
 import { Plugin } from "./plugin";
 import {
     ColorName,
@@ -1290,12 +1296,13 @@ export class Colors extends Plugin<void> {
                 const colorValue = color[1];
                 if (typeof utilities === "string") {
                     style.push(
-                        this.darken(
+                        darken_class(
+                            this.darkMode,
                             colorName,
                             this.stylizeUtility(utilities, colorValue),
                             darkValues === undefined
                                 ? undefined
-                                : this.stylizeProperty(
+                                : stylize_property(
                                       utilities,
                                       darkValues[colorKey],
                                   ),
@@ -1303,7 +1310,8 @@ export class Colors extends Plugin<void> {
                     );
                 } else if (utilities instanceof Array) {
                     style.push(
-                        this.darken(
+                        darken_class(
+                            this.darkMode,
                             colorName,
                             this.stylizeUtilities(utilities, colorValue),
                             darkValues === undefined
@@ -1323,7 +1331,8 @@ export class Colors extends Plugin<void> {
                         const properties = utility[1];
                         if (typeof properties === "string") {
                             style.push(
-                                this.darken(
+                                darken_class(
+                                    this.darkMode,
                                     utilityName,
                                     this.stylizeUtility(properties, colorValue),
                                     darkValues === undefined
@@ -1336,7 +1345,8 @@ export class Colors extends Plugin<void> {
                             );
                         } else {
                             style.push(
-                                this.darken(
+                                darken_class(
+                                    this.darkMode,
                                     utilityName,
                                     this.stylizeUtilities(
                                         properties,
@@ -1371,12 +1381,13 @@ export class Colors extends Plugin<void> {
                 const colorKey = color[0];
                 const colorValue = color[1];
                 style.push(
-                    this.darken(
+                    darken_class(
+                        this.darkMode,
                         `${utilityName}-${colorKey}`,
-                        this.stylizeProperty(propertyName, colorValue),
+                        stylize_property(propertyName, colorValue),
                         darkValues === undefined
                             ? undefined
-                            : this.stylizeProperty(
+                            : stylize_property(
                                   propertyName,
                                   darkValues[colorKey],
                               ),
@@ -1394,12 +1405,12 @@ export class Colors extends Plugin<void> {
         Object.entries(this.utilities).forEach((utility) => {
             const utilityName = `${utility[0]}-${e(name)}`;
             const propertyName = utility[1];
-            rules = {
-                ...rules,
-                ...this.stylizeClass(utilityName, {
+            rules = append_rule(
+                stylize_class(utilityName, {
                     [propertyName]: value,
                 }),
-            };
+                rules,
+            );
         });
         return rules;
     }
@@ -1412,7 +1423,7 @@ export class Colors extends Plugin<void> {
             const utilityName = utility[0];
             const propertyName = utility[1];
             rules[`${utilityName}-${e(name)}`] = (value) =>
-                this.stylizeProperty(propertyName, value);
+                stylize_property(propertyName, value);
         });
         return rules;
     }
