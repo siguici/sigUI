@@ -1,6 +1,6 @@
 import { PluginContract } from "./contracts/plugin";
 import {
-    append_rule,
+    append_style,
     stylize_class,
     stylize_properties,
     stylize_properties_callback,
@@ -119,18 +119,18 @@ export abstract class Plugin<T> implements PluginContract<T> {
             const utilities = component[1];
 
             if (typeof utilities === "string") {
-                rules = append_rule(
+                rules = append_style(
                     stylize_class(name, this.stylizeUtility(utilities, value)),
                     rules,
                 );
             } else if (utilities instanceof Array) {
-                rules = {
-                    ...rules,
-                    ...stylize_class(
+                rules = append_style(
+                    stylize_class(
                         name,
                         this.stylizeUtilities(utilities, value),
                     ),
-                };
+                    rules,
+                );
             } else {
                 Object.entries(utilities).forEach((utility) => {
                     const utilityName =
@@ -139,21 +139,21 @@ export abstract class Plugin<T> implements PluginContract<T> {
                             : `${name}-${e(utility[0])}`;
                     const properties = utility[1];
                     if (typeof properties === "string") {
-                        rules = {
-                            ...rules,
-                            ...stylize_class(
+                        rules = append_style(
+                            stylize_class(
                                 utilityName,
                                 this.stylizeUtility(properties, value),
                             ),
-                        };
+                            rules,
+                        );
                     } else {
-                        rules = {
-                            ...rules,
-                            ...stylize_class(
+                        rules = append_style(
+                            stylize_class(
                                 utilityName,
                                 this.stylizeUtilities(properties, value),
                             ),
-                        };
+                            rules,
+                        );
                     }
                 });
             }

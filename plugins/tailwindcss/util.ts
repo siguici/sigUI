@@ -6,6 +6,7 @@ import {
     PropertyValue,
     RuleSet,
     StyleCallback,
+    StyleCallbacks,
 } from "./types";
 
 export class Util {
@@ -57,7 +58,7 @@ export class Util {
     ): RuleSet {
         let declarations: DeclarationBlock = {};
         Object.entries(properties).forEach((property) => {
-            declarations = Util.appendDeclaration(
+            declarations = Util.appendStyle(
                 Util.stylizeProperty(property[0], property[1]),
                 declarations,
             );
@@ -83,7 +84,7 @@ export class Util {
     ): DeclarationBlock {
         let rule: DeclarationBlock = {};
         properties.forEach((propertyName) => {
-            rule = Util.appendDeclaration(
+            rule = Util.appendStyle(
                 Util.stylizeProperty(propertyName, value),
                 rule,
             );
@@ -105,57 +106,23 @@ export class Util {
         };
     }
 
-    static appendDeclaration(
-        declaration: DeclarationBlock,
-        declarations: DeclarationBlock,
-    ): DeclarationBlock {
+    static appendStyle<T extends DeclarationBlock | RuleSet>(
+        style: T,
+        styles: T,
+    ): T {
         return {
-            ...declarations,
-            ...declaration,
+            ...styles,
+            ...style,
         };
     }
 
-    static prependDeclaration(
-        declaration: DeclarationBlock,
-        declarations: DeclarationBlock,
-    ): DeclarationBlock {
+    static prependStyle<T extends DeclarationBlock | RuleSet>(
+        style: T,
+        styles: T,
+    ): T {
         return {
-            ...declaration,
-            ...declarations,
-        };
-    }
-
-    static appendRule(rule: RuleSet, rules: RuleSet): RuleSet {
-        return {
-            ...rules,
-            ...rule,
-        };
-    }
-
-    static prependRule(rule: RuleSet, rules: RuleSet): RuleSet {
-        return {
-            ...rule,
-            ...rules,
-        };
-    }
-
-    static appendDeclarationToRule(
-        declaration: DeclarationBlock,
-        rule: RuleSet,
-    ): RuleSet {
-        return {
-            ...rule,
-            ...declaration,
-        };
-    }
-
-    static prependDeclarationToRule(
-        declaration: DeclarationBlock,
-        rule: RuleSet,
-    ): RuleSet {
-        return {
-            ...declaration,
-            ...rule,
+            ...style,
+            ...styles,
         };
     }
 }

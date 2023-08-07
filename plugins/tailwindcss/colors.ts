@@ -1,5 +1,5 @@
 import {
-    append_rule,
+    append_style,
     darken_class,
     stylize_class,
     stylize_property,
@@ -1405,7 +1405,7 @@ export class Colors extends Plugin<void> {
         Object.entries(this.utilities).forEach((utility) => {
             const utilityName = `${utility[0]}-${e(name)}`;
             const propertyName = utility[1];
-            rules = append_rule(
+            rules = append_style(
                 stylize_class(utilityName, {
                     [propertyName]: value,
                 }),
