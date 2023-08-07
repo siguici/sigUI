@@ -1,8 +1,10 @@
 <?php
 
-namespace Sikessem\UI\Components;
+namespace Sikessem\UI\Components\Button;
 
-class SubmitButton extends Button
+use Sikessem\UI\Components\Button;
+
+class Submit extends Button
 {
     /**
      * @param  array<mixed>  $parameters

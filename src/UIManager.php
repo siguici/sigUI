@@ -97,7 +97,7 @@ class UIManager
 
     public function component(string $class, string $alias = null, bool $anonymous = false): void
     {
-        $alias ??= $anonymous ? $class : Str::snake($class, '-');
+        $alias ??= $anonymous ? $class : Str::snake(implode('', array_reverse(explode('\\', $class))), '-');
 
         if (! isset($this->components[$alias])) {
             $class = ($anonymous ? self::ANONYMOUS_COMPONENT_NAMESPACE.'.' : self::COMPONENT_NAMESPACE.'\\').$class;

@@ -1,8 +1,10 @@
 <?php
 
-namespace Sikessem\UI\Components;
+namespace Sikessem\UI\Components\Button;
 
-class ResetButton extends Button
+use Sikessem\UI\Components\Button;
+
+class Image extends Button
 {
     /**
      * @param  array<mixed>  $parameters
@@ -15,6 +17,6 @@ class ResetButton extends Button
         public ?string $value = null,
         public ?string $text = null,
     ) {
-        parent::__construct('reset', $href, $route, $parameters, $name, $value, $text);
+        parent::__construct('image', $href, $route, $parameters, $name, $value, $text);
     }
 }
