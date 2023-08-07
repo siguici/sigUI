@@ -4,6 +4,7 @@ namespace Sikessem\UI\Components;
 
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use InvalidArgumentException;
 use Sikessem\UI\Common\FormControl;
 
 class Entry extends FormControl
@@ -14,34 +15,42 @@ class Entry extends FormControl
 
     public bool|string $autocomplete;
 
-    public ?string $value;
-
-    public bool $chosen;
-
     public function __construct(
         string $type = 'text',
         string $name = null,
         string $id = null,
         bool|string $autocomplete = false,
-        string|array $value = [],
-        string $currentValue = null,
-        string $defaultValue = null,
         public array $datalist = [],
     ) {
         parent::__construct($type);
 
+        if (! in_array($this->type, [
+            'color',
+            'date',
+            'datetime-local',
+            'email',
+            'file',
+            'month',
+            'number',
+            'password',
+            'range',
+            'search',
+            'tel',
+            'text',
+            'textarea',
+            'time',
+            'url',
+            'week',
+        ])) {
+            throw new InvalidArgumentException("Cannot use $type as entry");
+        }
+
         $name ??= $type;
         $id ??= $name;
         $autocomplete = is_string($autocomplete) ? $autocomplete : $name;
-        $value = (array) $value;
-        $currentValue ??= $value['current'] ?? $value[0] ?? null;
-        $defaultValue ??= $value['default'] ?? $value[1] ?? $value[0] ?? null;
-        $value = old($name) ?: $currentValue ?? $defaultValue;
         $this->name = $name;
         $this->id = $id;
         $this->autocomplete = $autocomplete;
-        $this->value = $value;
-        $this->chosen = isset($value) && ($value === old($name) || $value === 'on');
     }
 
     public function render(): View|Factory

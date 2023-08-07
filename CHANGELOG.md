@@ -6,6 +6,7 @@ All notable changes to [Sikessem's UI kit](https://github.com/sikessem/ui) will 
 
 **Full Changelog:** [v0.5.3...v0.5.4](https://github.com/sikessem/ui/compare/v0.5.3...v0.5.4)
 
+- [0.x] Improve entry component
 - [0.x] Add textarea component
 - [0.x] Add input component
 - [0.x] Add more button colors

@@ -1,18 +1,18 @@
 @php
 $datalistId = empty($datalist) ? null : "$id-input-datalist";
-$attributes = $attributes->merge([...compact('name', 'id', 'autocomplete'), 'list' => $datalistId, 'invalid' => $errors->has($name), 'aria-invalid' => $errors->has($name) ? 'true' : 'false']);
+$attributes = $attributes->merge([...compact('name', 'id', 'autocomplete'), 'list' => $datalistId]);
 @endphp
 
 @if ($type === 'textarea')
-    @tag('textarea', $attributes, $value ?? $slot)
+<s-textarea {{ $attributes }}>{{ $slot }}</s-textarea>
 @else
-    @tag('input', $attributes->merge(compact('type', 'value')))
+<s-input {{ $attributes->merge(compact('type')) }}/>
 @endif
 
-@if ($datalist)
-    @tag('datalist', ['id' => $datalistId])
-        @foreach($datalist as $option)
-            @tag('option', [], $option)
-        @endforeach
-    @endtag
+@if ($datalistId)
+@tag('datalist', ['id' => $datalistId])
+    @foreach($datalist as $option)
+    @tag('option', [], $option)
+    @endforeach
+@endtag
 @endif
