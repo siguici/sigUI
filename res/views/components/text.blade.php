@@ -1,6 +1,11 @@
 @php
 $value = $value ?? $slot->toHtml();
 $value = $translated ? $value : __($value);
+$value = $escaped ? $value : e($value);
 @endphp
 
-@if ($escaped) {!! $value !!} @else {{ $value }} @endif
+@isset($element)
+@tag($element, $attributes, $value)
+@else
+{!! $value !!}
+@endisset
