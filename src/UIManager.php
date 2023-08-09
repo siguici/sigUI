@@ -95,6 +95,22 @@ class UIManager
      */
     protected array $tags = [];
 
+    /**
+     * @template TValue of mixed
+     *
+     * @param  TValue  $default
+     * @return TValue
+     */
+    public function config(string $key, mixed $default = null): mixed
+    {
+        return config("ui.$key", $default);
+    }
+
+    public function prefix(): string
+    {
+        return $this->config('prefix', 'ui');
+    }
+
     public function component(string $class, string $alias = null, bool $anonymous = false): void
     {
         $alias ??= $anonymous ? $class : Str::snake(implode('', array_reverse(explode('\\', $class))), '-');
@@ -104,9 +120,9 @@ class UIManager
             $this->components[$alias] = $class;
 
             if ($this->isLivewire($class, $anonymous)) {
-                Livewire::component("ui-$alias", $class);
+                Livewire::component($this->prefix()."-$alias", $class);
             } else {
-                Blade::component($class, $alias, 'ui');
+                Blade::component($class, $alias, $this->prefix());
             }
         }
     }
@@ -175,7 +191,7 @@ class UIManager
         $slot = $this->makeComponentSlot($name, $attributes, $contents);
 
         /** @var string */
-        $name = config("ui.$name.element", $name);
+        $name = $this->config("components.$name.element", $name);
 
         $render = "<{$name} {$this->attributesToHtml($slot->attributes)}";
 
@@ -295,7 +311,7 @@ class UIManager
     {
         $attributes = $this->makeComponentAttributes($name, $attributes);
         /** @var string|ComponentSlot */
-        $defaultSlot = config("ui.$name.slot", '');
+        $defaultSlot = $this->config("components.$name.slot", '');
         $slot ??= $defaultSlot;
         if ($slot instanceof ComponentSlot) {
             $slot = $slot->toHtml();
@@ -314,7 +330,7 @@ class UIManager
             $attributes = new ComponentAttributes($attributes);
         }
 
-        return $attributes->merge((array) config("ui.$name.attributes", []));
+        return $attributes->merge((array) $this->config("components.$name.attributes", []));
     }
 
     protected function attributesToString(ComponentAttributes $attributes): string

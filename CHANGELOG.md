@@ -6,6 +6,8 @@ All notable changes to [Sikessem's UI kit](https://github.com/sikessem/ui) will 
 
 **Full Changelog:** [v0.6.0...v0.6.1](https://github.com/sikessem/ui/compare/v0.6.0...v0.6.1)
 
+- [0.x] Make prefix configurable
+
 ## [v0.6.1](https://github.com/sikessem/ui/releases/tag/v0.6.1) - 2023-08-07
 
 - [0.x] Fix textarea value

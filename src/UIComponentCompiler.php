@@ -252,8 +252,8 @@ class UIComponentCompiler extends ComponentTagCompiler implements ComponentCompi
 
         if ($info = UIFacade::find($component)) {
             ['class' => $class, 'alias' => $alias] = $info;
-            $alias = "ui-$alias";
-            $attributes = (new ComponentAttributeBag($attributes))->merge((array) config("ui.$component.attributes", []))->getAttributes();
+            $alias = UIFacade::prefix()."-$alias";
+            $attributes = (new ComponentAttributeBag($attributes))->merge((array) config("ui.components.$component.attributes", []))->getAttributes();
 
             if (UIFacade::isBlade($class)) {
                 if (! isset($this->aliases[$alias])) {
