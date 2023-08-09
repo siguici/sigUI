@@ -6,6 +6,7 @@ All notable changes to [Sikessem's UI kit](https://github.com/sikessem/ui) will 
 
 **Full Changelog:** [v0.5.4...v0.6.0](https://github.com/sikessem/ui/compare/v0.5.4...v0.6.0)
 
+- [0.x] Fix input value
 - [0.x] Fix button text
 - [0.x] Add text element
 
