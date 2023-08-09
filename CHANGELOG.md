@@ -2,9 +2,11 @@
 
 All notable changes to [Sikessem's UI kit](https://github.com/sikessem/ui) will be documented in this file.
 
-## [Unreleased](https://github.com/sikessem/ui/compare/v0.6.0...HEAD)
+## [Unreleased](https://github.com/sikessem/ui/compare/v0.6.1...HEAD)
 
-**Full Changelog:** [v0.5.4...v0.6.0](https://github.com/sikessem/ui/compare/v0.5.4...v0.6.0)
+**Full Changelog:** [v0.6.0...v0.6.1](https://github.com/sikessem/ui/compare/v0.6.0...v0.6.1)
+
+## [v0.6.1](https://github.com/sikessem/ui/releases/tag/v0.6.1) - 2023-08-07
 
 - [0.x] Fix input value
 - [0.x] Fix button text
