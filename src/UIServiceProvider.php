@@ -7,6 +7,8 @@ use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Illuminate\Support\Str;
 use Illuminate\View\Compilers\BladeCompiler;
 use ReflectionClass;
+use Sikessem\UI\Components\Button;
+use Sikessem\UI\Components\Input;
 
 class UIServiceProvider extends BaseServiceProvider
 {
@@ -98,8 +100,47 @@ class UIServiceProvider extends BaseServiceProvider
     {
         $this->callAfterResolving(BladeCompiler::class, function () {
             $this->registerComponentPath(sikessem_ui_path('src/Components'));
+            $this->registerInputComponents();
+            $this->registerButtonComponents();
             $this->registerComponentPath(sikessem_ui_path('res/views/components'), anonymous: true);
         });
+    }
+
+    protected function registerInputComponents(): void
+    {
+        $this->registerComponentAliases(Input::class, [
+            'button',
+            'checkbox',
+            'color',
+            'date',
+            'datetime-local',
+            'email',
+            'file',
+            'hidden',
+            'image',
+            'month',
+            'number',
+            'password',
+            'radio',
+            'range',
+            'reset',
+            'search',
+            'submit',
+            'tel',
+            'text',
+            'time',
+            'url',
+            'week',
+        ], 'input');
+    }
+
+    protected function registerButtonComponents(): void
+    {
+        $this->registerComponentAliases(Button::class, [
+            'image',
+            'submit',
+            'reset',
+        ], 'button');
     }
 
     protected function registerPublishables(): void
@@ -166,7 +207,22 @@ class UIServiceProvider extends BaseServiceProvider
             } else {
                 $component = Str::of("{$base}$separator{$component}")->trim($separator);
             }
-            UIFacade::component($component->toString(), anonymous: $anonymous);
+            $this->registerComponent($component->toString(), anonymous: $anonymous);
+        }
+    }
+
+    protected function registerComponent(string $class, string $alias = null, bool $anonymous = false): void
+    {
+        UIFacade::component($class, $alias, $anonymous);
+    }
+
+    /**
+     * @param  string[]  $aliases
+     */
+    protected function registerComponentAliases(string $class, array $aliases = [], string $suffix = null): void
+    {
+        foreach ($aliases as $alias) {
+            $this->registerComponent($class, is_null($suffix) ? $alias : "$alias-$suffix");
         }
     }
 }

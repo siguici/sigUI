@@ -5,6 +5,7 @@ namespace Sikessem\UI\Components;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Sikessem\UI\Common\FormControl;
+use Sikessem\UI\UIFacade;
 
 class Input extends FormControl
 {
@@ -44,6 +45,12 @@ class Input extends FormControl
 
     public function render(): View|Factory
     {
+        $prefix = preg_quote(UIFacade::prefix(), '/');
+        $suffix = 'input';
+        if (preg_match("/$prefix-(?P<alias>.*?)-$suffix/", $this->componentName, $matches)) {
+            $this->type = $matches['alias'];
+        }
+
         return view('ui::components.input');
     }
 }

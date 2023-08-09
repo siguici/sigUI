@@ -86,7 +86,7 @@ class UIManager
     ];
 
     /**
-     * @var array<string,string>;
+     * @var array<string,array<string,string>>;
      */
     protected array $components = [];
 
@@ -114,10 +114,13 @@ class UIManager
     public function component(string $class, string $alias = null, bool $anonymous = false): void
     {
         $alias ??= $anonymous ? $class : Str::snake(implode('', array_reverse(explode('\\', $class))), '-');
+        $namespace = $anonymous ? self::ANONYMOUS_COMPONENT_NAMESPACE.'.' : self::COMPONENT_NAMESPACE.'\\';
 
-        if (! isset($this->components[$alias])) {
-            $class = ($anonymous ? self::ANONYMOUS_COMPONENT_NAMESPACE.'.' : self::COMPONENT_NAMESPACE.'\\').$class;
-            $this->components[$alias] = $class;
+        if (is_null($this->find($alias))) {
+            if (! str_starts_with($class, $namespace)) {
+                $class = $namespace.$class;
+            }
+            $this->components[$namespace][$alias] = $class;
 
             if ($this->isLivewire($class, $anonymous)) {
                 Livewire::component($this->prefix()."-$alias", $class);
@@ -142,13 +145,15 @@ class UIManager
     }
 
     /**
-     * @return array{class:string,alias:string}|null
+     * @return array{namespace:string,class:string,alias:string}|null
      */
-    public function find(string $name): ?array
+    public function find(string $component): ?array
     {
-        foreach ($this->components as $alias => $class) {
-            if ($alias === $name || $class === $name) {
-                return ['class' => $class, 'alias' => $alias];
+        foreach ($this->components as $namespace => $components) {
+            foreach ($components as $alias => $class) {
+                if ($alias === $component || $class === $component) {
+                    return compact('namespace', 'component', 'class', 'alias');
+                }
             }
         }
 

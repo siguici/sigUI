@@ -5,6 +5,7 @@ namespace Sikessem\UI\Components;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Sikessem\UI\Common\FormControl;
+use Sikessem\UI\UIFacade;
 
 class Button extends FormControl
 {
@@ -40,6 +41,12 @@ class Button extends FormControl
 
     public function render(): View|Factory
     {
+        $prefix = preg_quote(UIFacade::prefix(), '/');
+        $suffix = 'button';
+        if (preg_match("/$prefix-(?P<alias>.*?)-$suffix/", $this->componentName, $matches)) {
+            $this->type = $matches['alias'];
+        }
+
         return view('ui::components.button');
     }
 }
