@@ -23,7 +23,7 @@ abstract class TestCase extends BaseTestCase
 
         parent::setUp();
 
-        // $this->artisan('optimize:clear');
+        $this->artisan('optimize:clear');
     }
 
     /**
