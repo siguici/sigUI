@@ -1,17 +1,15 @@
 @isset($href)
     @tag('a', $attributes->merge(compact('href')))
+        {{ $slot }}
         @isset($text)
-            <s-text :value="$text"/>
-        @else
-            {{ $slot }}
+        <s-text :value="$text"/>
         @endisset
     @endtag
 @elseif(isset($text) || $slot->isNotEmpty())
     @tag('button', $attributes->merge(compact('type')))
+        {{ $slot }}
         @isset($text)
-            <s-text :value="$text"/>
-        @else
-            {{ $slot }}
+        <s-text :value="$text"/>
         @endisset
     @endtag
 @else
