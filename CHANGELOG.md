@@ -8,6 +8,7 @@ All notable changes to [Sikessem's UI kit](https://github.com/sikessem/ui) will 
 
 ## [v0.6.1](https://github.com/sikessem/ui/releases/tag/v0.6.1) - 2023-08-07
 
+- [0.x] Fix textarea value
 - [0.x] Fix input value
 - [0.x] Fix button text
 - [0.x] Add text element
