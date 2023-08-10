@@ -17,7 +17,7 @@ class Select extends FormControl
     public function __construct(
         string $name,
         string $id = null,
-        string|array $value = [],
+        string|array $value = null,
         string $current = null,
         string $default = null,
         public array $options = [],

@@ -6,6 +6,8 @@ All notable changes to [Sikessem's UI kit](https://github.com/sikessem/ui) will 
 
 **Full Changelog:** [v0.6.1...v0.6.2](https://github.com/sikessem/ui/compare/v0.6.1...v0.6.2)
 
+- [0.x] Fix select value
+
 ## [v0.6.2](https://github.com/sikessem/ui/releases/tag/v0.6.2) - 2023-08-09
 
 - [0.x] Improve button and input type components
