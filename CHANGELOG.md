@@ -2,9 +2,11 @@
 
 All notable changes to [Sikessem's UI kit](https://github.com/sikessem/ui) will be documented in this file.
 
-## [Unreleased](https://github.com/sikessem/ui/compare/v0.6.1...HEAD)
+## [Unreleased](https://github.com/sikessem/ui/compare/v0.6.3...HEAD)
 
-**Full Changelog:** [v0.6.1...v0.6.2](https://github.com/sikessem/ui/compare/v0.6.1...v0.6.2)
+**Full Changelog:** [v0.6.2...v0.6.3](https://github.com/sikessem/ui/compare/v0.6.1...v0.6.3)
+
+## [v0.6.3](https://github.com/sikessem/ui/releases/tag/v0.6.3) - 2023-08-10
 
 - [0.x] Improve handling of component aliases
 - [0.x] Fix select value
