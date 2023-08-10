@@ -23,7 +23,6 @@ class Form extends BladeComponent
         public bool $hasFiles = false,
     ) {
         $method = strtoupper($method);
-        $method === 'GET' ? $method : 'POST';
         $parameters = (array) $parameters;
         if (is_null($route)) {
             /** @var string */

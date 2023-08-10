@@ -1,4 +1,4 @@
-@tag('form', $attributes->merge([...compact('method', 'action'), 'enctype' => $hasFiles ? 'multipart/form-data' : false]))
+@tag('form', $attributes->merge([...compact('action'), 'method' => $method === 'GET' ? $method : 'POST', 'enctype' => $hasFiles ? 'multipart/form-data' : false]))
     @csrf
     @method($method)
     {{ $slot }}

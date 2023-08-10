@@ -8,6 +8,7 @@ All notable changes to [Sikessem's UI kit](https://github.com/sikessem/ui) will 
 
 ## [v0.6.3](https://github.com/sikessem/ui/releases/tag/v0.6.3) - 2023-08-10
 
+- [0.x] Fix form method
 - [0.x] Fix selected option
 - [0.x] Fix select option keys
 - [0.x] Improve handling of component aliases
