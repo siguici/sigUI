@@ -11,7 +11,7 @@ $attributes = $attributes->merge([...compact('name', 'id'), 'invalid' => $invali
         @endforeach
     @endtag
     @else
-    @tag('option', ['value' => $label, 'selected' => isset($value) && $label], $option)
+    @tag('option', ['value' => $label, 'selected' => isset($value) && $value === $label], $option)
     @endif
     @endforeach
     {{ $slot }}
