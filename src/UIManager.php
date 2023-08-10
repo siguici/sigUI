@@ -113,7 +113,7 @@ class UIManager
 
     public function component(string $class, string $alias = null, bool $anonymous = false): void
     {
-        $alias ??= $anonymous ? $class : Str::snake(implode('', array_reverse(explode('\\', $class))), '-');
+        $alias ??= $anonymous ? $class : $this->getAlias($class);
         $namespace = $anonymous ? self::ANONYMOUS_COMPONENT_NAMESPACE.'.' : self::COMPONENT_NAMESPACE.'\\';
 
         if (is_null($this->find($alias))) {
@@ -142,6 +142,20 @@ class UIManager
             }
             $this->component($class, $alias, $anonymous);
         }
+    }
+
+    public function getAlias(string $class, string $namespace = null): string
+    {
+        $namespace ??= self::COMPONENT_NAMESPACE;
+        if (! str_ends_with($namespace, '\\')) {
+            $namespace .= '\\';
+        }
+
+        if (0 === strpos($class, $namespace)) {
+            $class = substr_replace($class, '', 0, strlen($namespace));
+        }
+
+        return Str::kebab(implode('', array_reverse(explode('\\', $class))));
     }
 
     /**

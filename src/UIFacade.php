@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Facade as BaseFacade;
  * @method static bool isLivewire(string $component, bool $anonymous = false)
  * @method static bool isOrphan(string $tag)
  * @method static bool isPaired(string $tag)
+ * @method static string getAlias(string $class, string $namespace = null)
  * @method static string make(string $name, array|\Illuminate\View\ComponentAttributeBag $attributes = [], string|\Illuminate\View\ComponentSlot $slot = null)
  * @method static string prefix()
  * @method static string openTag(string $name, array|\Illuminate\View\ComponentAttributeBag $attributes = [], string|\Illuminate\View\ComponentSlot $slot = null)

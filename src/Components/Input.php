@@ -5,10 +5,12 @@ namespace Sikessem\UI\Components;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Sikessem\UI\Common\FormControl;
-use Sikessem\UI\UIFacade;
+use Sikessem\UI\Concerns\HandlesComponentAlias;
 
 class Input extends FormControl
 {
+    use HandlesComponentAlias;
+
     public string $name;
 
     public string $id;
@@ -45,11 +47,9 @@ class Input extends FormControl
 
     public function render(): View|Factory
     {
-        $prefix = preg_quote(UIFacade::prefix(), '/');
-        $suffix = 'input';
-        if (preg_match("/$prefix-(?P<alias>.*?)-$suffix/", $this->componentName, $matches)) {
-            $this->type = $matches['alias'];
-        }
+        $this->handleAlias(function (string $alias) {
+            $this->type = $alias;
+        });
 
         return view('ui::components.input');
     }
