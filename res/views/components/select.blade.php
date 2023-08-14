@@ -7,11 +7,11 @@ $attributes = $attributes->merge([...compact('name', 'id'), 'invalid' => $invali
     @if (is_array($option))
     @tag('optgroup', compact('label'))
         @foreach($option as $key => $item)
-        @tag('option', ['value' => $key, 'selected' => isset($value) && $value === $key], $item)
+        @tag('option', ['value' => $key, 'selected' => isset($value) && ($value == $key || $value === $item)], $item)
         @endforeach
     @endtag
     @else
-    @tag('option', ['value' => $label, 'selected' => isset($value) && $value === $label], $option)
+    @tag('option', ['value' => $label, 'selected' => isset($value) && ($value == $label || $value === $option)], $option)
     @endif
     @endforeach
     {{ $slot }}

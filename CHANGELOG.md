@@ -6,6 +6,7 @@ All notable changes to [Sikessem's UI kit](https://github.com/sikessem/ui) will 
 
 **Full Changelog:** [v0.6.2...v0.6.3](https://github.com/sikessem/ui/compare/v0.6.1...v0.6.3)
 
+[0.x] Fix selected option from select component
 [0.x] Update documentation link
 
 ## [v0.6.3](https://github.com/sikessem/ui/releases/tag/v0.6.3) - 2023-08-10
