@@ -6,6 +6,8 @@ All notable changes to [Sikessem's UI kit](https://github.com/sikessem/ui) will 
 
 **Full Changelog:** [v0.6.2...v0.6.3](https://github.com/sikessem/ui/compare/v0.6.1...v0.6.3)
 
+[0.x] Update documentation link
+
 ## [v0.6.3](https://github.com/sikessem/ui/releases/tag/v0.6.3) - 2023-08-10
 
 - [0.x] Fix form method
@@ -46,62 +48,62 @@ All notable changes to [Sikessem's UI kit](https://github.com/sikessem/ui) will 
 
 ## [v0.5.3](https://github.com/sikessem/ui/releases/tag/v0.5.3) - 2023-08-03
 
-- [0.x] Fix [icon component](https://github.com/sikessem/ui#icon-component) name
-- [0.x] Fix [icon component](https://github.com/sikessem/ui#icon-component) fill color
+- [0.x] Fix [icon component](https://sikessem.github.io/packages/ui#icon-component) name
+- [0.x] Fix [icon component](https://sikessem.github.io/packages/ui#icon-component) fill color
 
 ## [v0.5.2](https://github.com/sikessem/ui/releases/tag/v0.5.2) - 2023-08-03
 
 - [0.x] Fix component slot rendering
-- [0.x] Add [**entry**](https://github.com/sikessem/ui#entry-component) datalist
+- [0.x] Add [**entry**](https://sikessem.github.io/packages/ui#entry-component) datalist
 - [0.x] Improve form control components
-- [0.x] Add [button](https://github.com/sikessem/ui#button-component) types
+- [0.x] Add [button](https://sikessem.github.io/packages/ui#button-component) types
 
 ## [v0.5.1](https://github.com/sikessem/ui/releases/tag/v0.5.1) - 2023-08-02
 
 - [0.x] Improve plugins architecture
-- [0.x] Improve [color utilities](https://github.com/sikessem/ui#color-utilities)
+- [0.x] Improve [color utilities](https://sikessem.github.io/packages/ui#color-utilities)
 
 ## [v0.5.0](https://github.com/sikessem/ui/releases/tag/v0.5.0) - 2023-08-01
 
-- [0.x] Fix [color utilities](https://github.com/sikessem/ui#color-utilities)
-- [0.x] Add [color utilities](https://github.com/sikessem/ui#color-utilities)
-- [0.x] Add [icon](https://github.com/sikessem/ui#icon-component) component
+- [0.x] Fix [color utilities](https://sikessem.github.io/packages/ui#color-utilities)
+- [0.x] Add [color utilities](https://sikessem.github.io/packages/ui#color-utilities)
+- [0.x] Add [icon](https://sikessem.github.io/packages/ui#icon-component) component
 
 ## [v0.4.0](https://github.com/sikessem/ui/releases/tag/v0.4.0) - 2023-07-31
 
-- [0.x] Fix [button](https://github.com/sikessem/ui#button-component) href
-- [0.x] Fix [form](https://github.com/sikessem/ui#form-component) action
-- [0.x] Fix [link](https://github.com/sikessem/ui#link-component) href
-- [0.x] Add [**entry** component](https://github.com/sikessem/ui#entry-component)
-- [0.x] Add [tag and endtag directives](https://github.com/sikessem/ui#blade-directives)
-- [0.x] Change [ui directive](https://github.com/sikessem/ui#blade-directives)
+- [0.x] Fix [button](https://sikessem.github.io/packages/ui#button-component) href
+- [0.x] Fix [form](https://sikessem.github.io/packages/ui#form-component) action
+- [0.x] Fix [link](https://sikessem.github.io/packages/ui#link-component) href
+- [0.x] Add [**entry** component](https://sikessem.github.io/packages/ui#entry-component)
+- [0.x] Add [tag and endtag directives](https://sikessem.github.io/packages/ui#blade-directives)
+- [0.x] Change [ui directive](https://sikessem.github.io/packages/ui#blade-directives)
 
 ## [v0.3.0](https://github.com/sikessem/ui/releases/tag/v0.3.0) - 2023-07-29
 
-- [0.x] Add [component slots](https://github.com/sikessem/ui#component-slots)
-- [0.x] Add [paired component](https://github.com/sikessem/ui#component-tags)
-- [0.x] Add [**errors** component](https://github.com/sikessem/ui#errors-component)
-- [0.x] Add [**error** component](https://github.com/sikessem/ui#error-component)
-- [0.x] Add [**form** component](https://github.com/sikessem/ui#form-component)
-- [0.x] Change [blade directives](https://github.com/sikessem/ui#blade-directives)
-- [0.x] Change [**flashes** component](https://github.com/sikessem/ui#flashes-component)
-- [0.x] Change [**flash** component](https://github.com/sikessem/ui#flash-component)
+- [0.x] Add [component slots](https://sikessem.github.io/packages/ui#component-slots)
+- [0.x] Add [paired component](https://sikessem.github.io/packages/ui#component-tags)
+- [0.x] Add [**errors** component](https://sikessem.github.io/packages/ui#errors-component)
+- [0.x] Add [**error** component](https://sikessem.github.io/packages/ui#error-component)
+- [0.x] Add [**form** component](https://sikessem.github.io/packages/ui#form-component)
+- [0.x] Change [blade directives](https://sikessem.github.io/packages/ui#blade-directives)
+- [0.x] Change [**flashes** component](https://sikessem.github.io/packages/ui#flashes-component)
+- [0.x] Change [**flash** component](https://sikessem.github.io/packages/ui#flash-component)
 
 ## [v0.2.0](https://github.com/sikessem/ui/releases/tag/v0.2.0) - 2023-07-19
 
-- [0.x] Allow [**custom** components](https://github.com/sikessem/ui#-custom-components)
-- [0.x] Add [**flashes** component](https://github.com/sikessem/ui#flashes-component)
-- [0.x] Add [**flash** component](https://github.com/sikessem/ui#flash-component)
-- [0.x] Add [**label** component](https://github.com/sikessem/ui#label-component)
-- [0.x] Add [**menu** component](https://github.com/sikessem/ui#menu-component)
-- [0.x] Add [**button** component](https://github.com/sikessem/ui#button-component)
-- [0.x] Add [blade directive end](https://github.com/sikessem/ui#blade-directives)
+- [0.x] Allow [**custom** components](https://sikessem.github.io/packages/ui#-custom-components)
+- [0.x] Add [**flashes** component](https://sikessem.github.io/packages/ui#flashes-component)
+- [0.x] Add [**flash** component](https://sikessem.github.io/packages/ui#flash-component)
+- [0.x] Add [**label** component](https://sikessem.github.io/packages/ui#label-component)
+- [0.x] Add [**menu** component](https://sikessem.github.io/packages/ui#menu-component)
+- [0.x] Add [**button** component](https://sikessem.github.io/packages/ui#button-component)
+- [0.x] Add [blade directive end](https://sikessem.github.io/packages/ui#blade-directives)
 
 ## [v0.1.0](https://github.com/sikessem/ui/releases/tag/v0.1.0) - 2023-07-17
 
-- [0.x] Add [orphan component](https://github.com/sikessem/ui#component-tags)
-- [0.x] Add [user guide](https://github.com/sikessem/ui#-usage)
-- [0.x] Add [blade directives](https://github.com/sikessem/ui#blade-directives)
-- [0.x] Add [**link** component](https://github.com/sikessem/ui#link-component)
-- [0.x] Add [**text** component](https://github.com/sikessem/ui#text-component)
+- [0.x] Add [orphan component](https://sikessem.github.io/packages/ui#component-tags)
+- [0.x] Add [user guide](https://sikessem.github.io/packages/ui#-usage)
+- [0.x] Add [blade directives](https://sikessem.github.io/packages/ui#blade-directives)
+- [0.x] Add [**link** component](https://sikessem.github.io/packages/ui#link-component)
+- [0.x] Add [**text** component](https://sikessem.github.io/packages/ui#text-component)
 - [0.x] Add **base-layout** component
