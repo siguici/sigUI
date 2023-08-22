@@ -8,7 +8,7 @@ export default defineConfig(({ mode }) => {
     const port = Number(env.VITE_SERVER_PORT ?? "3000");
 
     return {
-        root: resolve(__dirname, "designs"),
+        root: resolve(__dirname, "design"),
         server: { host, port },
         plugins: [tsconfigPaths()],
         preview: {
@@ -16,10 +16,6 @@ export default defineConfig(({ mode }) => {
                 "Cache-Control": "public, max-age=600",
             },
         },
-        resolve: {
-            alias: {
-                "~ui": "./plugins/alpinejs",
-            },
-        },
+        resolve: {},
     };
 });

@@ -2,7 +2,7 @@
 
 namespace Sikessem\UI\Components;
 
-use Sikessem\UI\Base\FormControl;
+use Sikessem\UI\FormControl;
 
 class Textarea extends FormControl
 {

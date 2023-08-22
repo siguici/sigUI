@@ -10,13 +10,8 @@ use Illuminate\Support\Str;
 use Illuminate\View\ComponentAttributeBag;
 use Illuminate\View\ComponentAttributeBag as ComponentAttributes;
 use Illuminate\View\ComponentSlot;
-use Livewire\Livewire;
 use RuntimeException;
-use Sikessem\UI\Base\BladeComponent as BladeBaseComponent;
-use Sikessem\UI\Base\LivewireComponent as LivewireBaseComponent;
-use Sikessem\UI\Contracts\IsBladeComponent;
 use Sikessem\UI\Contracts\IsComponentConfig;
-use Sikessem\UI\Contracts\IsLivewireComponent;
 
 class UIManager
 {
@@ -150,27 +145,13 @@ class UIManager
             'variants' => $variant->getVariants(),
         ])->toArray();
 
-        $this->components[$namespace][$class][$alias] = new ComponentConfig(compact('tag', 'attributes', 'variants', 'contents'));
+        Blade::component($class, $alias, $this->prefix());
 
-        if ($this->isLivewire($class, $anonymous)) {
-            $this->addLivewireComponent($alias, $class);
-        } elseif ($this->isBlade($class, $anonymous)) {
-            $this->addBladeComponent($alias, $class);
-        }
+        $this->components[$namespace][$class][$alias] = new ComponentConfig(compact('tag', 'attributes', 'variants', 'contents'));
 
         foreach ($variants as $name => $variant) {
             $this->add("$name-$alias", $class, new ComponentConfig((array) $variant), $anonymous);
         }
-    }
-
-    protected function addLivewireComponent(string $alias, string $class): void
-    {
-        Livewire::component($this->prefix()."-$alias", $class);
-    }
-
-    protected function addBladeComponent(string $alias, string $class): void
-    {
-        Blade::component($class, $alias, $this->prefix());
     }
 
     /**
@@ -225,19 +206,11 @@ class UIManager
     public function make(string $name, array|ComponentAttributes $attributes = [], string|ComponentSlot $slot = null): string
     {
         if ($component = $this->find($name)) {
-            ['class' => $class, 'alias' => $alias] = $component;
+            ['alias' => $alias] = $component;
+
             $slot = $this->makeComponentSlot($name, $attributes, $slot);
-
             $render = '';
-
-            if ($this->isLivewire($class)) {
-                $render .= $slot->isEmpty()
-                ? '<livewire:ui-'.$alias.' '.$slot->attributes->toHtml().'>'
-                : "@livewire('ui-$alias', ".$this->attributesToString($slot->attributes).", key({$slot->toHtml()}))";
-            } else {
-                $render = $this->makeComponentTag("x-ui-$alias", $slot->attributes, $slot)->toHtml();
-            }
-
+            $render = $this->makeComponentTag("x-ui-$alias", $slot->attributes, $slot)->toHtml();
             $render = $this->render($render);
 
             return $render;
@@ -275,16 +248,6 @@ class UIManager
         }
 
         throw new RuntimeException('No tags open');
-    }
-
-    public function isLivewire(string $component, bool $anonymous = false): bool
-    {
-        return ! $anonymous && (is_subclass_of($component, LivewireBaseComponent::class) || $component instanceof IsLivewireComponent);
-    }
-
-    public function isBlade(string $component, bool $anonymous = false): bool
-    {
-        return $anonymous || (is_subclass_of($component, BladeBaseComponent::class) || $component instanceof IsBladeComponent);
     }
 
     /**

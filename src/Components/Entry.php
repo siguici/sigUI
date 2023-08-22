@@ -3,7 +3,7 @@
 namespace Sikessem\UI\Components;
 
 use InvalidArgumentException;
-use Sikessem\UI\Base\FormControl;
+use Sikessem\UI\FormControl;
 
 class Entry extends FormControl
 {

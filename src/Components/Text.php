@@ -2,9 +2,9 @@
 
 namespace Sikessem\UI\Components;
 
-use Sikessem\UI\Base\BladeComponent;
+use Sikessem\UI\Component;
 
-class Text extends BladeComponent
+class Text extends Component
 {
     public function __construct(
         public ?string $element = null,

@@ -1,19 +1,15 @@
 {
     "name": "sikessem/ui",
-    "description": "🍱 TailwindCSS, Alpine.js and Laravel Livewire UI kit for Artisans.",
+    "description": "Blade and TailwindCSS components to design faster.",
     "keywords": [
-        "alpinejs",
+        "blade",
         "components",
+        "css",
         "laravel",
-        "livewire",
         "php",
-        "phpstan",
-        "rector",
-        "rome",
         "sikessem",
         "tailwindcss",
         "typescript",
-        "tallc",
         "widgets"
     ],
     "homepage": "https://sikessem.github.io/packages/ui",
@@ -32,8 +28,7 @@
     },
     "require": {
         "php": "^8.1||^8.2",
-        "illuminate/view": "^10.19",
-        "livewire/livewire": "^2.12"
+        "illuminate/view": "^10.19"
     },
     "require-dev": {
         "sikessem/framework": "^0.1.0",

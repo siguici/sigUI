@@ -1,4 +1,4 @@
-import { UI } from "./plugins/tailwindcss";
+import { UI } from "./plugin";
 import { Config } from "tailwindcss";
 import defaultTheme from "tailwindcss/defaultTheme";
 
@@ -7,7 +7,7 @@ export const UIConfig: Config = {
         "./config/ui.php",
         "./src/Components/**/*.php",
         "./res/views/**/*.blade.php",
-        "./designs/**/*.{html,css,ts}",
+        "./design/**/*.{html,css,ts}",
     ],
 
     theme: {

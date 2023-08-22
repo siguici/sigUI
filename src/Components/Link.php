@@ -2,9 +2,9 @@
 
 namespace Sikessem\UI\Components;
 
-use Sikessem\UI\Base\BladeComponent;
+use Sikessem\UI\Component;
 
-class Link extends BladeComponent
+class Link extends Component
 {
     public string $href;
 

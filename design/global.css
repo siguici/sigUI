@@ -4,6 +4,6 @@
 
 @layer components {
     .sikessem {
-        content: url('../sikessem.svg');
+        content: url('./sikessem.svg');
     }
 }

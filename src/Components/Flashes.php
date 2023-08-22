@@ -4,9 +4,9 @@ namespace Sikessem\UI\Components;
 
 use Illuminate\Support\Collection;
 use Illuminate\View\ComponentAttributeBag;
-use Sikessem\UI\Base\BladeComponent;
+use Sikessem\UI\Component;
 
-class Flashes extends BladeComponent
+class Flashes extends Component
 {
     public string $element;
 

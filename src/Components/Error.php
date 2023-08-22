@@ -2,9 +2,9 @@
 
 namespace Sikessem\UI\Components;
 
-use Sikessem\UI\Base\BladeComponent;
+use Sikessem\UI\Component;
 
-class Error extends BladeComponent
+class Error extends Component
 {
     public string $element;
 

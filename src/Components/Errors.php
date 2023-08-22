@@ -3,9 +3,9 @@
 namespace Sikessem\UI\Components;
 
 use Illuminate\View\ComponentAttributeBag;
-use Sikessem\UI\Base\BladeComponent;
+use Sikessem\UI\Component;
 
-class Errors extends BladeComponent
+class Errors extends Component
 {
     public string $element;
 

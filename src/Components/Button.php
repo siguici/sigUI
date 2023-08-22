@@ -2,8 +2,8 @@
 
 namespace Sikessem\UI\Components;
 
-use Sikessem\UI\Base\FormControl;
 use Sikessem\UI\Concerns\HandlesComponentAlias;
+use Sikessem\UI\FormControl;
 
 class Button extends FormControl
 {

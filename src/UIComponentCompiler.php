@@ -4,7 +4,6 @@ namespace Sikessem\UI;
 
 use Illuminate\Support\Str;
 use Illuminate\View\Compilers\ComponentTagCompiler;
-use Illuminate\View\ComponentSlot;
 use Sikessem\UI\Contracts\IsComponentCompiler;
 
 class UIComponentCompiler extends ComponentTagCompiler implements IsComponentCompiler
@@ -236,7 +235,7 @@ class UIComponentCompiler extends ComponentTagCompiler implements IsComponentCom
     protected function compileClosingTags(string $value): string
     {
         return preg_replace_callback("/<\/\s*s-([\w\-\.]*)\s*>/", function (array $matches) {
-            return ($component = UIFacade::find($matches[1])) && UIFacade::isBlade($component['class'])
+            return (UIFacade::find($matches[1]))
             ? ' '.$this->endComponentString()
             : '';
         }, $value) ?: '';
@@ -251,24 +250,21 @@ class UIComponentCompiler extends ComponentTagCompiler implements IsComponentCom
 
         if ($info = UIFacade::find($component)) {
             ['class' => $class, 'alias' => $component] = $info;
+
             $attributes = collect($attributes)->merge(
                 $this->getAttributesFromAttributeString(UIFacade::makeComponentAttributes($component)->toHtml())
             )->toArray();
+
             $alias = UIFacade::prefix()."-$component";
 
-            if (UIFacade::isBlade($class)) {
-                if (! isset($this->aliases[$alias])) {
-                    $this->aliases[$alias] = $class;
-                }
+            if (! isset($this->aliases[$alias])) {
+                $this->aliases[$alias] = $class;
+            }
 
-                $render = parent::componentString($alias, $attributes);
+            $render = parent::componentString($alias, $attributes);
 
-                if (is_null($contents)) {
-                    $render .= "\n".$this->endComponentString();
-                }
-            } else {
-                $slot = new ComponentSlot($contents ?? '', $attributes);
-                $render = "@livewire('$alias', [".$this->attributesToString($slot->attributes->getAttributes(), escapeBound: false).']'.($slot->isEmpty() ? '' : ", key({$slot->toHtml()})").')';
+            if (is_null($contents)) {
+                $render .= "\n".$this->endComponentString();
             }
         } else {
             $render = parent::componentString($component, $attributes);

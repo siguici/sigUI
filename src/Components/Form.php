@@ -2,9 +2,9 @@
 
 namespace Sikessem\UI\Components;
 
-use Sikessem\UI\Base\BladeComponent;
+use Sikessem\UI\Component;
 
-class Form extends BladeComponent
+class Form extends Component
 {
     public string $action;
 

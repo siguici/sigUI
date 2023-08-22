@@ -3,9 +3,9 @@
 namespace Sikessem\UI\Components;
 
 use Illuminate\View\ComponentAttributeBag;
-use Sikessem\UI\Base\BladeComponent;
+use Sikessem\UI\Component;
 
-class Menu extends BladeComponent
+class Menu extends Component
 {
     /**
      * @param  array<mixed>  $list

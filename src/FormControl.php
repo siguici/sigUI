@@ -1,8 +1,8 @@
 <?php
 
-namespace Sikessem\UI\Base;
+namespace Sikessem\UI;
 
-abstract class FormControl extends BladeComponent
+abstract class FormControl extends Component
 {
     public string $type;
 

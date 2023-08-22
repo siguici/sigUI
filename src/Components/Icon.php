@@ -4,10 +4,10 @@ namespace Sikessem\UI\Components;
 
 use Illuminate\Support\Str;
 use RuntimeException;
-use Sikessem\UI\Base\BladeComponent;
+use Sikessem\UI\Component;
 use Sikessem\UI\UIFacade;
 
-class Icon extends BladeComponent
+class Icon extends Component
 {
     public string $name;
 

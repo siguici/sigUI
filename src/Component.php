@@ -1,15 +1,14 @@
 <?php
 
-namespace Sikessem\UI\Base;
+namespace Sikessem\UI;
 
 use Closure;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\View\Component;
-use Sikessem\UI\Contracts\IsBladeComponent;
-use Sikessem\UI\UIFacade;
+use Illuminate\View\Component as BaseComponent;
+use Sikessem\UI\Contracts\IsComponent;
 
-abstract class BladeComponent extends Component implements IsBladeComponent
+abstract class Component extends BaseComponent implements IsComponent
 {
     public function render(): View|Factory|Closure
     {

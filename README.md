@@ -49,15 +49,13 @@
 [docs-link]: https://sikessem.github.io/packages/ui "UI Documentation"
 
 [tailwindcss-home]: https://tailwindcss.com "TailwindCSS"
-[alpinejs-home]: https://alpinejs.dev "Alpine.js"
-[laravel-home]: https://laravel.com "Laravel"
-[livewire-home]: https://laravel-livewire.com "Laravel Livewire"
+[blade-home]: https://laravel.com/docs/10.x/blade "Laravel Blade"
 
 ***
 
 # Sikessem's UI kit
 
-[TailwindCSS][tailwindcss-home], [Alpine.js][alpinejs-home] and [Laravel][laravel-home] [Livewire][livewire-home] UI kit for Web Artisans.
+[TailwindCSS][tailwindcss-home] and [Laravel Blade][blade-home] widgets for Web Artisans.
 
 [Click to read the full documentation][docs-link].
 

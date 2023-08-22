@@ -5,9 +5,9 @@ namespace Sikessem\UI\Components;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\ComponentSlot;
-use Sikessem\UI\Base\BladeComponent;
+use Sikessem\UI\Component;
 
-class BaseLayout extends BladeComponent
+class BaseLayout extends Component
 {
     /**
      * @param  array<string,mixed>  $data

@@ -23,7 +23,7 @@
     "outDir": "tmp",
     "noEmit": true,
     "typeRoots": [
-      "./types",
+      "./plugin/types",
       "./node_modules/@types",
       "./node_modules",
     ],
@@ -55,5 +55,5 @@
     "importHelpers": true,
     "allowImportingTsExtensions": true,
   },
-  "files": ["./rome.json", "./designs"],
+  "files": ["./rome.json"],
 }
