@@ -2,7 +2,7 @@
     "$schema": "./node_modules/rome/configuration_schema.json",
     "organizeImports": {
         "enabled": true,
-        "ignore": ["node_modules", "vendor", "public/static"]
+        "ignore": ["node_modules", "vendor", "dist"]
     },
     "linter": {
         "enabled": true,
@@ -14,7 +14,7 @@
                 "noShoutyConstants": "warn"
             }
         },
-        "ignore": ["node_modules", "vendor", "public/static"]
+        "ignore": ["node_modules", "vendor", "dist"]
     },
     "formatter": {
         "enabled": true,
@@ -22,6 +22,6 @@
         "indentStyle": "space",
         "indentSize": 4,
         "lineWidth": 80,
-        "ignore": ["node_modules", "vendor", "public/static"]
+        "ignore": ["node_modules", "vendor", "dist"]
     }
 }
