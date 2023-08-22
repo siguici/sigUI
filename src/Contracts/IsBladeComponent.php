@@ -21,7 +21,7 @@ interface IsBladeComponent extends IsComponent
     /**
      * Get the data that should be supplied to the view.
      *
-     * @return array
+     * @return array<mixed>
      */
     public function data();
 
@@ -51,8 +51,8 @@ interface IsBladeComponent extends IsComponent
      * Get the evaluated view contents for the given view.
      *
      * @param  string|null  $view
-     * @param  \Illuminate\Contracts\Support\Arrayable|array  $data
-     * @param  array  $mergeData
+     * @param  \Illuminate\Contracts\Support\Arrayable<array-key,mixed>|array<mixed>  $data
+     * @param  array<mixed>  $mergeData
      * @return \Illuminate\Contracts\View\View
      */
     public function view($view, $data = [], $mergeData = []);

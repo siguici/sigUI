@@ -2,6 +2,7 @@
 
 namespace Sikessem\UI;
 
+use Illuminate\Support\Str;
 use Illuminate\View\ComponentAttributeBag;
 use Illuminate\View\ComponentSlot;
 use Sikessem\UI\Contracts\IsComponentTag;
@@ -141,7 +142,7 @@ class ComponentTag implements IsComponentTag
 
     public function isPaired(): bool
     {
-        return ! $this->isOrphan($this->name);
+        return ! $this->isOrphan();
     }
 
     public function isInline(): bool
@@ -151,12 +152,12 @@ class ComponentTag implements IsComponentTag
 
     public function isBlock(): bool
     {
-        return ! $this->isInline($this->name);
+        return ! $this->isInline();
     }
 
     public function isCustom(): bool
     {
-        return str($this->name)->contains(['-', '.']);
+        return Str::contains($this->name, ['-', '.']);
     }
 
     public function contents(): string

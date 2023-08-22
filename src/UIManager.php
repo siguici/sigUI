@@ -15,11 +15,9 @@ use RuntimeException;
 use Sikessem\UI\Base\BladeComponent as BladeBaseComponent;
 use Sikessem\UI\Base\LivewireComponent as LivewireBaseComponent;
 use Sikessem\UI\Contracts\IsBladeComponent;
+use Sikessem\UI\Contracts\IsComponentConfig;
 use Sikessem\UI\Contracts\IsLivewireComponent;
 
-/**
- * @template TComponent of array{tag:string,attributes:array<string,string>,variants:array<string,TComponent>}
- */
 class UIManager
 {
     public const COMPONENT_NAMESPACE = 'Sikessem\\UI\\Components';
@@ -27,7 +25,7 @@ class UIManager
     public const ANONYMOUS_COMPONENT_NAMESPACE = 'ui::components';
 
     /**
-     * @var array<string,array<string,array<TComponent>>>;
+     * @var array<string,array<string,array<IsComponentConfig>>>;
      */
     protected array $components = [];
 
@@ -47,15 +45,9 @@ class UIManager
         return config("sikessem.ui.$key", $default);
     }
 
-    /**
-     * @template TValue of TComponent
-     *
-     * @param  TValue  $default
-     * @return TValue
-     */
-    public function componentConfig(string $component, mixed $default = []): array
+    public function componentConfig(string $component, mixed $default = []): IsComponentConfig
     {
-        return $this->config("components.$component", $default);
+        return new ComponentConfig((array) $this->config("components.$component", $default));
     }
 
     /**
@@ -67,7 +59,9 @@ class UIManager
     public function getComponentTag(string $component, string $default = ''): string
     {
         if ($component = $this->find($component)) {
-            return $component['tag'] ?? $default;
+            ['options' => $options] = $component;
+
+            return $options->getTag($default);
         }
 
         return $default;
@@ -84,7 +78,7 @@ class UIManager
         if ($component = $this->find($component)) {
             ['options' => $options] = $component;
 
-            return $options['attributes'] ?? $default;
+            return $options->getAttributes($default);
         }
 
         return $default;
@@ -101,24 +95,24 @@ class UIManager
         if ($component = $this->find($component)) {
             ['options' => $options] = $component;
 
-            return $options['contents'] ?? $default;
+            return $options->getContents($default);
         }
 
         return $default;
     }
 
     /**
-     * @template TValue of TComponent
+     * @template TValue of array<string,IsComponentConfig>
      *
      * @param  TValue  $default
      * @return TValue
      */
-    public function getComponentVariants(string $component, array $default = []): array
+    public function getComponentVariants(string $component, array $default): array
     {
         if ($component = $this->find($component)) {
             ['options' => $options] = $component;
 
-            return $options['variants'] ?? $default;
+            return $options->getVariants($default);
         }
 
         return $default;
@@ -133,14 +127,11 @@ class UIManager
     {
         $alias ??= $anonymous ? $class : $this->getAlias($class);
         if (is_null($this->find($alias))) {
-            $this->add($alias, $class, $anonymous, $this->componentConfig($alias));
+            $this->add($alias, $class, $this->componentConfig($alias), $anonymous);
         }
     }
 
-    /**
-     * @param  TComponent  $options
-     */
-    protected function add(string $alias, string $class, bool $anonymous = false, array $options = []): void
+    protected function add(string $alias, string $class, IsComponentConfig $options, bool $anonymous = false): void
     {
         $namespace = $anonymous ? self::ANONYMOUS_COMPONENT_NAMESPACE.'.' : self::COMPONENT_NAMESPACE.'\\';
 
@@ -148,17 +139,18 @@ class UIManager
             $class = $namespace.$class;
         }
 
-        $tag = $options['tag'] ?? '';
-        $contents = $options['contents'] ?? '';
-        $attributes = $options['attributes'] ?? [];
-        $variants = $options['variants'] ?? [];
+        $tag = $options->getTag();
+        $contents = $options->getContents();
+        $attributes = $options->getAttributes();
+        $variants = $options->getVariants();
         $variants = collect($variants)->map(fn ($variant) => [
-            'tag' => $variant['tag'] ?? $tag,
-            'attributes' => (new ComponentAttributeBag($variant['attributes']))->merge($attributes)->getAttributes(),
-            'contents' => $variant['contents'] ?? $contents,
+            'tag' => $variant->getTag($tag),
+            'attributes' => (new ComponentAttributeBag($variant->getAttributes()))->merge($attributes)->getAttributes(),
+            'contents' => $variant->getContents($contents),
+            'variants' => $variant->getVariants(),
         ])->toArray();
 
-        $this->components[$namespace][$class][$alias] = compact('tag', 'attributes', 'variants', 'contents');
+        $this->components[$namespace][$class][$alias] = new ComponentConfig(compact('tag', 'attributes', 'variants', 'contents'));
 
         if ($this->isLivewire($class, $anonymous)) {
             $this->addLivewireComponent($alias, $class);
@@ -167,7 +159,7 @@ class UIManager
         }
 
         foreach ($variants as $name => $variant) {
-            $this->add("$name-$alias", $class, $anonymous, $variant);
+            $this->add("$name-$alias", $class, new ComponentConfig((array) $variant), $anonymous);
         }
     }
 
@@ -210,7 +202,7 @@ class UIManager
     }
 
     /**
-     * @return array{namespace:string,class:string,alias:string:options:TComponent}|null
+     * @return array{namespace:string,class:string,alias:string,options:IsComponentConfig}|null
      */
     public function find(string $component): ?array
     {
@@ -249,13 +241,12 @@ class UIManager
             $render = $this->render($render);
 
             return $render;
-        } elseif ($options = $this->componentConfig($name)) {
-            $attributes = $this->makeComponentAttributes($name, $attributes)->merge($options['attributes'] ?? []);
-
-            return $this->makeComponentTag($options['tag'] ?? $name, $attributes, $slot ??= $options['contents'] ?? '')->toHtml();
         }
 
-        return $this->makeComponentTag($name, $attributes, $slot)->toHtml();
+        $options = $this->componentConfig($name);
+        $attributes = $this->makeComponentAttributes($name, $attributes)->merge($options->getAttributes());
+
+        return $this->makeComponentTag($options->getTag($name), $attributes, $slot ??= $options->getContents())->toHtml();
     }
 
     /**
@@ -352,7 +343,7 @@ class UIManager
      */
     public function makeComponentTag(string $component, array|ComponentAttributes $attributes = [], string|ComponentSlot $contents = null): ComponentTag
     {
-        $tag = $this->getComponentTag($component) ?: $component;
+        $tag = $this->getComponentTag($component, $component);
 
         $slot = $this->makeComponentSlot($component, $attributes, $contents);
 
