@@ -2,9 +2,7 @@
 
 namespace Sikessem\UI\Components;
 
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
-use Sikessem\UI\Common\FormControl;
+use Sikessem\UI\Base\FormControl;
 
 class Select extends FormControl
 {
@@ -32,10 +30,5 @@ class Select extends FormControl
         $this->name = $name;
         $this->id = $id;
         $this->value = $value;
-    }
-
-    public function render(): View|Factory
-    {
-        return view('ui::components.select');
     }
 }

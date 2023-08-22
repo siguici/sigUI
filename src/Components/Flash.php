@@ -2,9 +2,7 @@
 
 namespace Sikessem\UI\Components;
 
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
-use Sikessem\UI\Common\BladeComponent;
+use Sikessem\UI\Base\BladeComponent;
 
 class Flash extends BladeComponent
 {
@@ -18,10 +16,5 @@ class Flash extends BladeComponent
         $element = config('ui.flash.element', 'p');
         $this->element = $element;
         $this->message = is_string($message = session($type, $message)) ? $message : '';
-    }
-
-    public function render(): View|Factory
-    {
-        return view('ui::components.flash');
     }
 }

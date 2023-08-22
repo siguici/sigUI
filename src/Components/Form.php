@@ -2,9 +2,7 @@
 
 namespace Sikessem\UI\Components;
 
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
-use Sikessem\UI\Common\BladeComponent;
+use Sikessem\UI\Base\BladeComponent;
 
 class Form extends BladeComponent
 {
@@ -33,10 +31,5 @@ class Form extends BladeComponent
         $this->method = $method;
         $this->action = $action;
         $this->hasFiles = $hasFiles;
-    }
-
-    public function render(): View|Factory
-    {
-        return view('ui::components.form');
     }
 }

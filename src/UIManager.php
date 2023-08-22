@@ -7,91 +7,32 @@ use Illuminate\Contracts\View\View as ViewContract;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View as ViewFacade;
 use Illuminate\Support\Str;
+use Illuminate\View\ComponentAttributeBag;
 use Illuminate\View\ComponentAttributeBag as ComponentAttributes;
 use Illuminate\View\ComponentSlot;
 use Livewire\Livewire;
 use RuntimeException;
-use Sikessem\UI\Common\BladeComponent;
-use Sikessem\UI\Common\LivewireComponent;
+use Sikessem\UI\Base\BladeComponent as BladeBaseComponent;
+use Sikessem\UI\Base\LivewireComponent as LivewireBaseComponent;
+use Sikessem\UI\Contracts\IsBladeComponent;
+use Sikessem\UI\Contracts\IsLivewireComponent;
 
+/**
+ * @template TComponent of array{tag:string,attributes:array<string,string>,variants:array<string,TComponent>}
+ */
 class UIManager
 {
     public const COMPONENT_NAMESPACE = 'Sikessem\\UI\\Components';
 
     public const ANONYMOUS_COMPONENT_NAMESPACE = 'ui::components';
 
-    protected const TAGS = [
-        'orphan' => [
-            'area',
-            'base',
-            'basefont',
-            'br',
-            'col',
-            'command',
-            'embed',
-            'frame',
-            'hr',
-            'img',
-            'input',
-            'isindex',
-            'keygen',
-            'link',
-            'meta',
-            'param',
-            'source',
-            'track',
-            'wbr',
-        ],
-        'inline' => [
-            'a',
-            'abbr',
-            'acronym',
-            'b',
-            'bdi',
-            'bdo',
-            'big',
-            'br',
-            'cite',
-            'code',
-            'data',
-            'del',
-            'dfn',
-            'em',
-            'font',
-            'i',
-            'img',
-            'ins',
-            'kbd',
-            'map',
-            'mark',
-            'object',
-            'q',
-            'rp',
-            'rt',
-            'rtc',
-            'ruby',
-            's',
-            'samp',
-            'small',
-            'span',
-            'strike',
-            'strong',
-            'sub',
-            'sup',
-            'time',
-            'tt',
-            'u',
-            'var',
-        ],
-    ];
-
     /**
-     * @var array<string,array<string,string>>;
+     * @var array<string,array<string,array<TComponent>>>;
      */
     protected array $components = [];
 
     /**
-     * @var array<string>
+     * @var array<ComponentTag>
      */
     protected array $tags = [];
 
@@ -103,7 +44,84 @@ class UIManager
      */
     public function config(string $key, mixed $default = null): mixed
     {
-        return config("ui.$key", $default);
+        return config("sikessem.ui.$key", $default);
+    }
+
+    /**
+     * @template TValue of TComponent
+     *
+     * @param  TValue  $default
+     * @return TValue
+     */
+    public function componentConfig(string $component, mixed $default = []): array
+    {
+        return $this->config("components.$component", $default);
+    }
+
+    /**
+     * @template TValue of string
+     *
+     * @param  TValue  $default
+     * @return TValue
+     */
+    public function getComponentTag(string $component, string $default = ''): string
+    {
+        if ($component = $this->find($component)) {
+            return $component['tag'] ?? $default;
+        }
+
+        return $default;
+    }
+
+    /**
+     * @template TValue of array<string,string>
+     *
+     * @param  TValue  $default
+     * @return TValue
+     */
+    public function getComponentAttributes(string $component, array $default = []): array
+    {
+        if ($component = $this->find($component)) {
+            ['options' => $options] = $component;
+
+            return $options['attributes'] ?? $default;
+        }
+
+        return $default;
+    }
+
+    /**
+     * @template TValue of string
+     *
+     * @param  TValue  $default
+     * @return TValue
+     */
+    public function getComponentContents(string $component, string $default = ''): string
+    {
+        if ($component = $this->find($component)) {
+            ['options' => $options] = $component;
+
+            return $options['contents'] ?? $default;
+        }
+
+        return $default;
+    }
+
+    /**
+     * @template TValue of TComponent
+     *
+     * @param  TValue  $default
+     * @return TValue
+     */
+    public function getComponentVariants(string $component, array $default = []): array
+    {
+        if ($component = $this->find($component)) {
+            ['options' => $options] = $component;
+
+            return $options['variants'] ?? $default;
+        }
+
+        return $default;
     }
 
     public function prefix(): string
@@ -114,20 +132,53 @@ class UIManager
     public function component(string $class, string $alias = null, bool $anonymous = false): void
     {
         $alias ??= $anonymous ? $class : $this->getAlias($class);
+        if (is_null($this->find($alias))) {
+            $this->add($alias, $class, $anonymous, $this->componentConfig($alias));
+        }
+    }
+
+    /**
+     * @param  TComponent  $options
+     */
+    protected function add(string $alias, string $class, bool $anonymous = false, array $options = []): void
+    {
         $namespace = $anonymous ? self::ANONYMOUS_COMPONENT_NAMESPACE.'.' : self::COMPONENT_NAMESPACE.'\\';
 
-        if (is_null($this->find($alias))) {
-            if (! str_starts_with($class, $namespace)) {
-                $class = $namespace.$class;
-            }
-            $this->components[$namespace][$alias] = $class;
-
-            if ($this->isLivewire($class, $anonymous)) {
-                Livewire::component($this->prefix()."-$alias", $class);
-            } else {
-                Blade::component($class, $alias, $this->prefix());
-            }
+        if (! str_starts_with($class, $namespace)) {
+            $class = $namespace.$class;
         }
+
+        $tag = $options['tag'] ?? '';
+        $contents = $options['contents'] ?? '';
+        $attributes = $options['attributes'] ?? [];
+        $variants = $options['variants'] ?? [];
+        $variants = collect($variants)->map(fn ($variant) => [
+            'tag' => $variant['tag'] ?? $tag,
+            'attributes' => (new ComponentAttributeBag($variant['attributes']))->merge($attributes)->getAttributes(),
+            'contents' => $variant['contents'] ?? $contents,
+        ])->toArray();
+
+        $this->components[$namespace][$class][$alias] = compact('tag', 'attributes', 'variants', 'contents');
+
+        if ($this->isLivewire($class, $anonymous)) {
+            $this->addLivewireComponent($alias, $class);
+        } elseif ($this->isBlade($class, $anonymous)) {
+            $this->addBladeComponent($alias, $class);
+        }
+
+        foreach ($variants as $name => $variant) {
+            $this->add("$name-$alias", $class, $anonymous, $variant);
+        }
+    }
+
+    protected function addLivewireComponent(string $alias, string $class): void
+    {
+        Livewire::component($this->prefix()."-$alias", $class);
+    }
+
+    protected function addBladeComponent(string $alias, string $class): void
+    {
+        Blade::component($class, $alias, $this->prefix());
     }
 
     /**
@@ -159,14 +210,16 @@ class UIManager
     }
 
     /**
-     * @return array{namespace:string,class:string,alias:string}|null
+     * @return array{namespace:string,class:string,alias:string:options:TComponent}|null
      */
     public function find(string $component): ?array
     {
         foreach ($this->components as $namespace => $components) {
-            foreach ($components as $alias => $class) {
-                if ($alias === $component || $class === $component) {
-                    return compact('namespace', 'component', 'class', 'alias');
+            foreach ($components as $class => $variants) {
+                foreach ($variants as $alias => $options) {
+                    if ($alias === $component) {
+                        return compact('namespace', 'class', 'alias', 'options');
+                    }
                 }
             }
         }
@@ -190,16 +243,19 @@ class UIManager
                 ? '<livewire:ui-'.$alias.' '.$slot->attributes->toHtml().'>'
                 : "@livewire('ui-$alias', ".$this->attributesToString($slot->attributes).", key({$slot->toHtml()}))";
             } else {
-                $render .= "<x-ui-$alias {$this->attributesToHtml($slot->attributes)}";
-                $render .= $slot->isEmpty() ? '/>' : "</x-ui-$alias>";
+                $render = $this->makeComponentTag("x-ui-$alias", $slot->attributes, $slot)->toHtml();
             }
 
             $render = $this->render($render);
 
             return $render;
+        } elseif ($options = $this->componentConfig($name)) {
+            $attributes = $this->makeComponentAttributes($name, $attributes)->merge($options['attributes'] ?? []);
+
+            return $this->makeComponentTag($options['tag'] ?? $name, $attributes, $slot ??= $options['contents'] ?? '')->toHtml();
         }
 
-        return $this->openTag($name, $attributes, $slot);
+        return $this->makeComponentTag($name, $attributes, $slot)->toHtml();
     }
 
     /**
@@ -207,27 +263,15 @@ class UIManager
      */
     public function openTag(string $name, array|ComponentAttributes $attributes = [], string|ComponentSlot $contents = null): string
     {
-        $slot = $this->makeComponentSlot($name, $attributes, $contents);
+        $tag = $this->makeComponentTag($name, $attributes, $contents);
 
-        /** @var string */
-        $name = $this->config("components.$name.element", $name);
-
-        $render = "<{$name} {$this->attributesToHtml($slot->attributes)}";
-
-        if ($this->isOrphan($name)) {
-            return $render .= '/>';
+        if ($tag->isOrphan() || $tag->isNotEmpty()) {
+            return $tag->toHtml();
         }
 
-        $render .= '>';
+        array_push($this->tags, $tag);
 
-        array_push($this->tags, $name);
-
-        if (! is_null($contents)) {
-            $render .= $slot->toHtml();
-            $render .= $this->closeTag();
-        }
-
-        return $render;
+        return $tag->open();
     }
 
     /**
@@ -236,7 +280,7 @@ class UIManager
     public function closeTag(): string
     {
         if ($tag = array_pop($this->tags)) {
-            return "</$tag>";
+            return $tag->close();
         }
 
         throw new RuntimeException('No tags open');
@@ -244,32 +288,12 @@ class UIManager
 
     public function isLivewire(string $component, bool $anonymous = false): bool
     {
-        return ! $anonymous && is_subclass_of($component, LivewireComponent::class);
+        return ! $anonymous && (is_subclass_of($component, LivewireBaseComponent::class) || $component instanceof IsLivewireComponent);
     }
 
     public function isBlade(string $component, bool $anonymous = false): bool
     {
-        return $anonymous || is_subclass_of($component, BladeComponent::class);
-    }
-
-    public function isOrphan(string $tag): bool
-    {
-        return in_array($tag, self::TAGS['orphan']);
-    }
-
-    public function isPaired(string $tag): bool
-    {
-        return ! $this->isOrphan($tag);
-    }
-
-    public function isInline(string $tag): bool
-    {
-        return in_array($tag, self::TAGS['inline']);
-    }
-
-    public function isBlock(string $tag): bool
-    {
-        return ! $this->isInline($tag);
+        return $anonymous || (is_subclass_of($component, BladeBaseComponent::class) || $component instanceof IsBladeComponent);
     }
 
     /**
@@ -326,30 +350,43 @@ class UIManager
     /**
      * @param  array<string,string>|ComponentAttributes  $attributes
      */
-    protected function makeComponentSlot(string $name = null, array|ComponentAttributes $attributes = [], string|ComponentSlot $slot = null): ComponentSlot
+    public function makeComponentTag(string $component, array|ComponentAttributes $attributes = [], string|ComponentSlot $contents = null): ComponentTag
     {
-        $attributes = $this->makeComponentAttributes($name, $attributes);
-        /** @var string|ComponentSlot */
-        $defaultSlot = $this->config("components.$name.slot", '');
-        $slot ??= $defaultSlot;
-        if ($slot instanceof ComponentSlot) {
-            $slot = $slot->toHtml();
-        }
+        $tag = $this->getComponentTag($component) ?: $component;
 
-        return new ComponentSlot($slot, $attributes->getAttributes());
+        $slot = $this->makeComponentSlot($component, $attributes, $contents);
+
+        return ComponentTag::from($tag, $slot->attributes->getAttributes(), $slot->toHtml());
     }
 
     /**
      * @param  array<string,string>|ComponentAttributes  $attributes
      */
-    protected function makeComponentAttributes(string $name = null, array|ComponentAttributes $attributes = []): ComponentAttributes
+    public function makeComponentSlot(string $component, array|ComponentAttributes $attributes = [], string|ComponentSlot $contents = null): ComponentSlot
+    {
+        $attributes = $this->makeComponentAttributes($component, $attributes);
+
+        /** @var string|ComponentSlot */
+        $defaultContents = $this->getComponentContents($component, '');
+        $contents ??= $defaultContents;
+        if ($contents instanceof ComponentSlot) {
+            $contents = $contents->toHtml();
+        }
+
+        return new ComponentSlot($contents, $attributes->getAttributes());
+    }
+
+    /**
+     * @param  array<string,string>|ComponentAttributes  $attributes
+     */
+    public function makeComponentAttributes(string $component, array|ComponentAttributes $attributes = []): ComponentAttributes
     {
         if (! $attributes instanceof ComponentAttributes) {
 
             $attributes = new ComponentAttributes($attributes);
         }
 
-        return $attributes->merge((array) $this->config("components.$name.attributes", []));
+        return $attributes->merge((array) $this->getComponentAttributes($component, []));
     }
 
     protected function attributesToString(ComponentAttributes $attributes): string

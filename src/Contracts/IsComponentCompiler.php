@@ -2,7 +2,7 @@
 
 namespace Sikessem\UI\Contracts;
 
-interface ComponentCompilerContract
+interface IsComponentCompiler
 {
     /**
      * Compile the component and slot tags within the given string.

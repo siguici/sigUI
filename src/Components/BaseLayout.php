@@ -5,7 +5,7 @@ namespace Sikessem\UI\Components;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\ComponentSlot;
-use Sikessem\UI\Common\BladeComponent;
+use Sikessem\UI\Base\BladeComponent;
 
 class BaseLayout extends BladeComponent
 {

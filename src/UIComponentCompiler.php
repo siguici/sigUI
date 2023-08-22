@@ -4,11 +4,10 @@ namespace Sikessem\UI;
 
 use Illuminate\Support\Str;
 use Illuminate\View\Compilers\ComponentTagCompiler;
-use Illuminate\View\ComponentAttributeBag;
 use Illuminate\View\ComponentSlot;
-use Sikessem\UI\Contracts\ComponentCompilerContract;
+use Sikessem\UI\Contracts\IsComponentCompiler;
 
-class UIComponentCompiler extends ComponentTagCompiler implements ComponentCompilerContract
+class UIComponentCompiler extends ComponentTagCompiler implements IsComponentCompiler
 {
     /**
      * Compile the component and slot tags within the given string.
@@ -251,9 +250,11 @@ class UIComponentCompiler extends ComponentTagCompiler implements ComponentCompi
         $render = '';
 
         if ($info = UIFacade::find($component)) {
-            ['class' => $class, 'alias' => $alias] = $info;
-            $alias = UIFacade::prefix()."-$alias";
-            $attributes = (new ComponentAttributeBag($attributes))->merge((array) config("ui.components.$component.attributes", []))->getAttributes();
+            ['class' => $class, 'alias' => $component] = $info;
+            $attributes = collect($attributes)->merge(
+                $this->getAttributesFromAttributeString(UIFacade::makeComponentAttributes($component)->toHtml())
+            )->toArray();
+            $alias = UIFacade::prefix()."-$component";
 
             if (UIFacade::isBlade($class)) {
                 if (! isset($this->aliases[$alias])) {

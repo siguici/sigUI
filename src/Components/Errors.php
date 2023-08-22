@@ -2,10 +2,8 @@
 
 namespace Sikessem\UI\Components;
 
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
 use Illuminate\View\ComponentAttributeBag;
-use Sikessem\UI\Common\BladeComponent;
+use Sikessem\UI\Base\BladeComponent;
 
 class Errors extends BladeComponent
 {
@@ -29,10 +27,5 @@ class Errors extends BladeComponent
         $this->element = $element;
         $this->errorElement = $errorElement;
         $this->errorAttributes = $errorAttributes;
-    }
-
-    public function render(): View|Factory
-    {
-        return view('ui::components.errors');
     }
 }

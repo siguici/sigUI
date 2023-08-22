@@ -2,11 +2,9 @@
 
 namespace Sikessem\UI\Components;
 
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
 use Illuminate\Support\Str;
 use RuntimeException;
-use Sikessem\UI\Common\BladeComponent;
+use Sikessem\UI\Base\BladeComponent;
 use Sikessem\UI\UIFacade;
 
 class Icon extends BladeComponent
@@ -15,7 +13,7 @@ class Icon extends BladeComponent
 
     public string $url;
 
-    public string $element;
+    public string $tag;
 
     public string $content;
 
@@ -27,10 +25,10 @@ class Icon extends BladeComponent
         string $name,
         int $size = 24,
         string $type = 'solid',
-        string $element = null,
-        int $width = null,
-        int $height = null,
-        string $fill = null,
+        string $tag = 'svg',
+        int $width = 24,
+        int $height = 24,
+        string $fill = 'currentColor',
     ) {
         $name = Str::squish($name);
         $name = Str::kebab($name);
@@ -41,20 +39,6 @@ class Icon extends BladeComponent
 
         $name = Str::camel($name);
         $name = Str::snake($name, ' ');
-
-        /** @var string $defaultElement */
-        $defaultElement = config('ui.icon.element', 'svg');
-        /** @var int $defaultWidth */
-        $defaultWidth = config('ui.icon.width', $size);
-        /** @var int $defaultHeight */
-        $defaultHeight = config('ui.icon.height', $size);
-        /** @var int $defaultFill */
-        $defaultFill = config('ui.icon.fill', 'currentColor');
-
-        $element ??= $defaultElement;
-        $width ??= $defaultWidth;
-        $height ??= $defaultHeight;
-        $fill ??= $defaultFill;
 
         $icon = file_get_contents($icon) or throw new RuntimeException("Cannot read $icon file");
         $icon = str_replace(
@@ -75,14 +59,9 @@ class Icon extends BladeComponent
 
         $this->name = $name;
         $this->url = $url;
-        $this->element = strtolower($element);
+        $this->tag = strtolower($tag);
         $this->content = trim($content);
         $this->width = $width;
         $this->height = $height;
-    }
-
-    public function render(): View|Factory
-    {
-        return view('ui::components.icon');
     }
 }

@@ -1,7 +1,7 @@
 @php
 $value = $value ?? $slot->toHtml();
-$value = $translated ? $value : __($value);
-$value = $escaped ? $value : e($value);
+$value = $translate ? __($value) : $value;
+$value = $escape ? e($value) : $value;
 @endphp
 
 @isset($element)

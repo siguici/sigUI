@@ -2,12 +2,12 @@
 
 namespace Sikessem\UI\Contracts;
 
-interface Component
+interface IsComponent
 {
     /**
      * Get the view / view contents that represent the component.
      *
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\Support\Htmlable|\Closure|string
+     * @return mixed
      */
     public function render();
 }

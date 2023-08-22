@@ -1,6 +1,6 @@
 <?php
 
-namespace Sikessem\UI\Common;
+namespace Sikessem\UI\Base;
 
 abstract class FormControl extends BladeComponent
 {

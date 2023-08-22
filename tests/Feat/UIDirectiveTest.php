@@ -23,5 +23,5 @@ it('should render open and close HTML tags', function () {
 });
 
 it('should render custom component', function () {
-    expect('<custom-element id="myElement" class="my custom element">Custom Element</custom-element>')->toBeRenderOf('@ui("custom", ["class" => "element", "id" => "myElement"], "Custom Element")');
+    expect('<custom-tag class="my custom element" id="myElement">Custom Element</custom-tag>')->toBeRenderOf('@ui("custom", ["class" => "element", "id" => "myElement"], "Custom Element")');
 });

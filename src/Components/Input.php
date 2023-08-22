@@ -2,9 +2,7 @@
 
 namespace Sikessem\UI\Components;
 
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
-use Sikessem\UI\Common\FormControl;
+use Sikessem\UI\Base\FormControl;
 use Sikessem\UI\Concerns\HandlesComponentAlias;
 
 class Input extends FormControl
@@ -43,14 +41,5 @@ class Input extends FormControl
         $this->invalid = $invalid;
         $this->value = $value;
         $this->chosen = isset($value) && ($value === old($name) || $value === 'on');
-    }
-
-    public function render(): View|Factory
-    {
-        $this->handleAlias(function (string $alias) {
-            $this->type = $alias;
-        });
-
-        return view('ui::components.input');
     }
 }

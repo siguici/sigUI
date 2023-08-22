@@ -7,8 +7,6 @@ use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Illuminate\Support\Str;
 use Illuminate\View\Compilers\BladeCompiler;
 use ReflectionClass;
-use Sikessem\UI\Components\Button;
-use Sikessem\UI\Components\Input;
 
 class UIServiceProvider extends BaseServiceProvider
 {
@@ -49,7 +47,7 @@ class UIServiceProvider extends BaseServiceProvider
 
     protected function registerConfig(): void
     {
-        $this->mergeConfigFrom(sikessem_ui_path('config/ui.php'), 'ui');
+        $this->mergeConfigFrom(sikessem_ui_path('config/ui.php'), 'sikessem.ui');
     }
 
     protected function registerTranslations(): void
@@ -100,62 +98,23 @@ class UIServiceProvider extends BaseServiceProvider
     {
         $this->callAfterResolving(BladeCompiler::class, function () {
             $this->registerComponentPath(sikessem_ui_path('src/Components'));
-            $this->registerInputComponents();
-            $this->registerButtonComponents();
             $this->registerComponentPath(sikessem_ui_path('res/views/components'), anonymous: true);
         });
-    }
-
-    protected function registerInputComponents(): void
-    {
-        $this->registerComponentAliases(Input::class, [
-            'button',
-            'checkbox',
-            'color',
-            'date',
-            'datetime-local',
-            'email',
-            'file',
-            'hidden',
-            'image',
-            'month',
-            'number',
-            'password',
-            'radio',
-            'range',
-            'reset',
-            'search',
-            'submit',
-            'tel',
-            'text',
-            'time',
-            'url',
-            'week',
-        ], 'input');
-    }
-
-    protected function registerButtonComponents(): void
-    {
-        $this->registerComponentAliases(Button::class, [
-            'image',
-            'submit',
-            'reset',
-        ], 'button');
     }
 
     protected function registerPublishables(): void
     {
         $this->publishesToGroups([
-            sikessem_ui_path('config/ui.php') => config_path('ui.php'),
-        ], ['sikessem', 'ui:config']);
+            sikessem_ui_path('config/ui.php') => config_path('sikessem/ui.php'),
+        ], ['sikessem', 'sikessem:ui', 'sikessem:ui.config']);
 
         $this->publishesToGroups([
-            sikessem_ui_path('res/langs') => lang_path('ui'),
-        ], ['sikessem', 'ui:langs']);
+            sikessem_ui_path('res/langs') => lang_path('sikessem/ui'),
+        ], ['sikessem', 'sikessem:ui', 'sikessem:ui.langs']);
 
         $this->publishesToGroups([
-            sikessem_ui_path('res/views') => resource_path('views/vendor/ui'),
-        ], ['sikessem', 'ui:views']);
+            sikessem_ui_path('res/views') => resource_path('views/vendor/sikessem/ui'),
+        ], ['sikessem', 'sikessem:ui', 'sikessem:ui.views']);
     }
 
     /**
@@ -169,7 +128,7 @@ class UIServiceProvider extends BaseServiceProvider
             return;
         }
 
-        foreach ((array) $groups as $group) {
+        foreach ($groups as $group) {
             $this->publishes($paths, $group);
         }
     }

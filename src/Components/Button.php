@@ -2,9 +2,7 @@
 
 namespace Sikessem\UI\Components;
 
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
-use Sikessem\UI\Common\FormControl;
+use Sikessem\UI\Base\FormControl;
 use Sikessem\UI\Concerns\HandlesComponentAlias;
 
 class Button extends FormControl
@@ -39,14 +37,5 @@ class Button extends FormControl
 
         $this->type = $type;
         $this->href = $href;
-    }
-
-    public function render(): View|Factory
-    {
-        $this->handleAlias(function (string $alias) {
-            $this->type = $alias;
-        });
-
-        return view('ui::components.button');
     }
 }

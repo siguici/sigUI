@@ -2,9 +2,7 @@
 
 namespace Sikessem\UI\Components;
 
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
-use Sikessem\UI\Common\FormControl;
+use Sikessem\UI\Base\FormControl;
 
 class Textarea extends FormControl
 {
@@ -34,10 +32,5 @@ class Textarea extends FormControl
         $this->id = $id;
         $this->invalid = $invalid;
         $this->value = $value;
-    }
-
-    public function render(): View|Factory
-    {
-        return view('ui::components.textarea');
     }
 }

@@ -4,7 +4,7 @@ namespace Sikessem\UI\Contracts;
 
 use Illuminate\View\Component;
 
-interface TemplateCompilerContract extends CompilerContract
+interface IsTemplateCompiler extends IsCompiler
 {
     /**
      * Get the path currently being compiled.

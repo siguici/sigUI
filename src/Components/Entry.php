@@ -2,10 +2,8 @@
 
 namespace Sikessem\UI\Components;
 
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
 use InvalidArgumentException;
-use Sikessem\UI\Common\FormControl;
+use Sikessem\UI\Base\FormControl;
 
 class Entry extends FormControl
 {
@@ -51,10 +49,5 @@ class Entry extends FormControl
         $this->name = $name;
         $this->id = $id;
         $this->autocomplete = $autocomplete;
-    }
-
-    public function render(): View|Factory
-    {
-        return view('ui::components.entry');
     }
 }
