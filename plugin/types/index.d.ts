@@ -36,3 +36,5 @@ export type DarkMode = [DarkModeStrategy, DarkModeQuery];
 
 export * from "./styles";
 export * from "./colors";
+
+export default PluginWithOptions;

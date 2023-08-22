@@ -12,6 +12,7 @@
     "publishConfig": {
         "access": "public"
     },
+    "bugs": "https://github.com/sikessem/ui/issues",
     "homepage": "https://sikessem.github.io/packages/ui",
     "author": {
         "name": "SIGUI Kessé Emmanuel",
@@ -28,6 +29,23 @@
         "css",
         "typescript"
     ],
+    "main": "./dist/index.js",
+    "types": "./plugin/types/index.d.ts",
+    "exports": {
+      ".": {
+        "import": {
+          "min": "./dist/index.min.js",
+          "development": "./dist/index.mjs",
+          "production": "./dist/index.prod.mjs",
+          "default": "./dist/index.mjs"
+        },
+        "require": {
+          "development": "./dist/index.cjs",
+          "production": "./dist/index.prod.cjs",
+          "default": "./dist/index.cjs"
+        }
+      }
+    },
     "scripts": {
         "build": "tsm scripts/build.ts",
         "check": "rome ci .",

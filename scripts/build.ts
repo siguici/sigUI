@@ -1,34 +1,42 @@
-import brotliSize, { sync } from "brotli-size";
+import brotliSize from "brotli-size";
 import esbuild from "esbuild";
 import fs from "node:fs";
+import { basename, extname } from "node:path";
 
-build("index.js");
+build("index.js", undefined, false);
 
-build("index.cjs.js", "cjs");
+build("index.cjs", "cjs");
 
-build("index.esm.js", "esm");
+build("index.cjs", "cjs", true);
 
-build("index.min.js", undefined, true);
+build("index.mjs", "esm");
+
+build("index.mjs", "esm", true);
+
+build("index.min.js", undefined, false, true);
 
 async function build(
     dist: string,
     format: "iife" | "cjs" | "esm" | undefined = undefined,
+    prod = false,
     minify = false,
 ) {
     const watch = process.argv.includes("--watch");
-    const outfile = `dist/${dist}`;
+    const entryPoints = ["plugin/index.js"];
+    const distext = extname(dist);
+    const outfile = `dist/${prod ? `${basename(dist, distext)}.prod${distext}` : dist}`;
 
     const options = {
-        entryPoints: ["plugin/index.js"],
         platform: "node",
         bundle: true,
+        entryPoints,
         outfile,
         format,
         minify,
         define: { CDN: "true" },
     };
 
-    options.define["process.env.NODE_ENV"] = watch
+    options.define["process.env.NODE_ENV"] = watch || ! prod
         ? `'development'`
         : `'production'`;
 
@@ -46,7 +54,7 @@ async function build(
 function outputSize(file: string) {
     const size = bytesToSize(brotliSize.sync(fs.readFileSync(file)));
 
-    console.log("\x1b[32m", `Bundle size: ${size}`);
+    console.log("\x1b[32m", `${file} bundle size: ${size}`);
 }
 
 function bytesToSize(bytes: number): string {
