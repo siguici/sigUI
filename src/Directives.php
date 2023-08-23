@@ -2,20 +2,20 @@
 
 namespace Sikessem\UI;
 
-class UIDirectives
+class Directives
 {
     public static function ui(string $expression): string
     {
-        return '{!! \Sikessem\UI\UIFacade::make('.$expression.') !!}';
+        return '{!! \Sikessem\UI\Facade::make('.$expression.') !!}';
     }
 
     public static function tag(string $expression): string
     {
-        return '{!! \Sikessem\UI\UIFacade::openTag('.$expression.') !!}';
+        return '{!! \Sikessem\UI\Facade::openTag('.$expression.') !!}';
     }
 
     public static function endtag(): string
     {
-        return '{!! \Sikessem\UI\UIFacade::closeTag() !!}';
+        return '{!! \Sikessem\UI\Facade::closeTag() !!}';
     }
 }

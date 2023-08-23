@@ -24,7 +24,9 @@ async function build(
     const watch = process.argv.includes("--watch");
     const entryPoints = ["plugin/index.js"];
     const distext = extname(dist);
-    const outfile = `dist/${prod ? `${basename(dist, distext)}.prod${distext}` : dist}`;
+    const outfile = `dist/${
+        prod ? `${basename(dist, distext)}.prod${distext}` : dist
+    }`;
 
     const options = {
         platform: "node",
@@ -36,9 +38,8 @@ async function build(
         define: { CDN: "true" },
     };
 
-    options.define["process.env.NODE_ENV"] = watch || ! prod
-        ? `'development'`
-        : `'production'`;
+    options.define["process.env.NODE_ENV"] =
+        watch || !prod ? `'development'` : `'production'`;
 
     return (
         watch

@@ -2,7 +2,8 @@
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\View\View as ViewContract;
-use Sikessem\UI\UIManager;
+use Sikessem\UI\Contracts\IsManager;
+use Sikessem\UI\Manager;
 
 if (! function_exists('sikessem_ui_path')) {
     function sikessem_ui_path(string $path = null): string
@@ -18,13 +19,13 @@ if (! function_exists('sikessem_ui_path')) {
 }
 
 if (! function_exists('ui')) {
-    function ui(): UIManager
+    function ui(): IsManager
     {
         static $ui;
 
         if (! isset($ui)) {
-            /** @var UIManager */
-            $ui = app(UIManager::class);
+            /** @var IsManager */
+            $ui = app(Manager::class);
         }
 
         return $ui;

@@ -37,4 +37,8 @@ interface IsComponentTag extends Stringable, Htmlable
     public function isCustom(): bool;
 
     public function contents(): string;
+
+    public function open(): string;
+
+    public function close(): string;
 }

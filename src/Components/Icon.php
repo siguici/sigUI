@@ -5,7 +5,7 @@ namespace Sikessem\UI\Components;
 use Illuminate\Support\Str;
 use RuntimeException;
 use Sikessem\UI\Component;
-use Sikessem\UI\UIFacade;
+use Sikessem\UI\Facade;
 
 class Icon extends Component
 {
@@ -47,7 +47,7 @@ class Icon extends Component
             $icon,
         );
         $icon = preg_replace('/fill="[^"]+?"/', 'fill="'.$fill.'"', $icon) ?: $icon;
-        $icon = UIFacade::render($icon);
+        $icon = Facade::render($icon);
         $url = 'data:image/svg+xml;base64,'.base64_encode($icon);
 
         $content = str_replace(

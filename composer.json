@@ -38,7 +38,7 @@
         "psr-4": {
             "Sikessem\\UI\\": "src/"
         },
-        "files": ["src/UI.php"]
+        "files": ["src/ui.php"]
     },
     "autoload-dev": {
         "psr-4": {
@@ -61,9 +61,9 @@
     },
     "extra": {
         "laravel": {
-            "providers": ["Sikessem\\UI\\UIServiceProvider"],
+            "providers": ["Sikessem\\UI\\ServiceProvider"],
             "aliases": {
-                "UI": "Sikessem\\UI\\UIFacade"
+                "UI": "Sikessem\\UI\\Facade"
             },
             "dont-discover": []
         },

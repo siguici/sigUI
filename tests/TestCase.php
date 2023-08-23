@@ -6,8 +6,8 @@ use Illuminate\Contracts\Config\Repository;
 use Livewire\Livewire;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
-use Sikessem\UI\UIFacade;
-use Sikessem\UI\UIServiceProvider;
+use Sikessem\UI\Facade;
+use Sikessem\UI\ServiceProvider;
 use Spatie\LaravelRay\RayServiceProvider;
 
 abstract class TestCase extends BaseTestCase
@@ -36,7 +36,7 @@ abstract class TestCase extends BaseTestCase
     {
         return [
             LivewireServiceProvider::class,
-            UIServiceProvider::class,
+            ServiceProvider::class,
             RayServiceProvider::class,
         ];
     }
@@ -51,7 +51,7 @@ abstract class TestCase extends BaseTestCase
     {
         return [
             'Livewire' => Livewire::class,
-            'UI' => UIFacade::class,
+            'UI' => Facade::class,
         ];
     }
 
@@ -64,6 +64,7 @@ abstract class TestCase extends BaseTestCase
     protected function defineEnvironment($app)
     {
         tap($app->make('config'), function (Repository $config) {
+            $config->set('app.debug', false);
             $config->set('database.default', 'testbench');
             $config->set('database.connections.testbench', [
                 'driver' => 'sqlite',

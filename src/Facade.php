@@ -25,9 +25,9 @@ use Illuminate\Support\Facades\Facade as BaseFacade;
  * @method static string render(string $template, array $data = [], bool $deleteCachedView = true)
  * @method static \Illuminate\Contracts\View\View page(string $contentPath, \Illuminate\Contracts\Support\Arrayable|array $contentData = [], string $layoutPath = null, \Illuminate\Contracts\Support\Arrayable|array $layoutData = [], array $mergeData = [])
  *
- * @see \Sikessem\UI\UIManager
+ * @see \Sikessem\UI\Manager
  */
-class UIFacade extends BaseFacade
+class Facade extends BaseFacade
 {
     /**
      * Get the registered name of the component.

@@ -12,8 +12,8 @@ abstract class Component extends BaseComponent implements IsComponent
 {
     public function render(): View|Factory|Closure
     {
-        $prefix = preg_quote(UIFacade::prefix(), '/');
-        $alias = UIFacade::getAlias(get_class($this));
+        $prefix = preg_quote(Facade::prefix(), '/');
+        $alias = Facade::getAlias(get_class($this));
 
         return view("$prefix::components.$alias");
     }

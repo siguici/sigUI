@@ -6,7 +6,7 @@ use Illuminate\Support\Str;
 use Illuminate\View\Compilers\ComponentTagCompiler;
 use Sikessem\UI\Contracts\IsComponentCompiler;
 
-class UIComponentCompiler extends ComponentTagCompiler implements IsComponentCompiler
+class ComponentCompiler extends ComponentTagCompiler implements IsComponentCompiler
 {
     /**
      * Compile the component and slot tags within the given string.
@@ -131,7 +131,7 @@ class UIComponentCompiler extends ComponentTagCompiler implements IsComponentCom
     protected function compileClosingTags(string $value): string
     {
         return preg_replace_callback("/<\/\s*s-([\w\-\.]*)\s*>/", function (array $matches) {
-            return (UIFacade::find($matches[1]))
+            return (Facade::find($matches[1]))
             ? ' '.$this->endComponentString()
             : '';
         }, $value) ?: parent::compileClosingTags($value);
@@ -142,16 +142,16 @@ class UIComponentCompiler extends ComponentTagCompiler implements IsComponentCom
      */
     protected function componentString(string $component, array $attributes, string $contents = null): string
     {
-        if ($info = UIFacade::find($component)) {
+        if ($info = Facade::find($component)) {
             ['class' => $class, 'alias' => $component] = $info;
 
             $attributes = collect(
-                $this->getAttributesFromAttributeString(UIFacade::makeComponentAttributes($component)->toHtml())
+                $this->getAttributesFromAttributeString(Facade::makeComponentAttributes($component)->toHtml())
             )->merge(
                 $attributes
             )->toArray();
 
-            $alias = UIFacade::prefix()."-$component";
+            $alias = Facade::prefix()."-$component";
 
             if (! isset($this->aliases[$alias])) {
                 $this->aliases[$alias] = $class;

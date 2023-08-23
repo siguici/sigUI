@@ -7,13 +7,14 @@ use Illuminate\Contracts\View\View as ViewContract;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View as ViewFacade;
 use Illuminate\Support\Str;
-use Illuminate\View\ComponentAttributeBag;
 use Illuminate\View\ComponentAttributeBag as ComponentAttributes;
 use Illuminate\View\ComponentSlot;
 use RuntimeException;
 use Sikessem\UI\Contracts\IsComponentConfig;
+use Sikessem\UI\Contracts\IsComponentTag;
+use Sikessem\UI\Contracts\IsManager;
 
-class UIManager
+class Manager implements IsManager
 {
     public const COMPONENT_NAMESPACE = 'Sikessem\\UI\\Components';
 
@@ -140,7 +141,7 @@ class UIManager
         $variants = $options->getVariants();
         $variants = collect($variants)->map(fn ($variant) => [
             'tag' => $variant->getTag($tag),
-            'attributes' => (new ComponentAttributeBag($variant->getAttributes()))->merge($attributes)->getAttributes(),
+            'attributes' => (new ComponentAttributes($variant->getAttributes()))->merge($attributes)->getAttributes(),
             'contents' => $variant->getContents($contents),
             'variants' => $variant->getVariants(),
         ])->toArray();
@@ -208,9 +209,7 @@ class UIManager
         if ($component = $this->find($name)) {
             ['alias' => $alias] = $component;
 
-            $slot = $this->makeComponentSlot($name, $attributes, $slot);
-            $render = '';
-            $render = $this->makeComponentTag("x-ui-$alias", $slot->attributes, $slot)->toHtml();
+            $render = $this->makeComponentTag("x-ui-$alias", $attributes, $slot)->toHtml();
             $render = $this->render($render);
 
             return $render;
@@ -304,7 +303,7 @@ class UIManager
     /**
      * @param  array<string,string>|ComponentAttributes  $attributes
      */
-    public function makeComponentTag(string $component, array|ComponentAttributes $attributes = [], string|ComponentSlot $contents = null): ComponentTag
+    public function makeComponentTag(string $component, array|ComponentAttributes $attributes = [], string|ComponentSlot $contents = null): IsComponentTag
     {
         $tag = $this->getComponentTag($component, $component);
 

@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 use Illuminate\View\Compilers\BladeCompiler;
 use ReflectionClass;
 
-class UIServiceProvider extends BaseServiceProvider
+class ServiceProvider extends BaseServiceProvider
 {
     /**
      * Bootstrap UI services.
@@ -39,10 +39,10 @@ class UIServiceProvider extends BaseServiceProvider
 
     protected function registerServices(): void
     {
-        $this->app->singleton(UIManager::class);
+        $this->app->singleton(Manager::class);
         $this->app->instance('ui.path', sikessem_ui_path());
-        $this->app->alias(UIManager::class, 'sikessem.ui');
-        $this->app->alias('blade.compiler', UITemplateCompiler::class);
+        $this->app->alias(Manager::class, 'sikessem.ui');
+        $this->app->alias('blade.compiler', TemplateCompiler::class);
     }
 
     protected function registerConfig(): void
@@ -62,18 +62,18 @@ class UIServiceProvider extends BaseServiceProvider
 
     protected function registerNamespaces(): void
     {
-        Blade::componentNamespace(UIManager::COMPONENT_NAMESPACE, 'ui');
-        Blade::anonymousComponentNamespace(UIManager::ANONYMOUS_COMPONENT_NAMESPACE, 'ui');
+        Blade::componentNamespace(Manager::COMPONENT_NAMESPACE, 'ui');
+        Blade::anonymousComponentNamespace(Manager::ANONYMOUS_COMPONENT_NAMESPACE, 'ui');
     }
 
     protected function registerDirectives(): void
     {
-        $directivesClass = new ReflectionClass(UIDirectives::class);
+        $directivesClass = new ReflectionClass(Directives::class);
         foreach ($directivesClass->getMethods() as $directiveMethod) {
             if ($directiveMethod->isStatic() && $directiveMethod->isPublic()) {
                 $directiveName = $directiveMethod->getName();
                 /** @var callable */
-                $directive = [UIDirectives::class, $directiveName];
+                $directive = [Directives::class, $directiveName];
                 Blade::directive($directiveName, $directive);
             }
         }
@@ -82,12 +82,12 @@ class UIServiceProvider extends BaseServiceProvider
     protected function registerCompilers(): void
     {
         $app = $this->app;
-        /** @var UITemplateCompiler */
+        /** @var TemplateCompiler */
         $compiler = $app->make('blade.compiler');
         if (method_exists($compiler, 'precompiler')) {
             $compiler->precompiler(function ($string) use ($app) {
-                /** @var UIComponentCompiler */
-                $precompiler = $app->make(UIComponentCompiler::class);
+                /** @var ComponentCompiler */
+                $precompiler = $app->make(ComponentCompiler::class);
 
                 return $precompiler->compile($string);
             });
@@ -172,7 +172,7 @@ class UIServiceProvider extends BaseServiceProvider
 
     protected function registerComponent(string $class, string $alias = null, bool $anonymous = false): void
     {
-        UIFacade::component($class, $alias, $anonymous);
+        Facade::component($class, $alias, $anonymous);
     }
 
     /**
