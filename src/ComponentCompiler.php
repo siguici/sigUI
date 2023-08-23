@@ -4,6 +4,7 @@ namespace Sikessem\UI;
 
 use Illuminate\Support\Str;
 use Illuminate\View\Compilers\ComponentTagCompiler;
+use Illuminate\View\DynamicComponent;
 use Sikessem\UI\Contracts\IsComponentCompiler;
 
 class ComponentCompiler extends ComponentTagCompiler implements IsComponentCompiler
@@ -143,21 +144,32 @@ class ComponentCompiler extends ComponentTagCompiler implements IsComponentCompi
     protected function componentString(string $component, array $attributes, string $contents = null): string
     {
         if ($info = Facade::find($component)) {
-            ['class' => $class, 'alias' => $component] = $info;
+            ['class' => $class, 'alias' => $alias] = $info;
+
+            $tag = Facade::makeComponentTag($alias);
+
+            $alias = Facade::prefix()."-$alias";
 
             $attributes = collect(
-                $this->getAttributesFromAttributeString(Facade::makeComponentAttributes($component)->toHtml())
+                $this->getAttributesFromAttributeString($tag->getAttributes()->toHtml())
             )->merge(
                 $attributes
             )->toArray();
 
-            $alias = Facade::prefix()."-$component";
+            [$data, $attributes] = $this->partitionDataAndAttributes($class, $attributes);
 
-            if (! isset($this->aliases[$alias])) {
-                $this->aliases[$alias] = $class;
-            }
+            $data = $data->mapWithKeys(function ($value, $key) {
+                return [Str::camel($key) => $value];
+            });
 
-            $render = parent::componentString($alias, $attributes);
+            $parameters = $data->all();
+            $parameters['tag'] ??= "'{$tag->getName()}'";
+
+            $render = "##BEGIN-COMPONENT-CLASS##@component('{$class}', '{$alias}', [".$this->attributesToString($parameters, $escapeBound = false).'])
+    <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass('.$class.'::class))->getConstructor()): ?>
+    <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+    <?php endif; ?>
+    <?php $component->withAttributes(['.$this->attributesToString($attributes->all(), $escapeAttributes = $class !== DynamicComponent::class).']); ?>';
 
             if (is_null($contents)) {
                 $render .= "\n".$this->endComponentString();
@@ -209,6 +221,11 @@ class ComponentCompiler extends ComponentTagCompiler implements IsComponentCompi
             )*
             \s*
         )";
+    }
+
+    protected function slotToString(string $slot): string
+    {
+        return addslashes($slot);
     }
 
     protected function endComponentString(): string
