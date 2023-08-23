@@ -190,12 +190,29 @@ return [
         ],
 
         'icon' => [
-            'tag' => 'svg',
             'attributes' => [
+                'tag' => 'svg',
                 'size' => 24,
                 'width' => 24,
                 'height' => 24,
                 'fill' => 'currentColor',
+            ],
+            'variants' => [
+                'i' => [
+                    'attributes' => [
+                        'tag' => 'i',
+                    ],
+                ],
+                'img' => [
+                    'attributes' => [
+                        'tag' => 'img',
+                    ],
+                ],
+                'svg' => [
+                    'attributes' => [
+                        'tag' => 'svg',
+                    ],
+                ],
             ],
         ],
 
