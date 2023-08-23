@@ -31,39 +31,7 @@ class UIComponentCompiler extends ComponentTagCompiler implements IsComponentCom
                 \s*
                 s:
                 (?<inlineName>\w+(?:-\w+)*)
-                (?<attributes>
-                    (?:
-                        \s+
-                        (?:
-                            (?:
-                                @(?:class)(\( (?: (?>[^()]+) | (?-1) )* \))
-                            )
-                            |
-                            (?:
-                                @(?:style)(\( (?: (?>[^()]+) | (?-1) )* \))
-                            )
-                            |
-                            (?:
-                                \{\{\s*\\\$attributes(?:[^}]+?)?\s*\}\}
-                            )
-                            |
-                            (?:
-                                [\w\-:.@]+
-                                (
-                                    =
-                                    (?:
-                                        \\\"[^\\\"]*\\\"
-                                        |
-                                        \'[^\']*\'
-                                        |
-                                        [^\'\\\"=<>]+
-                                    )
-                                )?
-                            )
-                        )
-                    )*
-                    \s*
-                )
+                {$this->attributesPattern($value)}
                 (?<![\/=\-])
             >
         /x";
@@ -117,43 +85,7 @@ class UIComponentCompiler extends ComponentTagCompiler implements IsComponentCom
                 \s*
                 s-([\w\-\.]*)
                 \s*
-                (?<attributes>
-                    (?:
-                        \s+
-                        (?:
-                            (?:
-                                @(?:class)(\( (?: (?>[^()]+) | (?-1) )* \))
-                            )
-                            |
-                            (?:
-                                @(?:style)(\( (?: (?>[^()]+) | (?-1) )* \))
-                            )
-                            |
-                            (?:
-                                \{\{\s*\\\$attributes(?:[^}]+?)?\s*\}\}
-                            )
-                            |
-                            (?:
-                                (\:\\\$)(\w+)
-                            )
-                            |
-                            (?:
-                                [\w\-:.@%]+
-                                (
-                                    =
-                                    (?:
-                                        \\\"[^\\\"]*\\\"
-                                        |
-                                        \'[^\']*\'
-                                        |
-                                        [^\'\\\"=<>]+
-                                    )
-                                )?
-                            )
-                        )
-                    )*
-                    \s*
-                )
+                {$this->attributesPattern($value)}
             \/>
         /x";
 
@@ -178,43 +110,7 @@ class UIComponentCompiler extends ComponentTagCompiler implements IsComponentCom
             <
                 \s*
                 s-([\w\-\.]*)
-                (?<attributes>
-                    (?:
-                        \s+
-                        (?:
-                            (?:
-                                @(?:class)(\( (?: (?>[^()]+) | (?-1) )* \))
-                            )
-                            |
-                            (?:
-                                @(?:style)(\( (?: (?>[^()]+) | (?-1) )* \))
-                            )
-                            |
-                            (?:
-                                \{\{\s*\\\$attributes(?:[^}]+?)?\s*\}\}
-                            )
-                            |
-                            (?:
-                                (\:\\\$)(\w+)
-                            )
-                            |
-                            (?:
-                                [\w\-:.@%]+
-                                (
-                                    =
-                                    (?:
-                                        \\\"[^\\\"]*\\\"
-                                        |
-                                        \'[^\']*\'
-                                        |
-                                        [^\'\\\"=<>]+
-                                    )
-                                )?
-                            )
-                        )
-                    )*
-                    \s*
-                )
+                {$this->attributesPattern($value)}
                 (?<![\/=\-])
             >
         /x";
@@ -238,7 +134,7 @@ class UIComponentCompiler extends ComponentTagCompiler implements IsComponentCom
             return (UIFacade::find($matches[1]))
             ? ' '.$this->endComponentString()
             : '';
-        }, $value) ?: '';
+        }, $value) ?: parent::compileClosingTags($value);
     }
 
     /**
@@ -246,13 +142,13 @@ class UIComponentCompiler extends ComponentTagCompiler implements IsComponentCom
      */
     protected function componentString(string $component, array $attributes, string $contents = null): string
     {
-        $render = '';
-
         if ($info = UIFacade::find($component)) {
             ['class' => $class, 'alias' => $component] = $info;
 
-            $attributes = collect($attributes)->merge(
+            $attributes = collect(
                 $this->getAttributesFromAttributeString(UIFacade::makeComponentAttributes($component)->toHtml())
+            )->merge(
+                $attributes
             )->toArray();
 
             $alias = UIFacade::prefix()."-$component";
@@ -266,11 +162,53 @@ class UIComponentCompiler extends ComponentTagCompiler implements IsComponentCom
             if (is_null($contents)) {
                 $render .= "\n".$this->endComponentString();
             }
-        } else {
-            $render = parent::componentString($component, $attributes);
+
+            return $render;
         }
 
-        return $render;
+        return parent::componentString($component, $attributes);
+    }
+
+    protected function attributesPattern(string $value): string
+    {
+        return "
+        (?<attributes>
+            (?:
+                \s+
+                (?:
+                    (?:
+                        @(?:class)(\( (?: (?>[^()]+) | (?-1) )* \))
+                    )
+                    |
+                    (?:
+                        @(?:style)(\( (?: (?>[^()]+) | (?-1) )* \))
+                    )
+                    |
+                    (?:
+                        \{\{\s*\\\$attributes(?:[^}]+?)?\s*\}\}
+                    )
+                    |
+                    (?:
+                        (\:\\\$)(\w+)
+                    )
+                    |
+                    (?:
+                        [\w\-:.@%]+
+                        (
+                            =
+                            (?:
+                                \\\"[^\\\"]*\\\"
+                                |
+                                \'[^\']*\'
+                                |
+                                [^\'\\\"=<>]+
+                            )
+                        )?
+                    )
+                )
+            )*
+            \s*
+        )";
     }
 
     protected function endComponentString(): string
