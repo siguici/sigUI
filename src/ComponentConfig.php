@@ -14,7 +14,7 @@ class ComponentConfig extends Config implements IsComponentConfig
      */
     public function getTag(string $default = ''): string
     {
-        return $this->get('tag', $default);
+        return $this->get('tag', $default) ?: $default;
     }
 
     /**
@@ -23,7 +23,7 @@ class ComponentConfig extends Config implements IsComponentConfig
      */
     public function getAttributes(array $default = []): array
     {
-        return $this->get('attributes', $default);
+        return $this->get('attributes', $default) ?: $default;
     }
 
     /**
@@ -34,7 +34,7 @@ class ComponentConfig extends Config implements IsComponentConfig
      */
     public function getContents(string $default = ''): string
     {
-        return $this->get('contents', $default);
+        return $this->get('contents', $default) ?: $default;
     }
 
     /**
@@ -43,7 +43,7 @@ class ComponentConfig extends Config implements IsComponentConfig
      */
     public function getVariants(array $default = []): array
     {
-        $variants = $this->get('variants', $default);
+        $variants = $this->get('variants', $default) ?: $default;
 
         foreach ($variants as $variant => $options) {
             $variants[$variant] = new ComponentConfig((array) $options);

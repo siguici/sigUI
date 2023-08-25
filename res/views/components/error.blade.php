@@ -1,4 +1,4 @@
 @error($field, $stack)
-    @tag($element, $attributes, $message)
-    {{ $slot }}
+@tag($tag, $attributes, $message)
+{{ $slot }}
 @enderror

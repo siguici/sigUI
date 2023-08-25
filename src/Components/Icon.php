@@ -9,13 +9,13 @@ use Sikessem\UI\Facade;
 
 class Icon extends Component
 {
+    public string $tag;
+
+    public string $contents;
+
     public string $name;
 
     public string $url;
-
-    public string $tag;
-
-    public string $content;
 
     public int $width;
 
@@ -50,17 +50,17 @@ class Icon extends Component
         $icon = Facade::render($icon);
         $url = 'data:image/svg+xml;base64,'.base64_encode($icon);
 
-        $content = str_replace(
+        $contents = str_replace(
             '<svg width="'.$width.'" height="'.$height.'" viewBox="0 0 '.$width.' '.$height.'" fill="'.$fill.'" xmlns="http://www.w3.org/2000/svg">',
             '',
             $icon,
         );
-        $content = str_replace('</svg>', '', $content);
+        $contents = str_replace('</svg>', '', $contents);
 
         $this->name = $name;
         $this->url = $url;
         $this->tag = strtolower($tag);
-        $this->content = trim($content);
+        $this->contents = trim($contents);
         $this->width = $width;
         $this->height = $height;
     }

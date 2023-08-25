@@ -1,7 +1,7 @@
 @if ($messages->isNotEmpty())
-    @tag($element, $attributes)
-        @foreach($messages as $message)
-            @tag($flashElement, $flashAttributes, $message)
-        @endforeach
-    @endtag
+@tag($tag, $attributes)
+    @foreach($messages as $message)
+    @tag($flashTag, [], $message)
+    @endforeach
+@endtag
 @endif

@@ -1,3 +1,3 @@
 @if ($message)
-    @tag($element, $attributes, $message)
+@tag($tag, $attributes, $message)
 @endif

@@ -1,8 +1,8 @@
 @if ($errors->any())
-    @tag($element, $attributes)
-        @foreach ($errors->all() as $error)
-            @tag($errorElement, $errorAttributes, $error)
-        @endforeach
-        {{ $slot }}
-    @endtag
+@tag($tag, $attributes)
+    @foreach ($errors->all() as $error)
+    @tag($errorTag, [], $error)
+    @endforeach
+    {{ $slot }}
+@endtag
 @endif

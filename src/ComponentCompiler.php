@@ -163,7 +163,6 @@ class ComponentCompiler extends ComponentTagCompiler implements IsComponentCompi
             });
 
             $parameters = $data->all();
-            $parameters['tag'] ??= "'{$tag->getName()}'";
 
             $render = "##BEGIN-COMPONENT-CLASS##@component('{$class}', '{$alias}', [".$this->attributesToString($parameters, $escapeBound = false).'])
     <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass('.$class.'::class))->getConstructor()): ?>

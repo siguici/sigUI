@@ -13,7 +13,6 @@ return [
         ],
 
         'button' => [
-            'tag' => 'button',
             'attributes' => [],
             'variants' => [
                 'image' => [
@@ -121,22 +120,22 @@ return [
         ],
 
         'error' => [
-            'tag' => 'p',
-            'attributes' => [],
+            'attributes' => [
+                'tag' => 'p',
+            ],
         ],
 
         'errors' => [
-            'tag' => 'ul',
-            'attributes' => [],
-            'error' => [
-                'tag' => 'li',
-                'attributes' => [],
+            'attributes' => [
+                'tag' => 'ul',
+                'error-tag' => 'li',
             ],
         ],
 
         'flash' => [
-            'tag' => 'p',
-            'attributes' => [],
+            'attributes' => [
+                'tag' => 'p',
+            ],
             'variants' => [
                 'error' => [
                     'attributes' => [
@@ -177,11 +176,9 @@ return [
         ],
 
         'flashes' => [
-            'tag' => 'ul',
-            'attributes' => [],
-            'child' => [
-                'tag' => 'li',
-                'attributes' => [],
+            'attributes' => [
+                'tag' => 'ul',
+                'flash-tag' => 'li',
             ],
         ],
 
@@ -217,7 +214,6 @@ return [
         ],
 
         'input' => [
-            'tag' => 'input',
             'attributes' => [
                 'type' => 'text',
             ],
@@ -336,31 +332,19 @@ return [
         ],
 
         'label' => [
-            'tag' => 'label',
             'attributes' => [],
         ],
 
         'link' => [
-            'tag' => 'a',
             'attributes' => [],
         ],
 
         'menu' => [
-            'tag' => 'ul',
             'attributes' => [],
-            'child' => [
-                'tag' => 'li',
-                'attributes' => [],
-            ],
         ],
 
         'select' => [
-            'tag' => 'select',
             'attributes' => [],
-            'child' => [
-                'tag' => 'option',
-                'attributes' => [],
-            ],
         ],
 
         'text' => [
@@ -384,7 +368,6 @@ return [
         ],
 
         'textarea' => [
-            'tag' => 'textarea',
             'attributes' => [],
         ],
     ],

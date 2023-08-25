@@ -6,12 +6,7 @@ use Sikessem\UI\Component;
 
 class Error extends Component
 {
-    public string $element;
-
-    public function __construct(public string $field, public string $stack = 'default')
+    public function __construct(public string $field, public string $stack = 'default', public string $tag = 'p')
     {
-        /** @var string */
-        $element = config('ui.error.element', 'p');
-        $this->element = $element;
     }
 }
