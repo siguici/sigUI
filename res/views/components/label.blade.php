@@ -1,7 +1,9 @@
 @tag('label', $attributes)
-    @isset($text)
-        <s-text :value="$text"/>
-    @else
-        {{ $slot }}
+    @isset($icon)
+    <s-icon :name="$icon"/>
     @endisset
+    @isset($text)
+    <s-text :value="$text"/>
+    @endisset
+    {{ $slot }}
 @endtag

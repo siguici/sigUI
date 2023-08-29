@@ -1,4 +1,6 @@
 @error($field, $stack)
-@tag($tag, $attributes, $message)
-{{ $slot }}
+    @isset($icon)
+    <s-icon :name="$icon"/>
+    @endisset
+@tag($tag, $attributes, $slot->isEmpty() ? $message : $slot)
 @enderror

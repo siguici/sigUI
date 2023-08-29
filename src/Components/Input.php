@@ -27,6 +27,7 @@ class Input extends FormControl
         string $current = null,
         string $default = null,
         bool $invalid = false,
+        public ?string $icon = null,
     ) {
         parent::__construct($type);
 

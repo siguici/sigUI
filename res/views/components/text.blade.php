@@ -4,8 +4,8 @@ $value = $translate ? __($value) : $value;
 $value = $escape ? e($value) : $value;
 @endphp
 
-@isset($element)
-@tag($element, $attributes, $value)
+@isset($tag)
+    @tag($tag, $attributes, $value)
 @else
 {!! $value !!}
 @endisset

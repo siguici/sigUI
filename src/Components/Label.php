@@ -8,6 +8,7 @@ class Label extends Component
 {
     public function __construct(
         public ?string $text = null,
+        public ?string $icon = null,
     ) {
     }
 }

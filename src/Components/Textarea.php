@@ -21,6 +21,7 @@ class Textarea extends FormControl
         string $current = null,
         string $default = null,
         bool $invalid = false,
+        public ?string $icon = null,
     ) {
         parent::__construct('textarea');
         $id ??= $name;

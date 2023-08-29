@@ -19,6 +19,7 @@ class Entry extends FormControl
         string $id = null,
         bool|string $autocomplete = false,
         public array $datalist = [],
+        public ?string $icon = null,
     ) {
         parent::__construct($type);
 

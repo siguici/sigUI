@@ -16,6 +16,7 @@ class Link extends Component
         string $route = null,
         string|array $parameters = [],
         public ?string $text = null,
+        public ?string $icon = null,
     ) {
         $parameters = (array) $parameters;
         if (is_null($route)) {

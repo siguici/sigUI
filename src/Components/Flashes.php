@@ -15,8 +15,12 @@ class Flashes extends Component
     /**
      * @param  array<int|string,string>  $messages
      */
-    public function __construct(array $messages = [], public string $tag = 'ul', public string $flashTag = 'li')
-    {
+    public function __construct(
+        array $messages = [],
+        public string $tag = 'ul',
+        public string $flashTag = 'li',
+        public ?string $icon = null,
+    ) {
         $messages = collect($messages)
             ->map(function ($message, $type) {
                 /** @var string */

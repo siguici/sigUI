@@ -22,6 +22,7 @@ class Button extends FormControl
         public ?string $name = null,
         public ?string $value = null,
         public ?string $text = null,
+        public ?string $icon = null,
     ) {
         parent::__construct($type);
 
