@@ -2,14 +2,18 @@
 
 All notable changes to [Sikessem's UI kit](https://github.com/sikessem/ui) will be documented in this file.
 
-## [Unreleased](https://github.com/sikessem/ui/compare/v0.6.3...HEAD)
+## [Unreleased](https://github.com/sikessem/ui/compare/v0.7.0...HEAD)
 
-**Full Changelog:** [v0.6.2...v0.6.3](https://github.com/sikessem/ui/compare/v0.6.1...v0.6.3)
+**Full Changelog:** [v0.6.3...v0.7.0](https://github.com/sikessem/ui/compare/v0.6.3...v0.7.0)
 
-[0.x] Remove Alpine.js and Laravel Livewire
-[0.x] Improve code structure
-[0.x] Fix selected option from select component
-[0.x] Update documentation link
+## [v0.7.0](https://github.com/sikessem/ui/releases/tag/v0.7.0) - 2023-08-29
+
+- [0.x] Add icons to some components
+- [0.x] Remove component tag
+- [0.x] Remove Alpine.js and Laravel Livewire
+- [0.x] Improve code structure
+- [0.x] Fix selected option from select component
+- [0.x] Update documentation link
 
 ## [v0.6.3](https://github.com/sikessem/ui/releases/tag/v0.6.3) - 2023-08-10
 
