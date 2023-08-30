@@ -105,16 +105,16 @@ class ServiceProvider extends BaseServiceProvider
     protected function registerPublishables(): void
     {
         $this->publishesToGroups([
-            sikessem_ui_path('config/ui.php') => config_path('sikessem/ui.php'),
-        ], ['sikessem', 'sikessem:ui', 'sikessem:ui.config']);
+            sikessem_ui_path('config/ui.php') => sikessem_config_path('ui.php'),
+        ], ['sikessem', 'sikessem:ui', 'sikessem:ui-config']);
 
         $this->publishesToGroups([
-            sikessem_ui_path('res/langs') => lang_path('sikessem/ui'),
-        ], ['sikessem', 'sikessem:ui', 'sikessem:ui.langs']);
+            sikessem_ui_path('res/langs') => sikessem_lang_path('ui'),
+        ], ['sikessem', 'sikessem:ui', 'sikessem:ui-langs']);
 
         $this->publishesToGroups([
-            sikessem_ui_path('res/views') => resource_path('views/vendor/sikessem/ui'),
-        ], ['sikessem', 'sikessem:ui', 'sikessem:ui.views']);
+            sikessem_ui_path('res/views') => sikessem_resource_path('ui'),
+        ], ['sikessem', 'sikessem:ui', 'sikessem:ui-views']);
     }
 
     /**

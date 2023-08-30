@@ -18,6 +18,33 @@ if (! function_exists('sikessem_ui_path')) {
     }
 }
 
+if (! function_exists('sikessem_config_path')) {
+    function sikessem_config_path(string $path = null): string
+    {
+        $path = config_path(rtrim('sikessem/'.($path ?: ''), '/'));
+
+        return realpath($path) ?: $path;
+    }
+}
+
+if (! function_exists('sikessem_lang_path')) {
+    function sikessem_lang_path(string $path = null): string
+    {
+        $path = lang_path(rtrim('sikessem/'.($path ?: ''), '/'));
+
+        return realpath($path) ?: $path;
+    }
+}
+
+if (! function_exists('sikessem_resource_path')) {
+    function sikessem_resource_path(string $path = null): string
+    {
+        $path = resource_path(rtrim('views/vendor/sikessem/'.($path ?: ''), '/'));
+
+        return realpath($path) ?: $path;
+    }
+}
+
 if (! function_exists('ui')) {
     function ui(): IsManager
     {
@@ -32,7 +59,7 @@ if (! function_exists('ui')) {
     }
 }
 
-if (! \function_exists('render')) {
+if (! function_exists('render')) {
     /**
      * @param  mixed[]  $data
      */
