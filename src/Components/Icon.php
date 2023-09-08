@@ -23,6 +23,7 @@ class Icon extends Component
 
     public function __construct(
         string $name,
+        string $root = null,
         int $size = 24,
         string $type = 'solid',
         string $tag = 'svg',
@@ -33,7 +34,9 @@ class Icon extends Component
         $name = Str::squish($name);
         $name = Str::kebab($name);
 
-        if (! file_exists($icon = sikessem_ui_path("res/icons/$size/$type/$name.svg"))) {
+        $root ??= sikessem_ui_path('res/icons');
+
+        if (! \is_file($icon = "$root/$size/$type/$name.svg")) {
             throw new RuntimeException("No icon named $name was found for type $type of size $size.");
         }
 
