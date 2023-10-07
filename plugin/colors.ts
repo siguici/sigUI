@@ -1,3 +1,4 @@
+import colors from "tailwindcss/colors";
 import {
     append_style,
     darken_class,
@@ -15,7 +16,6 @@ import {
     StyleCallbacks,
     UtilityList,
 } from "./types";
-import colors from "tailwindcss/colors";
 
 export class Colors extends Plugin<void> {
     readonly components: ComponentList = {

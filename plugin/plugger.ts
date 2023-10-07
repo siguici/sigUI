@@ -9,90 +9,71 @@ import type {
     UIOptions,
 } from "./types";
 
+import plugin from "tailwindcss/plugin";
+import { PluginAPI } from "tailwindcss/types/config";
 import { Colors } from "./colors";
 import { Edges } from "./edges";
 import { Links } from "./links";
-import plugin from "tailwindcss/plugin";
-import { PluginAPI } from "tailwindcss/types/config";
 
-export class Plugger {
-    static DEFAULT_OPTIONS: RequiredUIOptions = {
-        linkClass: "link",
-        entryClass: "entry",
-        buttonClass: "button",
-    };
+export const DEFAULT_OPTIONS: RequiredUIOptions = {
+    linkClass: "link",
+    entryClass: "entry",
+    buttonClass: "button",
+};
 
-    static plugUI(): PluginWithOptions<UIOptions> {
-        return plugin.withOptions(
-            (options: UIOptions = Plugger.DEFAULT_OPTIONS) => (api) => {
-                this.useColors(api);
-                this.useLinks(api, {
-                    linkClass:
-                        options.linkClass || Plugger.DEFAULT_OPTIONS.linkClass,
-                });
-                this.useEdges(api, {
-                    entryClass:
-                        options.entryClass ||
-                        Plugger.DEFAULT_OPTIONS.entryClass,
-                    buttonClass:
-                        options.buttonClass ||
-                        Plugger.DEFAULT_OPTIONS.buttonClass,
-                });
-            },
-        );
-    }
-
-    static plugColors(): PluginWithoutOptions {
-        return plugin((api) => this.useColors(api));
-    }
-
-    static plugLinks(): PluginWithOptions<LinkOptions> {
-        return plugin.withOptions(
-            (
-                    options: LinkOptions = {
-                        linkClass: Plugger.DEFAULT_OPTIONS.linkClass,
-                    },
-                ) =>
-                (api) =>
-                    this.useLinks(api, options as RequiredLinkOptions),
-        );
-    }
-
-    static plugEdges(): PluginWithOptions<EdgeOptions> {
-        return plugin.withOptions(
-            (
-                    options: EdgeOptions = {
-                        entryClass: Plugger.DEFAULT_OPTIONS.entryClass,
-                        buttonClass: Plugger.DEFAULT_OPTIONS.buttonClass,
-                    },
-                ) =>
-                (api) => {
-                    const plugin = new Edges(
-                        api,
-                        options as RequiredEdgeOptions,
-                    );
-                    return plugin.create();
-                },
-        );
-    }
-
-    protected static useColors(api: PluginAPI): Colors {
-        return new Colors(api).create();
-    }
-
-    protected static useLinks(
-        api: PluginAPI,
-        options: RequiredLinkOptions,
-    ): Links {
-        return new Links(api, options as RequiredLinkOptions).create();
-    }
-
-    protected static useEdges(
-        api: PluginAPI,
-        options: RequiredEdgeOptions,
-    ): Edges {
-        return new Edges(api, options as RequiredEdgeOptions).create();
-    }
+export function plugUI(): PluginWithOptions<UIOptions> {
+    return plugin.withOptions((options: UIOptions = DEFAULT_OPTIONS) =>
+        (api) => {
+            useColors(api);
+            useLinks(api, {
+                linkClass: options.linkClass || DEFAULT_OPTIONS.linkClass,
+            });
+            useEdges(api, {
+                entryClass: options.entryClass || DEFAULT_OPTIONS.entryClass,
+                buttonClass: options.buttonClass || DEFAULT_OPTIONS.buttonClass,
+            });
+        });
 }
 
-export default Plugger;
+export function plugColors(): PluginWithoutOptions {
+    return plugin((api) => useColors(api));
+}
+
+export function plugLinks(): PluginWithOptions<LinkOptions> {
+    return plugin.withOptions(
+        (
+                options: LinkOptions = {
+                    linkClass: DEFAULT_OPTIONS.linkClass,
+                },
+            ) =>
+            (api) =>
+                useLinks(api, options as RequiredLinkOptions),
+    );
+}
+
+export function plugEdges(): PluginWithOptions<EdgeOptions> {
+    return plugin.withOptions(
+        (
+                options: EdgeOptions = {
+                    entryClass: DEFAULT_OPTIONS.entryClass,
+                    buttonClass: DEFAULT_OPTIONS.buttonClass,
+                },
+            ) =>
+            (api) => {
+                const plugin = new Edges(api, options as RequiredEdgeOptions);
+                return plugin.create();
+            },
+    );
+}
+
+function useColors(api: PluginAPI): Colors {
+    return new Colors(api).create();
+}
+
+function useLinks(api: PluginAPI, options: RequiredLinkOptions): Links {
+    return new Links(api, options as RequiredLinkOptions).create();
+}
+
+function useEdges(api: PluginAPI, options: RequiredEdgeOptions): Edges {
+    return new Edges(api, options as RequiredEdgeOptions).create();
+}

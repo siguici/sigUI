@@ -1,7 +1,7 @@
-import brotliSize from "brotli-size";
-import esbuild from "esbuild";
 import fs from "node:fs";
 import { basename, extname } from "node:path";
+import brotliSize from "brotli-size";
+import esbuild from "esbuild";
 
 build("index.js", undefined, false);
 

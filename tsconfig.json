@@ -55,5 +55,5 @@
     "importHelpers": true,
     "allowImportingTsExtensions": true,
   },
-  "files": ["./rome.json"],
+  "files": ["./biome.json"],
 }

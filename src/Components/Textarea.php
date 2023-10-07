@@ -10,8 +10,6 @@ class Textarea extends FormControl
 
     public string $id;
 
-    public bool $invalid;
-
     public ?string $value;
 
     public function __construct(
@@ -20,7 +18,7 @@ class Textarea extends FormControl
         string|array $value = null,
         string $current = null,
         string $default = null,
-        bool $invalid = false,
+        public bool $invalid = false,
         public ?string $icon = null,
     ) {
         parent::__construct('textarea');
@@ -31,7 +29,6 @@ class Textarea extends FormControl
         $value = old($name) ?: $current ?? $default;
         $this->name = $name;
         $this->id = $id;
-        $this->invalid = $invalid;
         $this->value = $value;
     }
 }

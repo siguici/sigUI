@@ -13,7 +13,7 @@ abstract class Component extends BaseComponent implements IsComponent
     public function render(): View|Factory|Closure
     {
         $prefix = preg_quote(Facade::prefix(), '/');
-        $alias = Facade::getAlias(get_class($this));
+        $alias = Facade::getAlias(static::class);
 
         return view("$prefix::components.$alias");
     }

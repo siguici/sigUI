@@ -1,5 +1,5 @@
-import { ComponentList, UtilityList } from "../types";
 import { PluginAPI } from "tailwindcss/types/config";
+import { ComponentList, UtilityList } from "../types";
 
 export interface PluginContract<T> {
     readonly api: PluginAPI;

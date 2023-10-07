@@ -1,8 +1,8 @@
-import UIConfig from "../tailwind.config";
 import path from "node:path";
 import postcss from "postcss";
 import tailwindcss, { type Config } from "tailwindcss";
 import resolveConfig from "tailwindcss/resolveConfig";
+import UIConfig from "../tailwind.config";
 
 import { describe, expect, it } from "vitest";
 

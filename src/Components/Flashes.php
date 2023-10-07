@@ -28,9 +28,7 @@ class Flashes extends Component
 
                 return $message;
             })
-            ->filter(function ($message) {
-                return ! empty($message);
-            });
+            ->filter(fn ($message) => ! empty($message));
         $this->messages = $messages;
     }
 }

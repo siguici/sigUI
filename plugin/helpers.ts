@@ -1,4 +1,4 @@
-import { Util } from "./util";
+import * as Util from "./util";
 
 export const {
     darken,

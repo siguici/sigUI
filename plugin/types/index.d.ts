@@ -1,5 +1,5 @@
-import type { ClassName } from "./styles";
 import type { Config, PluginCreator } from "tailwindcss/types/config";
+import type { ClassName } from "./styles";
 
 export type PluginWithoutOptions =
     | PluginCreator

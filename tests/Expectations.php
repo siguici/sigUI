@@ -52,7 +52,7 @@ expect()->extend('toContainInOrder', function (mixed ...$needles) {
     foreach ($needles as $needle) {
         if (is_string($value)) {
             Assert::assertStringContainsString((string) $needle, $value);
-            $value = substr_replace($value, '', 0, strpos($value, $needle) + strlen($needle));
+            $value = substr_replace($value, '', 0, strpos($value, (string) $needle) + strlen((string) $needle));
         } else {
             if (! is_iterable($value)) {
                 InvalidExpectationValue::expected('iterable');

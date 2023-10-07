@@ -6,7 +6,7 @@ use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\View\ComponentAttributeBag;
 use Stringable;
 
-interface IsComponentTag extends Stringable, Htmlable
+interface IsComponentTag extends Htmlable, Stringable
 {
     public function getName(): string;
 

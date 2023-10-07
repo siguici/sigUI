@@ -131,11 +131,9 @@ class ComponentCompiler extends ComponentTagCompiler implements IsComponentCompi
      */
     protected function compileClosingTags(string $value): string
     {
-        return preg_replace_callback("/<\/\s*s-([\w\-\.]*)\s*>/", function (array $matches) {
-            return (Facade::find($matches[1]))
-            ? ' '.$this->endComponentString()
-            : '';
-        }, $value) ?: parent::compileClosingTags($value);
+        return preg_replace_callback("/<\/\s*s-([\w\-\.]*)\s*>/", fn (array $matches) => (Facade::find($matches[1]))
+        ? ' '.$this->endComponentString()
+        : '', $value) ?: parent::compileClosingTags($value);
     }
 
     /**
@@ -158,9 +156,7 @@ class ComponentCompiler extends ComponentTagCompiler implements IsComponentCompi
 
             [$data, $attributes] = $this->partitionDataAndAttributes($class, $attributes);
 
-            $data = $data->mapWithKeys(function ($value, $key) {
-                return [Str::camel($key) => $value];
-            });
+            $data = $data->mapWithKeys(fn ($value, $key) => [Str::camel($key) => $value]);
 
             $parameters = $data->all();
 

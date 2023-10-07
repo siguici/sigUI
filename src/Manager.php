@@ -16,9 +16,9 @@ use Sikessem\UI\Contracts\IsManager;
 
 class Manager implements IsManager
 {
-    public const COMPONENT_NAMESPACE = 'Sikessem\\UI\\Components';
+    final public const COMPONENT_NAMESPACE = 'Sikessem\\UI\\Components';
 
-    public const ANONYMOUS_COMPONENT_NAMESPACE = 'ui::components';
+    final public const ANONYMOUS_COMPONENT_NAMESPACE = 'ui::components';
 
     /**
      * @var array<string,array<string,array<IsComponentConfig>>>;
@@ -176,7 +176,7 @@ class Manager implements IsManager
             $namespace .= '\\';
         }
 
-        if (0 === strpos($class, $namespace)) {
+        if (str_starts_with($class, $namespace)) {
             $class = substr_replace($class, '', 0, strlen($namespace));
         }
 
@@ -363,9 +363,7 @@ class Manager implements IsManager
     protected function toArrayString(Arrayable|iterable $array): string
     {
         $array = collect($array)
-            ->map(function (string $value, string $key): string {
-                return "'{$key}' => {$value}";
-            })
+            ->map(fn (string $value, string $key): string => "'{$key}' => {$value}")
             ->implode(',');
         $array = "[$array]";
 

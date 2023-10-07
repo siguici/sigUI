@@ -1,3 +1,4 @@
+import { DarkModeConfig, PluginAPI } from "tailwindcss/types/config";
 import { PluginContract } from "./contracts/plugin";
 import {
     append_style,
@@ -18,7 +19,6 @@ import type {
     UtilityList,
     UtilityName,
 } from "./types";
-import { DarkModeConfig, PluginAPI } from "tailwindcss/types/config";
 
 export abstract class Plugin<T> implements PluginContract<T> {
     readonly darkMode: DarkMode = ["media", "prefers-color-scheme: dark"];
