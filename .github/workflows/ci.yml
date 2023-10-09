@@ -7,19 +7,21 @@ on: ['push', 'pull_request']
 
 jobs:
   ci:
-    runs-on: ${{ matrix.operating-system }}
+    runs-on: ${{ matrix.os }}
+    continue-on-error: ${{ matrix.experimental }}
     strategy:
       fail-fast: true
       matrix:
-        operating-system: [ubuntu-latest]
-        php-version: [8.1, 8.2]
-        node-version: [18.0, 20.0]
-        dependency-version: [prefer-lowest, prefer-stable]
-    name: 👷 CI PHP-${{ matrix.php-version }} ${{ matrix.dependency-version }} with Node-${{ matrix.node-version }} on ${{ matrix.operating-system }}
+        os: [ubuntu-latest]
+        php: [8.1, 8.2]
+        node: [18.0, 20.0]
+        dependencies: [lowest, highest]
+        experimental: [false]
+    name: 👷 CI PHP-${{ matrix.php }} ${{ matrix.dependencies }} with Node-${{ matrix.node }} on ${{ matrix.os }}
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Cache dependencies
         id: composer-cache
@@ -28,37 +30,29 @@ jobs:
       - uses: actions/cache@v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.operating-system }}-dependencies-php-${{ matrix.php-version }}-composer-${{ hashFiles('composer.json') }}
+          key: ${{ runner.os }}-dependencies-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
           restore-keys: |
-            ${{ runner.operating-system }}-dependencies-php-${{ matrix.php-version }}-composer-
+            ${{ runner.os }}-dependencies-php-${{ matrix.php }}-composer-
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php-version }}
+          php-version: ${{ matrix.php }}
           extensions: curl, dom, gd, intl, mbstring, openssl, tokenizer, zip
           ini-values: error_reporting=E_ALL
           tools: composer:v2, php-cs-fixer, phpunit, vimeo/psalm
           coverage: pcov
 
       - name: Install Composer dependencies
-        run: |
-          set -e
-          composer install -q --no-ansi --no-cache --no-interaction --no-scripts --no-progress --prefer-dist
-          composer update --${{ matrix.dependency-version }} --no-interaction --prefer-dist --no-progress
-
-      - name: Update Dependencies with latest stable
-        if: matrix.dependency-version == 'prefer-stable'
-        run: composer update --prefer-stable
-
-      - name: Update Dependencies with lowest stable
-        if: matrix.dependency-version == 'prefer-lowest'
-        run: composer update --prefer-stable --prefer-lowest
+        uses: ramsey/composer-install@v2
+        with:
+          dependency-versions: ${{ matrix.dependencies }}
+          composer-options: --no-ansi --no-cache --no-interaction --no-scripts --no-progress --prefer-dist
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: ${{ matrix.node }}
 
       - name: Install JavaScript dependencies
         run: |
