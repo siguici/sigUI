@@ -1,27 +1,26 @@
 {
-    "$schema": "./node_modules/rome/configuration_schema.json",
-    "organizeImports": {
-        "enabled": true,
-        "ignore": ["node_modules", "vendor", "dist"]
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "organizeImports": {
+    "enabled": true,
+    "ignore": ["node_modules", "vendor", "dist"]
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "style": {
+        "useBlockStatements": "error",
+        "useShorthandArrayType": "error",
+        "noShoutyConstants": "warn"
+      }
     },
-    "linter": {
-        "enabled": true,
-        "rules": {
-            "recommended": true,
-            "style": {
-                "useBlockStatements": "error",
-                "useShorthandArrayType": "error",
-                "noShoutyConstants": "warn"
-            }
-        },
-        "ignore": ["node_modules", "vendor", "dist"]
-    },
-    "formatter": {
-        "enabled": true,
-        "formatWithErrors": false,
-        "indentStyle": "space",
-        "indentSize": 4,
-        "lineWidth": 80,
-        "ignore": ["node_modules", "vendor", "dist"]
-    }
+    "ignore": ["node_modules", "vendor", "dist"]
+  },
+  "formatter": {
+    "enabled": true,
+    "formatWithErrors": false,
+    "indentStyle": "space",
+    "lineWidth": 80,
+    "ignore": ["node_modules", "vendor", "dist"]
+  }
 }
