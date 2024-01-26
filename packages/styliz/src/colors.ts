@@ -1221,7 +1221,7 @@ export class Colors extends Plugin<void> {
       if (typeof value === "string") {
         this.addColorValue(name, value);
       } else {
-        this.matchColorValues(`${name}-${scheme}`, variants[scheme]);
+        this.matchColorValues(`${name}-${scheme}`, value);
       }
     });
 
