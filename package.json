@@ -29,7 +29,7 @@
   "main": "./src/index.ts",
   "types": "./types/index.d.ts",
   "scripts": {
-    "build": "rimraf packages/styliz/dist* && cd packages/styliz && pnpm build",
+    "build": "rimraf packages/styliz/dist && cd packages/styliz && pnpm build",
     "check": "biome ci .",
     "check.format": "biome format .",
     "check.lint": "biome check .",

@@ -32,10 +32,6 @@ export type RequiredUIOptions = RequiredLinkOptions & RequiredEdgeOptions;
 
 export type UIOptions = Partial<RequiredUIOptions> | undefined;
 
-export type DarkModeStrategy = "class" | "media";
-export type DarkModeQuery = string;
-export type DarkMode = [DarkModeStrategy, DarkModeQuery];
-
 export * from "./styles";
 export * from "./colors";
 

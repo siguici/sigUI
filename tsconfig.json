@@ -8,7 +8,6 @@
     "allowArbitraryExtensions": true,
     "declaration": true,
     "outDir": "dist",
-    "declarationDir": "dist-types",
     "strict": true,
     "verbatimModuleSyntax": true,
     "moduleResolution": "Node",
@@ -28,10 +27,8 @@
   },
   "include": [
       "packages/styliz/src",
-      "scripts/**/*",
   ],
   "exclude": [
     "**/dist",
-    "**/dist-types",
-  ]
+  ],
 }
