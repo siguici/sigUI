@@ -13,7 +13,7 @@ jobs:
       fail-fast: true
       matrix:
         os: [ubuntu-latest]
-        node: [20.10]
+        node: [20.11]
         experimental: [false]
     name: 👷 CI Styliz with Node-${{ matrix.node }} under ${{ matrix.os }}
 
