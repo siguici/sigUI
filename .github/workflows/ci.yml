@@ -30,6 +30,9 @@ jobs:
         run: |
           corepack enable
           make install
+      
+      - name: 📦️ Build for production
+        run: make build
 
       - name: ✅ Check code style
         run: make check

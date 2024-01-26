@@ -1,0 +1,53 @@
+{
+  "name": "styliz",
+  "version": "0.0.1",
+  "module": "dist/index.js",
+  "type": "module",
+  "engines": {
+    "node": ">=20.11",
+    "pnpm": ">=8.14",
+    "npm": "prefer using pnpm",
+    "yarn": "prefer using pnpm"
+},
+"packageManager": "pnpm@8.14.3",
+  "publishConfig": {
+    "access": "public"
+  },
+  "bugs": "https://github.com/siguici/styliz/issues",
+  "homepage": "https://siguici.github.io/styliz",
+  "author": {
+    "name": "Sigui Kessé Emmanuel",
+    "email": "contact@sigui.ci",
+    "url": "https://sigui.ci"
+  },
+  "description": "Elevate your design process effortlessly with TailwindCSS components and utilities, delivering a professional touch in a Bootstrap-inspired manner.",
+  "keywords": [
+    "styliz",
+    "framework",
+    "tailwindcss",
+    "bootstrap-like",
+    "plugin",
+    "utilities",
+    "componants",
+    "css",
+    "typescript"
+  ],
+  "main": "./dist/index.js",
+  "types": "./dist-types/index.d.ts",
+  "files": [
+    "dist",
+    "dist-types"
+  ],
+  "exports": {
+    ".": "./dist/index.js",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.3.3"
+  },
+  "sideEffects": false
+}

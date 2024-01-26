@@ -1,26 +1,20 @@
 {
-  "name": "styliz",
-  "version": "0.0.0",
-  "module": "src/index.ts",
+  "name": "styliz-monorepo",
   "type": "module",
+  "version": "0.0.1",
+  "license": "MIT",
+  "private": "true",
   "engines": {
     "node": ">=20.11",
     "pnpm": ">=8.14",
-    "npm": "prefer using pnpm",
-    "yarn": "prefer using pnpm"
-},
-"packageManager": "pnpm@8.14.3",
-  "publishConfig": {
-    "access": "public"
+    "npm": "prefer using pnpm"
   },
-  "bugs": "https://github.com/siguici/styliz/issues",
-  "homepage": "https://siguici.github.io/styliz",
+  "packageManager": "pnpm@8.14.3",
   "author": {
     "name": "Sigui Kessé Emmanuel",
-    "email": "contact@sigui.ci",
-    "url": "https://sigui.ci"
+    "email": "dev@sikessem.com",
+    "url": "https://github.com/siguici"
   },
-  "description": "Elevate your design process effortlessly with TailwindCSS components and utilities, delivering a professional touch in a Bootstrap-inspired manner.",
   "keywords": [
     "styliz",
     "framework",
@@ -35,6 +29,7 @@
   "main": "./src/index.ts",
   "types": "./types/index.d.ts",
   "scripts": {
+    "build": "rimraf packages/styliz/dist* && cd packages/styliz && pnpm build",
     "check": "biome ci .",
     "check.format": "biome format .",
     "check.lint": "biome check .",
@@ -53,17 +48,24 @@
   "devDependencies": {
     "@biomejs/biome": "^1.5.3",
     "@tailwindcss/nesting": "0.0.0-insiders.565cd3e",
-    "@types/node": "^20.11.6",
-    "@vitest/coverage-v8": "^1.2.1",
+    "@types/node": "^20.11.7",
+    "@vitest/coverage-v8": "^1.2.2",
     "autoprefixer": "^10.4.17",
     "postcss": "^8.4.33",
     "postcss-import": "^16.0.0",
     "postcss-load-config": "^5.0.2",
     "postcss-nested": "^6.0.1",
+    "rimraf": "^5.0.5",
+    "styliz": "workspace:*",
     "tailwindcss": "^3.4.1",
+    "ts-node": "^10.9.2",
     "typescript": "^5.3.3",
     "vite": "^5.0.12",
     "vite-tsconfig-paths": "^4.3.1",
-    "vitest": "^1.2.1"
+    "vitest": "^1.2.2"
+  },
+  "peerDependencies": {
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.3.3"
   }
 }

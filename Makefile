@@ -1,4 +1,4 @@
-.PHONY: install check fix test
+.PHONY: install check fix test build
 
 install: node_modules pnpm-lock.yaml
 
@@ -16,3 +16,6 @@ test: install
 
 fix: install
 	pnpm fix
+
+build: fix
+	pnpm build

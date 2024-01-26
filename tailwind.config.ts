@@ -1,6 +1,6 @@
+import styliz from "styliz";
 import { Config } from "tailwindcss";
 import defaultTheme from "tailwindcss/defaultTheme";
-import { UI } from "./src";
 
 export const UIConfig: Config = {
   content: ["./design/**/*.{html,css,ts}"],
@@ -11,7 +11,7 @@ export const UIConfig: Config = {
     },
   },
 
-  plugins: [UI],
+  plugins: [styliz],
 };
 
 export default UIConfig;
