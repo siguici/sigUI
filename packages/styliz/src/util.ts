@@ -1,6 +1,6 @@
+import { DarkModeConfig } from "tailwindcss/types/config";
 import {
   ClassName,
-  DarkMode,
   DeclarationBlock,
   PropertyName,
   PropertyValue,
@@ -9,7 +9,7 @@ import {
 } from "../types";
 
 export function darken(
-  darkMode: DarkMode,
+  darkMode: Partial<DarkModeConfig>,
   ruleName: string,
   lightRules: RuleSet,
   darkRules: RuleSet | undefined = undefined,
@@ -17,22 +17,61 @@ export function darken(
   const rules: RuleSet = {};
 
   if (darkRules !== undefined) {
-    if (darkMode[0] === "media") {
-      rules[ruleName] = {
-        ...lightRules,
-        [`@media (${darkMode[1]})`]: {
-          "&": {
+    let strategy: string;
+    let selector: string | string[] | undefined;
+
+    if (
+      darkMode === "media" ||
+      darkMode === "class" ||
+      darkMode === "selector"
+    ) {
+      strategy = darkMode;
+      selector = undefined;
+    } else {
+      strategy = darkMode[0] || "media";
+      selector = darkMode[1];
+    }
+
+    switch (strategy) {
+      case "variant": {
+        const selectors = Array.isArray(selector)
+          ? selector
+          : [selector || ".dark"];
+        for (const selector of selectors) {
+          rules[ruleName] = {
+            ...lightRules,
+            [selector]: {
+              ...darkRules,
+            },
+          };
+        }
+        break;
+      }
+      case "selector":
+        rules[ruleName] = {
+          ...lightRules,
+          [`&:where(${selector || ".dark"}, ${selector || ".dark"} *)`]: {
             ...darkRules,
           },
-        },
-      };
-    } else {
-      rules[ruleName] = {
-        ...lightRules,
-        [`:is(${darkMode[1]} &)`]: {
-          ...darkRules,
-        },
-      };
+        };
+        break;
+      case "class":
+        rules[ruleName] = {
+          ...lightRules,
+          [`:is(${selector || ".dark"} &)`]: {
+            ...darkRules,
+          },
+        };
+        break;
+      default:
+        rules[ruleName] = {
+          ...lightRules,
+          "@media (prefers-color-scheme: dark)": {
+            "&": {
+              ...darkRules,
+            },
+          },
+        };
     }
   } else {
     rules[ruleName] = lightRules;
@@ -42,7 +81,7 @@ export function darken(
 }
 
 export function darkenClass(
-  darkMode: DarkMode,
+  darkMode: Partial<DarkModeConfig>,
   className: string,
   lightRules: RuleSet,
   darkRules: RuleSet | undefined = undefined,

@@ -1,7 +1,6 @@
 import { DarkModeConfig, PluginAPI } from "tailwindcss/types/config";
 import type {
   ComponentList,
-  DarkMode,
   PropertyName,
   PropertyValue,
   RuleSet,
@@ -21,7 +20,7 @@ import {
 } from "./helpers";
 
 export abstract class Plugin<T> implements PluginContract<T> {
-  readonly darkMode: DarkMode = ["media", "prefers-color-scheme: dark"];
+  readonly darkMode: Partial<DarkModeConfig> = "media";
   abstract readonly components: ComponentList;
   abstract readonly utilities: UtilityList;
 
@@ -30,22 +29,7 @@ export abstract class Plugin<T> implements PluginContract<T> {
     readonly options: T,
   ) {
     const { config } = api;
-    const configDarkMode: Partial<DarkModeConfig> | undefined =
-      config().darkMode;
-
-    if (configDarkMode !== undefined) {
-      const mediaQuery = "prefers-color-scheme: dark";
-      const classQuery = ".dark";
-
-      if (configDarkMode === "media" || configDarkMode === "class") {
-        this.darkMode = [
-          configDarkMode,
-          configDarkMode === "media" ? mediaQuery : classQuery,
-        ];
-      } else if (configDarkMode[0] !== undefined) {
-        this.darkMode = [configDarkMode[0], classQuery];
-      }
-    }
+    this.darkMode = config().darkMode || "media";
   }
 
   abstract create(): this;
