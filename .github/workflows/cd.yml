@@ -33,6 +33,19 @@ jobs:
       - name: 🚚 Get latest code
         uses: actions/checkout@v4
 
+      - name: 🎉 Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: ✨ Install dependencies
+        run: |
+          corepack enable
+          make install
+      
+      - name: 📦️ Build for production
+        run: make build
+
       - name: ⚡️ Install, build, and upload
         uses: withastro/action@v1
         with:
