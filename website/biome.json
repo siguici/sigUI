@@ -2,7 +2,7 @@
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "organizeImports": {
     "enabled": true,
-    "ignore": ["node_modules", "dist"]
+    "ignore": [".astro", "dist", "node_modules"]
   },
   "linter": {
     "enabled": true,
@@ -11,22 +11,16 @@
       "style": {
         "useBlockStatements": "error",
         "useShorthandArrayType": "error",
-        "noShoutyConstants": "warn",
-        "noParameterAssign": "off"
-      },
-      "suspicious": {
-        "noImplicitAnyLet": "off",
-        "noExplicitAny": "off"
+        "noShoutyConstants": "warn"
       }
     },
-    "ignore": ["node_modules", "dist"]
+    "ignore": [".astro", "dist", "node_modules"]
   },
   "formatter": {
     "enabled": true,
     "formatWithErrors": false,
     "indentStyle": "space",
     "lineWidth": 80,
-    "ignore": ["node_modules", "dist"]
-  },
-  "extends": ["./website/biome.json"]
+    "ignore": [".astro", "dist", "node_modules"]
+  }
 }

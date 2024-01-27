@@ -1,0 +1,20 @@
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@layer components {
+    .hero {
+        @apply flex justify-center items-center;
+
+        & .stack {
+            @apply m-auto;
+
+            & .copy {
+                @apply font-black justify-center items-center text-center;
+            }
+    
+            & .actions {
+                @apply justify-center;
+            }
+        }
+    }
+}
