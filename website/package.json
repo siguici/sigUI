@@ -24,20 +24,17 @@
     "@astrojs/starlight": "^0.17.0",
     "@astrojs/tailwind": "^5.1.0",
     "astro": "^4.2.6",
+    "postcss-import": "^16.0.0",
+    "postcss-nested": "^6.0.1",
     "sharp": "^0.33.2",
     "styliz": "workspace:*",
     "tailwindcss": "^3.4.1",
+    "ts-node": "^10.9.2",
+    "tslib": "^2.6.2",
     "typescript": "^5.3.3"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.5.3",
-    "@types/node": "^20.11.7",
-    "autoprefixer": "^10.4.17",
-    "postcss": "^8.4.33",
-    "postcss-import": "^16.0.0",
-    "postcss-load-config": "^5.0.2",
-    "postcss-nested": "^6.0.1",
-    "ts-node": "^10.9.2",
-    "tslib": "^2.6.2"
+    "@types/node": "^20.11.7"
   }
 }
