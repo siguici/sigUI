@@ -5,7 +5,8 @@ import { defineConfig } from "astro/config";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://siguici.github.io/styliz",
+  site: "https://siguici.github.io",
+  base: "/styliz",
   compressHTML: true,
   integrations: [
     starlight({

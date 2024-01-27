@@ -1,0 +1,64 @@
+name: CD
+
+on:
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+
+    environment: 
+      name: production
+      url: https://siguici.github.io/styliz
+
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [ubuntu-latest]
+        node: [20.11]
+        pnpm: [8.14]
+
+    name: 🚀 Deploy https://siguici.github.io/styliz sikessem.github.io to Node-${{ matrix.node }} and build with pnpm@${{ matrix.pnpm }} on ${{ matrix.os }}
+
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v4
+
+      - name: ⚡️ Install, build, and upload
+        uses: withastro/action@v1
+        with:
+          path: ./website
+          node-version: ${{ matrix.node }}
+          package-manager: pnpm@${{ matrix.pnpm }}
+
+  deploy:
+    needs: build
+
+    runs-on: ${{ matrix.os }}
+
+    defaults:
+      run:
+        working-directory: ./website
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [ubuntu-latest]
+
+    steps:
+      - name: 📂 Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
