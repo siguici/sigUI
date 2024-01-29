@@ -1,0 +1,11 @@
+{
+  "organizeImports": {
+    "ignore": ["js", "ts"]
+  },
+  "linter": {
+    "ignore": ["js", "ts"]
+  },
+  "formatter": {
+    "ignore": ["js", "ts"]
+  }
+}

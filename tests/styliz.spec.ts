@@ -2,7 +2,7 @@ import path from "node:path";
 import postcss from "postcss";
 import tailwindcss, { type Config } from "tailwindcss";
 import resolveConfig from "tailwindcss/resolveConfig";
-import UIConfig from "../tailwind.config";
+import tailwindConfig from "../tailwind.config";
 
 import { describe, expect, it } from "vitest";
 
@@ -16,7 +16,7 @@ function run(
 ) {
   const { currentTestName } = expect.getState();
   const fullConfig = resolveConfig({
-    presets: [UIConfig],
+    presets: [tailwindConfig],
     corePlugins: { preflight: false },
     ...config,
   });

@@ -1,14 +1,15 @@
 {
   "compilerOptions": {
+    "strict": true,
+    "outDir": "js",
+    "declaration": true,
+    "declarationDir": "ts",
     "incremental": true,
     "target": "ESNext",
     "module": "ESNext",
     "lib": ["es2021", "DOM", "webworker", "DOM.Iterable"],
     "resolveJsonModule": true,
     "allowArbitraryExtensions": true,
-    "declaration": true,
-    "outDir": "dist",
-    "strict": true,
     "verbatimModuleSyntax": true,
     "moduleResolution": "Node",
     "assumeChangesOnlyAffectDirectDependencies": true,
@@ -27,8 +28,5 @@
   },
   "include": [
       "packages/styliz/src",
-  ],
-  "exclude": [
-    "**/dist",
   ],
 }

@@ -1,15 +1,10 @@
-import { DarkModeConfig, PluginAPI } from "tailwindcss/types/config";
 import type {
-  ComponentList,
-  PropertyName,
-  PropertyValue,
-  RuleSet,
-  StyleCallbacks,
-  StyleValues,
-  UtilityList,
-  UtilityName,
-} from "../types";
-import { PluginContract } from "./contracts/plugin";
+  Config,
+  DarkModeConfig,
+  PluginAPI,
+  PluginCreator,
+} from "tailwindcss/types/config";
+
 import {
   append_style,
   stylize_class,
@@ -18,6 +13,62 @@ import {
   stylize_property,
   stylize_property_callback,
 } from "./helpers";
+
+export interface PluginContract<T> {
+  readonly api: PluginAPI;
+  readonly options: T;
+  readonly components: ComponentList;
+  readonly utilities: UtilityList;
+  create(): this;
+}
+
+export type PluginWithoutOptions =
+  | PluginCreator
+  | {
+      handler: PluginCreator;
+      config?: Partial<Config>;
+    };
+export type PluginWithOptions<T> = {
+  (
+    options: T,
+  ): {
+    handler: PluginCreator;
+    config?: Partial<Config> | undefined;
+  };
+  __isOptionsFunction: true;
+};
+
+export type ClassName = string;
+export type ClassNames = ClassName[];
+
+export type PropertyName = string;
+export type PropertyValue = string;
+
+export type UtilityName = string;
+export type UtilityList = {
+  [key: UtilityName]: PropertyName;
+};
+
+export type ComponentName = string;
+
+export interface ComponentList {
+  [key: ComponentName]:
+    | UtilityName
+    | UtilityName[]
+    | UtilityList
+    | Record<UtilityName, UtilityList | UtilityName[]>;
+}
+
+export type DeclarationBlock = Record<string, string>;
+export interface RuleSet {
+  [key: string]: DeclarationBlock | RuleSet | string;
+}
+export type StyleCallback = (
+  value: string,
+  extra: { modifier: string | null },
+) => RuleSet | null;
+export type StyleCallbacks = Record<string, StyleCallback>;
+export type StyleValues = Record<string, string>;
 
 export abstract class Plugin<T> implements PluginContract<T> {
   readonly darkMode: Partial<DarkModeConfig> = "media";

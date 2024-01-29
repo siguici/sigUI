@@ -1,12 +1,17 @@
 {
   "include": [
     "src",
-    "types",
   ],
   "exclude": [
     "node_modules",
+    "js/**/*",
+    "ts/**/*",
   ],
   "compilerOptions": {
+    "strict": true,
+    "outDir": "js",
+    "declaration": true,
+    "declarationDir": "ts",
     "lib": [
       "ESNext",
     ],
@@ -14,12 +19,10 @@
     "target": "ESNext",
     "moduleResolution": "Node",
     "moduleDetection": "force",
-    "strict": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
-    "declaration": true,
     "noImplicitReturns": true,
     "pretty": true,
     "noUnusedLocals": true,
@@ -27,10 +30,6 @@
     "noImplicitOverride": true,
     "noFallthroughCasesInSwitch": true,
     "importHelpers": true,
-    "outDir": "dist",
     "tsBuildInfoFile": null,
-    "typeRoots": [
-      "./types",
-    ],
   }
 }

@@ -1,21 +1,28 @@
 import colors from "tailwindcss/colors";
-import {
-  ColorName,
-  ColorValue,
-  ColorValues,
-  ColorVariants,
-  ComponentList,
-  RuleSet,
-  StyleCallbacks,
-  UtilityList,
-} from "../types";
+
+export type ColorName = keyof typeof colors;
+export type ColorValue = string;
+export type ColorValues = Record<string | number, ColorValue>;
+export type RequiredColorVariants = {
+  default: ColorValue;
+  light: ColorValues;
+  dark: ColorValues;
+};
+export type ColorVariants = Partial<RequiredColorVariants>;
+
 import {
   append_style,
   darken_class,
   stylize_class,
   stylize_property,
 } from "./helpers";
-import { Plugin } from "./plugin";
+import {
+  ComponentList,
+  Plugin,
+  RuleSet,
+  StyleCallbacks,
+  UtilityList,
+} from "./plugin";
 
 export class Colors extends Plugin<void> {
   readonly components: ComponentList = {

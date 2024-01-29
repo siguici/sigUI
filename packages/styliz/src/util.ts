@@ -6,7 +6,7 @@ import {
   PropertyValue,
   RuleSet,
   StyleCallback,
-} from "../types";
+} from "./plugin";
 
 export function darken(
   darkMode: Partial<DarkModeConfig>,

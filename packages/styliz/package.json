@@ -1,17 +1,27 @@
 {
   "name": "styliz",
-  "version": "0.0.1",
-  "module": "dist/index.js",
-  "type": "module",
+  "version": "0.0.2",
+  "packageManager": "pnpm@8.14.3",
+  "publishConfig": {
+    "access": "public"
+  },
   "engines": {
     "node": ">=20.11",
     "pnpm": ">=8.14",
     "npm": "prefer using pnpm",
     "yarn": "prefer using pnpm"
-},
-"packageManager": "pnpm@8.14.3",
-  "publishConfig": {
-    "access": "public"
+  },
+  "type": "module",
+  "module": "./js/index.js",
+  "main": "./js/index.js",
+  "types": "./ts/",
+  "files": [
+    "js/**/*",
+    "ts/**/*"
+  ],
+  "exports": {
+    ".": "./js/index.js",
+    "./package.json": "./package.json"
   },
   "bugs": "https://github.com/siguici/styliz/issues",
   "homepage": "https://siguici.github.io/styliz",
@@ -32,16 +42,6 @@
     "css",
     "typescript"
   ],
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "files": [
-    "dist",
-    "types"
-  ],
-  "exports": {
-    ".": "./dist/index.js",
-    "./package.json": "./package.json"
-  },
   "scripts": {
     "build": "tsc"
   },
