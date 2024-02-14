@@ -1,15 +1,17 @@
-import { DarkModeConfig } from "tailwindcss/types/config";
 import {
   ClassName,
+  DarkMode,
   DeclarationBlock,
   PropertyName,
   PropertyValue,
   RuleSet,
   StyleCallback,
+  StyleCallbacks,
+  UtilityList,
 } from "./plugin";
 
 export function darken(
-  darkMode: Partial<DarkModeConfig>,
+  darkMode: DarkMode,
   ruleName: string,
   lightRules: RuleSet,
   darkRules: RuleSet | undefined = undefined,
@@ -80,8 +82,8 @@ export function darken(
   return rules;
 }
 
-export function darkenClass(
-  darkMode: Partial<DarkModeConfig>,
+export function darken_class(
+  darkMode: DarkMode,
   className: string,
   lightRules: RuleSet,
   darkRules: RuleSet | undefined = undefined,
@@ -89,25 +91,24 @@ export function darkenClass(
   return darken(darkMode, `.${className}`, lightRules, darkRules);
 }
 
-export function stylizeClass(
+export function stylize_class(
   className: ClassName,
   properties: DeclarationBlock,
 ): RuleSet {
   let declarations: DeclarationBlock = {};
-  // biome-ignore lint/complexity/noForEach: <explanation>
-  Object.entries(properties).forEach((property) => {
-    declarations = appendStyle(
-      stylizeProperty(property[0], property[1]),
+  for (const property of Object.entries(properties)) {
+    declarations = append_style(
+      stylize_property(property[0], property[1]),
       declarations,
     );
-  });
+  }
 
   return {
     [`.${className}`]: declarations,
   };
 }
 
-export function stylizeProperty(
+export function stylize_property(
   property: PropertyName,
   value: PropertyValue,
 ): DeclarationBlock {
@@ -116,33 +117,91 @@ export function stylizeProperty(
   };
 }
 
-export function stylizeProperties(
+export function stylize_properties(
   properties: PropertyName[],
   value: PropertyValue,
 ): DeclarationBlock {
   let rule: DeclarationBlock = {};
-  // biome-ignore lint/complexity/noForEach: <explanation>
-  properties.forEach((propertyName) => {
-    rule = appendStyle(stylizeProperty(propertyName, value), rule);
-  });
+  for (const propertyName of properties) {
+    rule = append_style(stylize_property(propertyName, value), rule);
+  }
   return rule;
 }
 
-export function stylizePropertyCallback(property: PropertyName): StyleCallback {
+export function stylize_property_callback(
+  property: PropertyName,
+): StyleCallback {
   return (value) => {
-    return stylizeProperty(property, value);
+    return stylize_property(property, value);
   };
 }
 
-export function stylizePropertiesCallback(
+export function stylize_properties_callback(
   properties: PropertyName[],
 ): StyleCallback {
   return (value) => {
-    return stylizeProperties(properties, value);
+    return stylize_properties(properties, value);
   };
 }
 
-export function appendStyle<T extends DeclarationBlock | RuleSet>(
+export function stylize_utility(
+  utilities: UtilityList,
+  name: PropertyName,
+  value: PropertyValue,
+): RuleSet {
+  const rules: RuleSet = {};
+
+  for (const utility of Object.entries(utilities)) {
+    rules[`.${utility[0]}-${name}`] = {
+      [utility[1]]: value,
+    };
+  }
+
+  return rules;
+}
+
+export function stylize_utility_callback(
+  utilities: UtilityList,
+  name: PropertyName,
+): StyleCallbacks {
+  const rules: StyleCallbacks = {};
+
+  for (const utility of Object.entries(utilities)) {
+    rules[`.${utility[0]}-${name}`] = stylize_property_callback(utility[1]);
+  }
+
+  return rules;
+}
+
+export function darken_utility(
+  darkMode: DarkMode,
+  utilities: UtilityList,
+  name: PropertyName,
+  lightValue: PropertyValue,
+  darkValue: PropertyValue,
+): RuleSet {
+  let rules: RuleSet = {};
+
+  for (const utility of Object.entries(utilities)) {
+    const utilityName = `${utility[0]}-${name}`;
+    const propertyName = utility[1];
+    rules[`.${utilityName}-light`] = stylize_property(propertyName, lightValue);
+    rules[`.${utilityName}-dark`] = stylize_property(propertyName, darkValue);
+    rules = append_style(
+      darken_class(
+        darkMode,
+        utilityName,
+        stylize_property(propertyName, lightValue),
+        stylize_property(propertyName, darkValue),
+      ),
+      rules,
+    );
+  }
+
+  return rules;
+}
+
+export function append_style<T extends DeclarationBlock | RuleSet>(
   style: T,
   styles: T,
 ): T {

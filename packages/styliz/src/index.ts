@@ -1,15 +1,22 @@
 import plugin from "tailwindcss/plugin";
 import { PluginAPI } from "tailwindcss/types/config";
-import { Colors } from "./colors";
+import { Colors, type ColorsConfig, DEFAULT_COLORS } from "./colors";
 import { EdgeOptions, Edges, RequiredEdgeOptions } from "./edges";
 import { LinkOptions, Links, RequiredLinkOptions } from "./links";
-import { PluginWithOptions, PluginWithoutOptions } from "./plugin";
+import { PluginWithOptions } from "./plugin";
 
-export type RequiredStylizOptions = RequiredLinkOptions & RequiredEdgeOptions;
+export type StylizConfig = Partial<{
+  colors: boolean | ColorsConfig;
+}>;
+
+export type RequiredStylizOptions = StylizConfig &
+  RequiredLinkOptions &
+  RequiredEdgeOptions;
 
 export type StylizOptions = Partial<RequiredStylizOptions> | undefined;
 
 export const DEFAULT_OPTIONS: RequiredStylizOptions = {
+  colors: true,
   linkClass: "link",
   entryClass: "entry",
   buttonClass: "button",
@@ -19,7 +26,14 @@ export function plugStyliz(): PluginWithOptions<StylizOptions> {
   return plugin.withOptions(
     (options: StylizOptions = DEFAULT_OPTIONS) =>
       (api) => {
-        useColors(api);
+        if (options.colors) {
+          useColors(
+            api,
+            typeof options.colors === "boolean"
+              ? DEFAULT_COLORS
+              : options.colors,
+          );
+        }
         useLinks(api, {
           linkClass: options.linkClass || DEFAULT_OPTIONS.linkClass,
         });
@@ -29,10 +43,6 @@ export function plugStyliz(): PluginWithOptions<StylizOptions> {
         });
       },
   );
-}
-
-export function plugColors(): PluginWithoutOptions {
-  return plugin(useColors);
 }
 
 export function plugLinks(): PluginWithOptions<LinkOptions> {
@@ -61,8 +71,8 @@ export function plugEdges(): PluginWithOptions<EdgeOptions> {
   );
 }
 
-function useColors(api: PluginAPI): Colors {
-  return new Colors(api).create();
+function useColors(api: PluginAPI, options: ColorsConfig): Colors {
+  return new Colors(api, options).create();
 }
 
 function useLinks(api: PluginAPI, options: RequiredLinkOptions): Links {
@@ -73,7 +83,6 @@ function useEdges(api: PluginAPI, options: RequiredEdgeOptions): Edges {
   return new Edges(api, options as RequiredEdgeOptions).create();
 }
 
-export const colors = plugColors();
 export const links = plugLinks();
 export const edges = plugEdges();
 

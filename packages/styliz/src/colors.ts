@@ -1,30 +1,658 @@
 import colors from "tailwindcss/colors";
-
-export type ColorName = keyof typeof colors;
-export type ColorValue = string;
-export type ColorValues = Record<string | number, ColorValue>;
-export type RequiredColorVariants = {
-  default: ColorValue;
-  light: ColorValues;
-  dark: ColorValues;
-};
-export type ColorVariants = Partial<RequiredColorVariants>;
-
-import {
-  append_style,
-  darken_class,
-  stylize_class,
-  stylize_property,
-} from "./helpers";
 import {
   ComponentList,
   Plugin,
+  PropertyName,
+  PropertyOption,
+  PropertyValue,
   RuleSet,
-  StyleCallbacks,
   UtilityList,
 } from "./plugin";
+import {
+  append_style,
+  darken_class,
+  darken_utility,
+  stylize_utility,
+} from "./utils";
 
-export class Colors extends Plugin<void> {
+export type ColorName = PropertyName;
+export type ColorScheme = "dark" | "light";
+export type ColorValue = PropertyValue;
+export type ColorOption = PropertyOption<ColorScheme>;
+export type ColorsConfig = {
+  [key: ColorName]: ColorOption;
+};
+
+export const common_colors = {
+  aliceblue: [240, 248, 255],
+  antiquewhite: [250, 235, 215],
+  aqua: [0, 255, 255],
+  aquamarine: [127, 255, 212],
+  azure: [240, 255, 255],
+  beige: [245, 245, 220],
+  bisque: [255, 228, 196],
+  black: [0, 0, 0],
+  blanchedalmond: [255, 235, 205],
+  blue: [0, 0, 255],
+  blueviolet: [138, 43, 226],
+  brown: [165, 42, 42],
+  burlywood: [222, 184, 135],
+  cadetblue: [95, 158, 160],
+  chartreuse: [127, 255, 0],
+  chocolate: [210, 105, 30],
+  coral: [255, 127, 80],
+  cornflowerblue: [100, 149, 237],
+  cornsilk: [255, 248, 220],
+  crimson: [220, 20, 60],
+  cyan: [0, 255, 255],
+  darkblue: [0, 0, 139],
+  darkcyan: [0, 139, 139],
+  darkgoldenrod: [184, 134, 11],
+  darkgray: [169, 169, 169],
+  darkgreen: [0, 100, 0],
+  darkgrey: [169, 169, 169],
+  darkkhaki: [189, 183, 107],
+  darkmagenta: [139, 0, 139],
+  darkolivegreen: [85, 107, 47],
+  darkorange: [255, 140, 0],
+  darkorchid: [153, 50, 204],
+  darkred: [139, 0, 0],
+  darksalmon: [233, 150, 122],
+  darkseagreen: [143, 188, 143],
+  darkslateblue: [72, 61, 139],
+  darkslategray: [47, 79, 79],
+  darkslategrey: [47, 79, 79],
+  darkturquoise: [0, 206, 209],
+  darkviolet: [148, 0, 211],
+  deeppink: [255, 20, 147],
+  deepskyblue: [0, 191, 255],
+  dimgray: [105, 105, 105],
+  dimgrey: [105, 105, 105],
+  dodgerblue: [30, 144, 255],
+  firebrick: [178, 34, 34],
+  floralwhite: [255, 250, 240],
+  forestgreen: [34, 139, 34],
+  fuchsia: [255, 0, 255],
+  gainsboro: [220, 220, 220],
+  ghostwhite: [248, 248, 255],
+  gold: [255, 215, 0],
+  goldenrod: [218, 165, 32],
+  gray: [128, 128, 128],
+  green: [0, 128, 0],
+  greenyellow: [173, 255, 47],
+  grey: [128, 128, 128],
+  honeydew: [240, 255, 240],
+  hotpink: [255, 105, 180],
+  indianred: [205, 92, 92],
+  indigo: [75, 0, 130],
+  ivory: [255, 255, 240],
+  khaki: [240, 230, 140],
+  lavender: [230, 230, 250],
+  lavenderblush: [255, 240, 245],
+  lawngreen: [124, 252, 0],
+  lemonchiffon: [255, 250, 205],
+  lightblue: [173, 216, 230],
+  lightcoral: [240, 128, 128],
+  lightcyan: [224, 255, 255],
+  lightgoldenrodyellow: [250, 250, 210],
+  lightgray: [211, 211, 211],
+  lightgreen: [144, 238, 144],
+  lightgrey: [211, 211, 211],
+  lightpink: [255, 182, 193],
+  lightsalmon: [255, 160, 122],
+  lightseagreen: [32, 178, 170],
+  lightskyblue: [135, 206, 250],
+  lightslategray: [119, 136, 153],
+  lightslategrey: [119, 136, 153],
+  lightsteelblue: [176, 196, 222],
+  lightyellow: [255, 255, 224],
+  lime: [0, 255, 0],
+  limegreen: [50, 205, 50],
+  linen: [250, 240, 230],
+  magenta: [255, 0, 255],
+  maroon: [128, 0, 0],
+  mediumaquamarine: [102, 205, 170],
+  mediumblue: [0, 0, 205],
+  mediumorchid: [186, 85, 211],
+  mediumpurple: [147, 112, 219],
+  mediumseagreen: [60, 179, 113],
+  mediumslateblue: [123, 104, 238],
+  mediumspringgreen: [0, 250, 154],
+  mediumturquoise: [72, 209, 204],
+  mediumvioletred: [199, 21, 133],
+  midnightblue: [25, 25, 112],
+  mintcream: [245, 255, 250],
+  mistyrose: [255, 228, 225],
+  moccasin: [255, 228, 181],
+  navajowhite: [255, 222, 173],
+  navy: [0, 0, 128],
+  oldlace: [253, 245, 230],
+  olive: [128, 128, 0],
+  olivedrab: [107, 142, 35],
+  orange: [255, 165, 0],
+  orangered: [255, 69, 0],
+  orchid: [218, 112, 214],
+  palegoldenrod: [238, 232, 170],
+  palegreen: [152, 251, 152],
+  paleturquoise: [175, 238, 238],
+  palevioletred: [219, 112, 147],
+  papayawhip: [255, 239, 213],
+  peachpuff: [255, 218, 185],
+  peru: [205, 133, 63],
+  pink: [255, 192, 203],
+  plum: [221, 160, 221],
+  powderblue: [176, 224, 230],
+  purple: [128, 0, 128],
+  rebeccapurple: [102, 51, 153],
+  red: [255, 0, 0],
+  rosybrown: [188, 143, 143],
+  royalblue: [65, 105, 225],
+  saddlebrown: [139, 69, 19],
+  salmon: [250, 128, 114],
+  sandybrown: [244, 164, 96],
+  seagreen: [46, 139, 87],
+  seashell: [255, 245, 238],
+  sienna: [160, 82, 45],
+  silver: [192, 192, 192],
+  skyblue: [135, 206, 235],
+  slateblue: [106, 90, 205],
+  slategray: [112, 128, 144],
+  slategrey: [112, 128, 144],
+  snow: [255, 250, 250],
+  springgreen: [0, 255, 127],
+  steelblue: [70, 130, 180],
+  tan: [210, 180, 140],
+  teal: [0, 128, 128],
+  thistle: [216, 191, 216],
+  tomato: [255, 99, 71],
+  turquoise: [64, 224, 208],
+  violet: [238, 130, 238],
+  wheat: [245, 222, 179],
+  white: [255, 255, 255],
+  whitesmoke: [245, 245, 245],
+  yellow: [255, 255, 0],
+  yellowgreen: [154, 205, 50],
+};
+
+const custom_colors: ColorsConfig = {};
+
+for (const color of Object.entries(common_colors)) {
+  const rgb_color = color[1];
+  custom_colors[color[0]] =
+    `rgb(${rgb_color[0]},${rgb_color[1]},${rgb_color[2]})`;
+}
+
+export const DEFAULT_COLORS: ColorsConfig = {
+  ...custom_colors,
+  pure: {
+    light: colors.white,
+    dark: colors.black,
+  },
+  slate: colors.slate[500],
+  "slate-xs": {
+    light: colors.slate[400],
+    dark: colors.slate[600],
+  },
+  "slate-sm": {
+    light: colors.slate[300],
+    dark: colors.slate[700],
+  },
+  "slate-md": {
+    light: colors.slate[200],
+    dark: colors.slate[800],
+  },
+  "slate-lg": {
+    light: colors.slate[100],
+    dark: colors.slate[900],
+  },
+  "slate-xl": {
+    light: colors.slate[50],
+    dark: colors.slate[950],
+  },
+  gray: colors.gray[500],
+  "gray-xs": {
+    light: colors.gray[400],
+    dark: colors.gray[600],
+  },
+  "gray-sm": {
+    light: colors.gray[300],
+    dark: colors.gray[700],
+  },
+  "gray-md": {
+    light: colors.gray[200],
+    dark: colors.gray[800],
+  },
+  "gray-lg": {
+    light: colors.gray[100],
+    dark: colors.gray[900],
+  },
+  "gray-xl": {
+    light: colors.gray[50],
+    dark: colors.gray[950],
+  },
+  zinc: colors.zinc[500],
+  "zinc-xs": {
+    light: colors.zinc[400],
+    dark: colors.zinc[600],
+  },
+  "zinc-sm": {
+    light: colors.zinc[300],
+    dark: colors.zinc[700],
+  },
+  "zinc-md": {
+    light: colors.zinc[200],
+    dark: colors.zinc[800],
+  },
+  "zinc-lg": {
+    light: colors.zinc[100],
+    dark: colors.zinc[900],
+  },
+  "zinc-xl": {
+    light: colors.zinc[50],
+    dark: colors.zinc[950],
+  },
+  neutral: colors.neutral[500],
+  "neutral-xs": {
+    light: colors.neutral[400],
+    dark: colors.neutral[600],
+  },
+  "neutral-sm": {
+    light: colors.neutral[300],
+    dark: colors.neutral[700],
+  },
+  "neutral-md": {
+    light: colors.neutral[200],
+    dark: colors.neutral[800],
+  },
+  "neutral-lg": {
+    light: colors.neutral[100],
+    dark: colors.neutral[900],
+  },
+  "neutral-xl": {
+    light: colors.neutral[50],
+    dark: colors.neutral[950],
+  },
+  stone: colors.stone[500],
+  "stone-xs": {
+    light: colors.stone[400],
+    dark: colors.stone[600],
+  },
+  "stone-sm": {
+    light: colors.stone[300],
+    dark: colors.stone[700],
+  },
+  "stone-md": {
+    light: colors.stone[200],
+    dark: colors.stone[800],
+  },
+  "stone-lg": {
+    light: colors.stone[100],
+    dark: colors.stone[900],
+  },
+  "stone-xl": {
+    light: colors.stone[50],
+    dark: colors.stone[950],
+  },
+  red: colors.red[500],
+  "red-xs": {
+    light: colors.red[400],
+    dark: colors.red[600],
+  },
+  "red-sm": {
+    light: colors.red[300],
+    dark: colors.red[700],
+  },
+  "red-md": {
+    light: colors.red[200],
+    dark: colors.red[800],
+  },
+  "red-lg": {
+    light: colors.red[100],
+    dark: colors.red[900],
+  },
+  "red-xl": {
+    light: colors.red[50],
+    dark: colors.red[950],
+  },
+  orange: colors.orange[500],
+  "orange-xs": {
+    light: colors.orange[400],
+    dark: colors.orange[600],
+  },
+  "orange-sm": {
+    light: colors.orange[300],
+    dark: colors.orange[700],
+  },
+  "orange-md": {
+    light: colors.orange[200],
+    dark: colors.orange[800],
+  },
+  "orange-lg": {
+    light: colors.orange[100],
+    dark: colors.orange[900],
+  },
+  "orange-xl": {
+    light: colors.orange[50],
+    dark: colors.orange[950],
+  },
+  amber: colors.amber[500],
+  "amber-xs": {
+    light: colors.amber[400],
+    dark: colors.amber[600],
+  },
+  "amber-sm": {
+    light: colors.amber[300],
+    dark: colors.amber[700],
+  },
+  "amber-md": {
+    light: colors.amber[200],
+    dark: colors.amber[800],
+  },
+  "amber-lg": {
+    light: colors.amber[100],
+    dark: colors.amber[900],
+  },
+  "amber-xl": {
+    light: colors.amber[50],
+    dark: colors.amber[950],
+  },
+  yellow: colors.yellow[500],
+  "yellow-xs": {
+    light: colors.yellow[400],
+    dark: colors.yellow[600],
+  },
+  "yellow-sm": {
+    light: colors.yellow[300],
+    dark: colors.yellow[700],
+  },
+  "yellow-md": {
+    light: colors.yellow[200],
+    dark: colors.yellow[800],
+  },
+  "yellow-lg": {
+    light: colors.yellow[100],
+    dark: colors.yellow[900],
+  },
+  "yellow-xl": {
+    light: colors.yellow[50],
+    dark: colors.yellow[950],
+  },
+  lime: colors.lime[500],
+  "lime-xs": {
+    light: colors.lime[400],
+    dark: colors.lime[600],
+  },
+  "lime-sm": {
+    light: colors.lime[300],
+    dark: colors.lime[700],
+  },
+  "lime-md": {
+    light: colors.lime[200],
+    dark: colors.lime[800],
+  },
+  "lime-lg": {
+    light: colors.lime[100],
+    dark: colors.lime[900],
+  },
+  "lime-xl": {
+    light: colors.lime[50],
+    dark: colors.lime[950],
+  },
+  green: colors.green[500],
+  "green-xs": {
+    light: colors.green[400],
+    dark: colors.green[600],
+  },
+  "green-sm": {
+    light: colors.green[300],
+    dark: colors.green[700],
+  },
+  "green-md": {
+    light: colors.green[200],
+    dark: colors.green[800],
+  },
+  "green-lg": {
+    light: colors.green[100],
+    dark: colors.green[900],
+  },
+  "green-xl": {
+    light: colors.green[50],
+    dark: colors.green[950],
+  },
+  emerald: colors.emerald[500],
+  "emerald-xs": {
+    light: colors.emerald[400],
+    dark: colors.emerald[600],
+  },
+  "emerald-sm": {
+    light: colors.emerald[300],
+    dark: colors.emerald[700],
+  },
+  "emerald-md": {
+    light: colors.emerald[200],
+    dark: colors.emerald[800],
+  },
+  "emerald-lg": {
+    light: colors.emerald[100],
+    dark: colors.emerald[900],
+  },
+  "emerald-xl": {
+    light: colors.emerald[50],
+    dark: colors.emerald[950],
+  },
+  teal: colors.teal[500],
+  "teal-xs": {
+    light: colors.teal[400],
+    dark: colors.teal[600],
+  },
+  "teal-sm": {
+    light: colors.teal[300],
+    dark: colors.teal[700],
+  },
+  "teal-md": {
+    light: colors.teal[200],
+    dark: colors.teal[800],
+  },
+  "teal-lg": {
+    light: colors.teal[100],
+    dark: colors.teal[900],
+  },
+  "teal-xl": {
+    light: colors.teal[50],
+    dark: colors.teal[950],
+  },
+  cyan: colors.cyan[500],
+  "cyan-xs": {
+    light: colors.cyan[400],
+    dark: colors.cyan[600],
+  },
+  "cyan-sm": {
+    light: colors.cyan[300],
+    dark: colors.cyan[700],
+  },
+  "cyan-md": {
+    light: colors.cyan[200],
+    dark: colors.cyan[800],
+  },
+  "cyan-lg": {
+    light: colors.cyan[100],
+    dark: colors.cyan[900],
+  },
+  "cyan-xl": {
+    light: colors.cyan[50],
+    dark: colors.cyan[950],
+  },
+  sky: colors.sky[500],
+  "sky-xs": {
+    light: colors.sky[400],
+    dark: colors.sky[600],
+  },
+  "sky-sm": {
+    light: colors.sky[300],
+    dark: colors.sky[700],
+  },
+  "sky-md": {
+    light: colors.sky[200],
+    dark: colors.sky[800],
+  },
+  "sky-lg": {
+    light: colors.sky[100],
+    dark: colors.sky[900],
+  },
+  "sky-xl": {
+    light: colors.sky[50],
+    dark: colors.sky[950],
+  },
+  blue: colors.blue[500],
+  "blue-xs": {
+    light: colors.blue[400],
+    dark: colors.blue[600],
+  },
+  "blue-sm": {
+    light: colors.blue[300],
+    dark: colors.blue[700],
+  },
+  "blue-md": {
+    light: colors.blue[200],
+    dark: colors.blue[800],
+  },
+  "blue-lg": {
+    light: colors.blue[100],
+    dark: colors.blue[900],
+  },
+  "blue-xl": {
+    light: colors.blue[50],
+    dark: colors.blue[950],
+  },
+  indigo: colors.indigo[500],
+  "indigo-xs": {
+    light: colors.indigo[400],
+    dark: colors.indigo[600],
+  },
+  "indigo-sm": {
+    light: colors.indigo[300],
+    dark: colors.indigo[700],
+  },
+  "indigo-md": {
+    light: colors.indigo[200],
+    dark: colors.indigo[800],
+  },
+  "indigo-lg": {
+    light: colors.indigo[100],
+    dark: colors.indigo[900],
+  },
+  "indigo-xl": {
+    light: colors.indigo[50],
+    dark: colors.indigo[950],
+  },
+  violet: colors.violet[500],
+  "violet-xs": {
+    light: colors.violet[400],
+    dark: colors.violet[600],
+  },
+  "violet-sm": {
+    light: colors.violet[300],
+    dark: colors.violet[700],
+  },
+  "violet-md": {
+    light: colors.violet[200],
+    dark: colors.violet[800],
+  },
+  "violet-lg": {
+    light: colors.violet[100],
+    dark: colors.violet[900],
+  },
+  "violet-xl": {
+    light: colors.violet[50],
+    dark: colors.violet[950],
+  },
+  purple: colors.purple[500],
+  "purple-xs": {
+    light: colors.purple[400],
+    dark: colors.purple[600],
+  },
+  "purple-sm": {
+    light: colors.purple[300],
+    dark: colors.purple[700],
+  },
+  "purple-md": {
+    light: colors.purple[200],
+    dark: colors.purple[800],
+  },
+  "purple-lg": {
+    light: colors.purple[100],
+    dark: colors.purple[900],
+  },
+  "purple-xl": {
+    light: colors.purple[50],
+    dark: colors.purple[950],
+  },
+  fuchsia: colors.fuchsia[500],
+  "fuchsia-xs": {
+    light: colors.fuchsia[400],
+    dark: colors.fuchsia[600],
+  },
+  "fuchsia-sm": {
+    light: colors.fuchsia[300],
+    dark: colors.fuchsia[700],
+  },
+  "fuchsia-md": {
+    light: colors.fuchsia[200],
+    dark: colors.fuchsia[800],
+  },
+  "fuchsia-lg": {
+    light: colors.fuchsia[100],
+    dark: colors.fuchsia[900],
+  },
+  "fuchsia-xl": {
+    light: colors.fuchsia[50],
+    dark: colors.fuchsia[950],
+  },
+  pink: colors.pink[500],
+  "pink-xs": {
+    light: colors.pink[400],
+    dark: colors.pink[600],
+  },
+  "pink-sm": {
+    light: colors.pink[300],
+    dark: colors.pink[700],
+  },
+  "pink-md": {
+    light: colors.pink[200],
+    dark: colors.pink[800],
+  },
+  "pink-lg": {
+    light: colors.pink[100],
+    dark: colors.pink[900],
+  },
+  "pink-xl": {
+    light: colors.pink[50],
+    dark: colors.pink[950],
+  },
+  rose: colors.rose[500],
+  "rose-xs": {
+    light: colors.rose[400],
+    dark: colors.rose[600],
+  },
+  "rose-sm": {
+    light: colors.rose[300],
+    dark: colors.rose[700],
+  },
+  "rose-md": {
+    light: colors.rose[200],
+    dark: colors.rose[800],
+  },
+  "rose-lg": {
+    light: colors.rose[100],
+    dark: colors.rose[900],
+  },
+  "rose-xl": {
+    light: colors.rose[50],
+    dark: colors.rose[950],
+  },
+};
+
+export class Colors extends Plugin<ColorsConfig> {
   readonly components: ComponentList = {
     link: ["text", "decoration"],
 
@@ -57,1362 +685,115 @@ export class Colors extends Plugin<void> {
   };
 
   public create(): this {
-    for (const name in colors) {
-      const colorDetails = this.getDetailsColorOf(name as ColorName);
-      this.addColor(name, colorDetails);
+    for (const color of Object.entries(this.options)) {
+      this.addColor(color[0], color[1]);
     }
     return this;
   }
 
-  public getDetailsColorOf(name: ColorName): ColorVariants {
-    const { theme } = this.api;
-    let color: ColorVariants;
-
-    switch (name) {
-      case "slate":
-        color = {
-          default: theme(
-            "colors.slate.default",
-            theme("colors.slate.500", colors.slate[500]),
-          ),
-          light: {
-            "0": theme(
-              "colors.slate.light.0",
-              theme("colors.slate.50", colors.slate[50]),
-            ),
-            "1": theme(
-              "colors.slate.light.1",
-              theme("colors.slate.100", colors.slate[100]),
-            ),
-            "2": theme(
-              "colors.slate.light.2",
-              theme("colors.slate.200", colors.slate[200]),
-            ),
-            "3": theme(
-              "colors.slate.light.3",
-              theme("colors.slate.300", colors.slate[300]),
-            ),
-            "4": theme(
-              "colors.slate.light.4",
-              theme("colors.slate.400", colors.slate[400]),
-            ),
-          },
-          dark: {
-            "0": theme(
-              "colors.slate.dark.0",
-              theme("colors.slate.950", colors.slate[950]),
-            ),
-            "1": theme(
-              "colors.slate.dark.1",
-              theme("colors.slate.900", colors.slate[900]),
-            ),
-            "2": theme(
-              "colors.slate.dark.2",
-              theme("colors.slate.800", colors.slate[800]),
-            ),
-            "3": theme(
-              "colors.slate.dark.3",
-              theme("colors.slate.700", colors.slate[700]),
-            ),
-            "4": theme(
-              "colors.slate.dark.4",
-              theme("colors.slate.600", colors.slate[600]),
-            ),
-          },
-        };
-        break;
-      case "gray":
-        color = {
-          default: theme(
-            "colors.gray.default",
-            theme("colors.gray.500", colors.gray[500]),
-          ),
-          light: {
-            "0": theme(
-              "colors.gray.light.0",
-              theme("colors.gray.50", colors.gray[50]),
-            ),
-            "1": theme(
-              "colors.gray.light.1",
-              theme("colors.gray.100", colors.gray[100]),
-            ),
-            "2": theme(
-              "colors.gray.light.2",
-              theme("colors.gray.200", colors.gray[200]),
-            ),
-            "3": theme(
-              "colors.gray.light.3",
-              theme("colors.gray.300", colors.gray[300]),
-            ),
-            "4": theme(
-              "colors.gray.light.4",
-              theme("colors.gray.400", colors.gray[400]),
-            ),
-          },
-          dark: {
-            "0": theme(
-              "colors.gray.dark.0",
-              theme("colors.gray.950", colors.gray[950]),
-            ),
-            "1": theme(
-              "colors.gray.dark.1",
-              theme("colors.gray.900", colors.gray[900]),
-            ),
-            "2": theme(
-              "colors.gray.dark.2",
-              theme("colors.gray.800", colors.gray[800]),
-            ),
-            "3": theme(
-              "colors.gray.dark.3",
-              theme("colors.gray.700", colors.gray[700]),
-            ),
-            "4": theme(
-              "colors.gray.dark.4",
-              theme("colors.gray.600", colors.gray[600]),
-            ),
-          },
-        };
-        break;
-      case "zinc":
-        color = {
-          default: theme(
-            "colors.zinc.default",
-            theme("colors.zinc.500", colors.zinc[500]),
-          ),
-          light: {
-            "0": theme(
-              "colors.zinc.light.0",
-              theme("colors.zinc.50", colors.zinc[50]),
-            ),
-            "1": theme(
-              "colors.zinc.light.1",
-              theme("colors.zinc.100", colors.zinc[100]),
-            ),
-            "2": theme(
-              "colors.zinc.light.2",
-              theme("colors.zinc.200", colors.zinc[200]),
-            ),
-            "3": theme(
-              "colors.zinc.light.3",
-              theme("colors.zinc.300", colors.zinc[300]),
-            ),
-            "4": theme(
-              "colors.zinc.light.4",
-              theme("colors.zinc.400", colors.zinc[400]),
-            ),
-          },
-          dark: {
-            "0": theme(
-              "colors.zinc.dark.0",
-              theme("colors.zinc.950", colors.zinc[950]),
-            ),
-            "1": theme(
-              "colors.zinc.dark.1",
-              theme("colors.zinc.900", colors.zinc[900]),
-            ),
-            "2": theme(
-              "colors.zinc.dark.2",
-              theme("colors.zinc.800", colors.zinc[800]),
-            ),
-            "3": theme(
-              "colors.zinc.dark.3",
-              theme("colors.zinc.700", colors.zinc[700]),
-            ),
-            "4": theme(
-              "colors.zinc.dark.4",
-              theme("colors.zinc.600", colors.zinc[600]),
-            ),
-          },
-        };
-        break;
-      case "neutral":
-        color = {
-          default: theme(
-            "colors.neutral.default",
-            theme("colors.neutral.500", colors.neutral[500]),
-          ),
-          light: {
-            "0": theme(
-              "colors.neutral.light.0",
-              theme("colors.neutral.50", colors.neutral[50]),
-            ),
-            "1": theme(
-              "colors.neutral.light.1",
-              theme("colors.neutral.100", colors.neutral[100]),
-            ),
-            "2": theme(
-              "colors.neutral.light.2",
-              theme("colors.neutral.200", colors.neutral[200]),
-            ),
-            "3": theme(
-              "colors.neutral.light.3",
-              theme("colors.neutral.300", colors.neutral[300]),
-            ),
-            "4": theme(
-              "colors.neutral.light.4",
-              theme("colors.neutral.400", colors.neutral[400]),
-            ),
-          },
-          dark: {
-            "0": theme(
-              "colors.neutral.dark.0",
-              theme("colors.neutral.950", colors.neutral[950]),
-            ),
-            "1": theme(
-              "colors.neutral.dark.1",
-              theme("colors.neutral.900", colors.neutral[900]),
-            ),
-            "2": theme(
-              "colors.neutral.dark.2",
-              theme("colors.neutral.800", colors.neutral[800]),
-            ),
-            "3": theme(
-              "colors.neutral.dark.3",
-              theme("colors.neutral.700", colors.neutral[700]),
-            ),
-            "4": theme(
-              "colors.neutral.dark.4",
-              theme("colors.neutral.600", colors.neutral[600]),
-            ),
-          },
-        };
-        break;
-      case "stone":
-        color = {
-          default: theme(
-            "colors.stone.default",
-            theme("colors.stone.500", colors.stone[500]),
-          ),
-          light: {
-            "0": theme(
-              "colors.stone.light.0",
-              theme("colors.stone.50", colors.stone[50]),
-            ),
-            "1": theme(
-              "colors.stone.light.1",
-              theme("colors.stone.100", colors.stone[100]),
-            ),
-            "2": theme(
-              "colors.stone.light.2",
-              theme("colors.stone.200", colors.stone[200]),
-            ),
-            "3": theme(
-              "colors.stone.light.3",
-              theme("colors.stone.300", colors.stone[300]),
-            ),
-            "4": theme(
-              "colors.stone.light.4",
-              theme("colors.stone.400", colors.stone[400]),
-            ),
-          },
-          dark: {
-            "0": theme(
-              "colors.stone.dark.0",
-              theme("colors.stone.950", colors.stone[950]),
-            ),
-            "1": theme(
-              "colors.stone.dark.1",
-              theme("colors.stone.900", colors.stone[900]),
-            ),
-            "2": theme(
-              "colors.stone.dark.2",
-              theme("colors.stone.800", colors.stone[800]),
-            ),
-            "3": theme(
-              "colors.stone.dark.3",
-              theme("colors.stone.700", colors.stone[700]),
-            ),
-            "4": theme(
-              "colors.stone.dark.4",
-              theme("colors.stone.600", colors.stone[600]),
-            ),
-          },
-        };
-        break;
-      case "red":
-        color = {
-          default: theme(
-            "colors.red.default",
-            theme("colors.red.500", colors.red[500]),
-          ),
-          light: {
-            "0": theme(
-              "colors.red.light.0",
-              theme("colors.red.50", colors.red[50]),
-            ),
-            "1": theme(
-              "colors.red.light.1",
-              theme("colors.red.100", colors.red[100]),
-            ),
-            "2": theme(
-              "colors.red.light.2",
-              theme("colors.red.200", colors.red[200]),
-            ),
-            "3": theme(
-              "colors.red.light.3",
-              theme("colors.red.300", colors.red[300]),
-            ),
-            "4": theme(
-              "colors.red.light.4",
-              theme("colors.red.400", colors.red[400]),
-            ),
-          },
-          dark: {
-            "0": theme(
-              "colors.red.dark.0",
-              theme("colors.red.950", colors.red[950]),
-            ),
-            "1": theme(
-              "colors.red.dark.1",
-              theme("colors.red.900", colors.red[900]),
-            ),
-            "2": theme(
-              "colors.red.dark.2",
-              theme("colors.red.800", colors.red[800]),
-            ),
-            "3": theme(
-              "colors.red.dark.3",
-              theme("colors.red.700", colors.red[700]),
-            ),
-            "4": theme(
-              "colors.red.dark.4",
-              theme("colors.red.600", colors.red[600]),
-            ),
-          },
-        };
-        break;
-      case "orange":
-        color = {
-          default: theme(
-            "colors.orange.default",
-            theme("colors.orange.500", colors.orange[500]),
-          ),
-          light: {
-            "0": theme(
-              "colors.orange.light.0",
-              theme("colors.orange.50", colors.orange[50]),
-            ),
-            "1": theme(
-              "colors.orange.light.1",
-              theme("colors.orange.100", colors.orange[100]),
-            ),
-            "2": theme(
-              "colors.orange.light.2",
-              theme("colors.orange.200", colors.orange[200]),
-            ),
-            "3": theme(
-              "colors.orange.light.3",
-              theme("colors.orange.300", colors.orange[300]),
-            ),
-            "4": theme(
-              "colors.orange.light.4",
-              theme("colors.orange.400", colors.orange[400]),
-            ),
-          },
-          dark: {
-            "0": theme(
-              "colors.orange.dark.0",
-              theme("colors.orange.950", colors.orange[950]),
-            ),
-            "1": theme(
-              "colors.orange.dark.1",
-              theme("colors.orange.900", colors.orange[900]),
-            ),
-            "2": theme(
-              "colors.orange.dark.2",
-              theme("colors.orange.800", colors.orange[800]),
-            ),
-            "3": theme(
-              "colors.orange.dark.3",
-              theme("colors.orange.700", colors.orange[700]),
-            ),
-            "4": theme(
-              "colors.orange.dark.4",
-              theme("colors.orange.600", colors.orange[600]),
-            ),
-          },
-        };
-        break;
-      case "amber":
-        color = {
-          default: theme(
-            "colors.amber.default",
-            theme("colors.amber.500", colors.amber[500]),
-          ),
-          light: {
-            "0": theme(
-              "colors.amber.light.0",
-              theme("colors.amber.50", colors.amber[50]),
-            ),
-            "1": theme(
-              "colors.amber.light.1",
-              theme("colors.amber.100", colors.amber[100]),
-            ),
-            "2": theme(
-              "colors.amber.light.2",
-              theme("colors.amber.200", colors.amber[200]),
-            ),
-            "3": theme(
-              "colors.amber.light.3",
-              theme("colors.amber.300", colors.amber[300]),
-            ),
-            "4": theme(
-              "colors.amber.light.4",
-              theme("colors.amber.400", colors.amber[400]),
-            ),
-          },
-          dark: {
-            "0": theme(
-              "colors.amber.dark.0",
-              theme("colors.amber.950", colors.amber[950]),
-            ),
-            "1": theme(
-              "colors.amber.dark.1",
-              theme("colors.amber.900", colors.amber[900]),
-            ),
-            "2": theme(
-              "colors.amber.dark.2",
-              theme("colors.amber.800", colors.amber[800]),
-            ),
-            "3": theme(
-              "colors.amber.dark.3",
-              theme("colors.amber.700", colors.amber[700]),
-            ),
-            "4": theme(
-              "colors.amber.dark.4",
-              theme("colors.amber.600", colors.amber[600]),
-            ),
-          },
-        };
-        break;
-      case "yellow":
-        color = {
-          default: theme(
-            "colors.yellow.default",
-            theme("colors.yellow.500", colors.yellow[500]),
-          ),
-          light: {
-            "0": theme(
-              "colors.yellow.light.0",
-              theme("colors.yellow.50", colors.yellow[50]),
-            ),
-            "1": theme(
-              "colors.yellow.light.1",
-              theme("colors.yellow.100", colors.yellow[100]),
-            ),
-            "2": theme(
-              "colors.yellow.light.2",
-              theme("colors.yellow.200", colors.yellow[200]),
-            ),
-            "3": theme(
-              "colors.yellow.light.3",
-              theme("colors.yellow.300", colors.yellow[300]),
-            ),
-            "4": theme(
-              "colors.yellow.light.4",
-              theme("colors.yellow.400", colors.yellow[400]),
-            ),
-          },
-          dark: {
-            "0": theme(
-              "colors.yellow.dark.0",
-              theme("colors.yellow.950", colors.yellow[950]),
-            ),
-            "1": theme(
-              "colors.yellow.dark.1",
-              theme("colors.yellow.900", colors.yellow[900]),
-            ),
-            "2": theme(
-              "colors.yellow.dark.2",
-              theme("colors.yellow.800", colors.yellow[800]),
-            ),
-            "3": theme(
-              "colors.yellow.dark.3",
-              theme("colors.yellow.700", colors.yellow[700]),
-            ),
-            "4": theme(
-              "colors.yellow.dark.4",
-              theme("colors.yellow.600", colors.yellow[600]),
-            ),
-          },
-        };
-        break;
-      case "lime":
-        color = {
-          default: theme(
-            "colors.lime.default",
-            theme("colors.lime.500", colors.lime[500]),
-          ),
-          light: {
-            "0": theme(
-              "colors.lime.light.0",
-              theme("colors.lime.50", colors.lime[50]),
-            ),
-            "1": theme(
-              "colors.lime.light.1",
-              theme("colors.lime.100", colors.lime[100]),
-            ),
-            "2": theme(
-              "colors.lime.light.2",
-              theme("colors.lime.200", colors.lime[200]),
-            ),
-            "3": theme(
-              "colors.lime.light.3",
-              theme("colors.lime.300", colors.lime[300]),
-            ),
-            "4": theme(
-              "colors.lime.light.4",
-              theme("colors.lime.400", colors.lime[400]),
-            ),
-          },
-          dark: {
-            "0": theme(
-              "colors.lime.dark.0",
-              theme("colors.lime.950", colors.lime[950]),
-            ),
-            "1": theme(
-              "colors.lime.dark.1",
-              theme("colors.lime.900", colors.lime[900]),
-            ),
-            "2": theme(
-              "colors.lime.dark.2",
-              theme("colors.lime.800", colors.lime[800]),
-            ),
-            "3": theme(
-              "colors.lime.dark.3",
-              theme("colors.lime.700", colors.lime[700]),
-            ),
-            "4": theme(
-              "colors.lime.dark.4",
-              theme("colors.lime.600", colors.lime[600]),
-            ),
-          },
-        };
-        break;
-      case "green":
-        color = {
-          default: theme(
-            "colors.green.default",
-            theme("colors.green.500", colors.green[500]),
-          ),
-          light: {
-            "0": theme(
-              "colors.green.light.0",
-              theme("colors.green.50", colors.green[50]),
-            ),
-            "1": theme(
-              "colors.green.light.1",
-              theme("colors.green.100", colors.green[100]),
-            ),
-            "2": theme(
-              "colors.green.light.2",
-              theme("colors.green.200", colors.green[200]),
-            ),
-            "3": theme(
-              "colors.green.light.3",
-              theme("colors.green.300", colors.green[300]),
-            ),
-            "4": theme(
-              "colors.green.light.4",
-              theme("colors.green.400", colors.green[400]),
-            ),
-          },
-          dark: {
-            "0": theme(
-              "colors.green.dark.0",
-              theme("colors.green.950", colors.green[950]),
-            ),
-            "1": theme(
-              "colors.green.dark.1",
-              theme("colors.green.900", colors.green[900]),
-            ),
-            "2": theme(
-              "colors.green.dark.2",
-              theme("colors.green.800", colors.green[800]),
-            ),
-            "3": theme(
-              "colors.green.dark.3",
-              theme("colors.green.700", colors.green[700]),
-            ),
-            "4": theme(
-              "colors.green.dark.4",
-              theme("colors.green.600", colors.green[600]),
-            ),
-          },
-        };
-        break;
-      case "emerald":
-        color = {
-          default: theme(
-            "colors.emerald.default",
-            theme("colors.emerald.500", colors.emerald[500]),
-          ),
-          light: {
-            "0": theme(
-              "colors.emerald.light.0",
-              theme("colors.emerald.50", colors.emerald[50]),
-            ),
-            "1": theme(
-              "colors.emerald.light.1",
-              theme("colors.emerald.100", colors.emerald[100]),
-            ),
-            "2": theme(
-              "colors.emerald.light.2",
-              theme("colors.emerald.200", colors.emerald[200]),
-            ),
-            "3": theme(
-              "colors.emerald.light.3",
-              theme("colors.emerald.300", colors.emerald[300]),
-            ),
-            "4": theme(
-              "colors.emerald.light.4",
-              theme("colors.emerald.400", colors.emerald[400]),
-            ),
-          },
-          dark: {
-            "0": theme(
-              "colors.emerald.dark.0",
-              theme("colors.emerald.950", colors.emerald[950]),
-            ),
-            "1": theme(
-              "colors.emerald.dark.1",
-              theme("colors.emerald.900", colors.emerald[900]),
-            ),
-            "2": theme(
-              "colors.emerald.dark.2",
-              theme("colors.emerald.800", colors.emerald[800]),
-            ),
-            "3": theme(
-              "colors.emerald.dark.3",
-              theme("colors.emerald.700", colors.emerald[700]),
-            ),
-            "4": theme(
-              "colors.emerald.dark.4",
-              theme("colors.emerald.600", colors.emerald[600]),
-            ),
-          },
-        };
-        break;
-      case "teal":
-        color = {
-          default: theme(
-            "colors.teal.default",
-            theme("colors.teal.500", colors.teal[500]),
-          ),
-          light: {
-            "0": theme(
-              "colors.teal.light.0",
-              theme("colors.teal.50", colors.teal[50]),
-            ),
-            "1": theme(
-              "colors.teal.light.1",
-              theme("colors.teal.100", colors.teal[100]),
-            ),
-            "2": theme(
-              "colors.teal.light.2",
-              theme("colors.teal.200", colors.teal[200]),
-            ),
-            "3": theme(
-              "colors.teal.light.3",
-              theme("colors.teal.300", colors.teal[300]),
-            ),
-            "4": theme(
-              "colors.teal.light.4",
-              theme("colors.teal.400", colors.teal[400]),
-            ),
-          },
-          dark: {
-            "0": theme(
-              "colors.teal.dark.0",
-              theme("colors.teal.950", colors.teal[950]),
-            ),
-            "1": theme(
-              "colors.teal.dark.1",
-              theme("colors.teal.900", colors.teal[900]),
-            ),
-            "2": theme(
-              "colors.teal.dark.2",
-              theme("colors.teal.800", colors.teal[800]),
-            ),
-            "3": theme(
-              "colors.teal.dark.3",
-              theme("colors.teal.700", colors.teal[700]),
-            ),
-            "4": theme(
-              "colors.teal.dark.4",
-              theme("colors.teal.600", colors.teal[600]),
-            ),
-          },
-        };
-        break;
-      case "cyan":
-        color = {
-          default: theme(
-            "colors.cyan.default",
-            theme("colors.cyan.500", colors.cyan[500]),
-          ),
-          light: {
-            "0": theme(
-              "colors.cyan.light.0",
-              theme("colors.cyan.50", colors.cyan[50]),
-            ),
-            "1": theme(
-              "colors.cyan.light.1",
-              theme("colors.cyan.100", colors.cyan[100]),
-            ),
-            "2": theme(
-              "colors.cyan.light.2",
-              theme("colors.cyan.200", colors.cyan[200]),
-            ),
-            "3": theme(
-              "colors.cyan.light.3",
-              theme("colors.cyan.300", colors.cyan[300]),
-            ),
-            "4": theme(
-              "colors.cyan.light.4",
-              theme("colors.cyan.400", colors.cyan[400]),
-            ),
-          },
-          dark: {
-            "0": theme(
-              "colors.cyan.dark.0",
-              theme("colors.cyan.950", colors.cyan[950]),
-            ),
-            "1": theme(
-              "colors.cyan.dark.1",
-              theme("colors.cyan.900", colors.cyan[900]),
-            ),
-            "2": theme(
-              "colors.cyan.dark.2",
-              theme("colors.cyan.800", colors.cyan[800]),
-            ),
-            "3": theme(
-              "colors.cyan.dark.3",
-              theme("colors.cyan.700", colors.cyan[700]),
-            ),
-            "4": theme(
-              "colors.cyan.dark.4",
-              theme("colors.cyan.600", colors.cyan[600]),
-            ),
-          },
-        };
-        break;
-      case "sky":
-        color = {
-          default: theme(
-            "colors.sky.default",
-            theme("colors.sky.500", colors.sky[500]),
-          ),
-          light: {
-            "0": theme(
-              "colors.sky.light.0",
-              theme("colors.sky.50", colors.sky[50]),
-            ),
-            "1": theme(
-              "colors.sky.light.1",
-              theme("colors.sky.100", colors.sky[100]),
-            ),
-            "2": theme(
-              "colors.sky.light.2",
-              theme("colors.sky.200", colors.sky[200]),
-            ),
-            "3": theme(
-              "colors.sky.light.3",
-              theme("colors.sky.300", colors.sky[300]),
-            ),
-            "4": theme(
-              "colors.sky.light.4",
-              theme("colors.sky.400", colors.sky[400]),
-            ),
-          },
-          dark: {
-            "0": theme(
-              "colors.sky.dark.0",
-              theme("colors.sky.950", colors.sky[950]),
-            ),
-            "1": theme(
-              "colors.sky.dark.1",
-              theme("colors.sky.900", colors.sky[900]),
-            ),
-            "2": theme(
-              "colors.sky.dark.2",
-              theme("colors.sky.800", colors.sky[800]),
-            ),
-            "3": theme(
-              "colors.sky.dark.3",
-              theme("colors.sky.700", colors.sky[700]),
-            ),
-            "4": theme(
-              "colors.sky.dark.4",
-              theme("colors.sky.600", colors.sky[600]),
-            ),
-          },
-        };
-        break;
-      case "blue":
-        color = {
-          default: theme(
-            "colors.blue.default",
-            theme("colors.blue.500", colors.blue[500]),
-          ),
-          light: {
-            "0": theme(
-              "colors.blue.light.0",
-              theme("colors.blue.50", colors.blue[50]),
-            ),
-            "1": theme(
-              "colors.blue.light.1",
-              theme("colors.blue.100", colors.blue[100]),
-            ),
-            "2": theme(
-              "colors.blue.light.2",
-              theme("colors.blue.200", colors.blue[200]),
-            ),
-            "3": theme(
-              "colors.blue.light.3",
-              theme("colors.blue.300", colors.blue[300]),
-            ),
-            "4": theme(
-              "colors.blue.light.4",
-              theme("colors.blue.400", colors.blue[400]),
-            ),
-          },
-          dark: {
-            "0": theme(
-              "colors.blue.dark.0",
-              theme("colors.blue.950", colors.blue[950]),
-            ),
-            "1": theme(
-              "colors.blue.dark.1",
-              theme("colors.blue.900", colors.blue[900]),
-            ),
-            "2": theme(
-              "colors.blue.dark.2",
-              theme("colors.blue.800", colors.blue[800]),
-            ),
-            "3": theme(
-              "colors.blue.dark.3",
-              theme("colors.blue.700", colors.blue[700]),
-            ),
-            "4": theme(
-              "colors.blue.dark.4",
-              theme("colors.blue.600", colors.blue[600]),
-            ),
-          },
-        };
-        break;
-      case "indigo":
-        color = {
-          default: theme(
-            "colors.indigo.default",
-            theme("colors.indigo.500", colors.indigo[500]),
-          ),
-          light: {
-            "0": theme(
-              "colors.indigo.light.0",
-              theme("colors.indigo.50", colors.indigo[50]),
-            ),
-            "1": theme(
-              "colors.indigo.light.1",
-              theme("colors.indigo.100", colors.indigo[100]),
-            ),
-            "2": theme(
-              "colors.indigo.light.2",
-              theme("colors.indigo.200", colors.indigo[200]),
-            ),
-            "3": theme(
-              "colors.indigo.light.3",
-              theme("colors.indigo.300", colors.indigo[300]),
-            ),
-            "4": theme(
-              "colors.indigo.light.4",
-              theme("colors.indigo.400", colors.indigo[400]),
-            ),
-          },
-          dark: {
-            "0": theme(
-              "colors.indigo.dark.0",
-              theme("colors.indigo.950", colors.indigo[950]),
-            ),
-            "1": theme(
-              "colors.indigo.dark.1",
-              theme("colors.indigo.900", colors.indigo[900]),
-            ),
-            "2": theme(
-              "colors.indigo.dark.2",
-              theme("colors.indigo.800", colors.indigo[800]),
-            ),
-            "3": theme(
-              "colors.indigo.dark.3",
-              theme("colors.indigo.700", colors.indigo[700]),
-            ),
-            "4": theme(
-              "colors.indigo.dark.4",
-              theme("colors.indigo.600", colors.indigo[600]),
-            ),
-          },
-        };
-        break;
-      case "violet":
-        color = {
-          default: theme(
-            "colors.violet.default",
-            theme("colors.violet.500", colors.violet[500]),
-          ),
-          light: {
-            "0": theme(
-              "colors.violet.light.0",
-              theme("colors.violet.50", colors.violet[50]),
-            ),
-            "1": theme(
-              "colors.violet.light.1",
-              theme("colors.violet.100", colors.violet[100]),
-            ),
-            "2": theme(
-              "colors.violet.light.2",
-              theme("colors.violet.200", colors.violet[200]),
-            ),
-            "3": theme(
-              "colors.violet.light.3",
-              theme("colors.violet.300", colors.violet[300]),
-            ),
-            "4": theme(
-              "colors.violet.light.4",
-              theme("colors.violet.400", colors.violet[400]),
-            ),
-          },
-          dark: {
-            "0": theme(
-              "colors.violet.dark.0",
-              theme("colors.violet.950", colors.violet[950]),
-            ),
-            "1": theme(
-              "colors.violet.dark.1",
-              theme("colors.violet.900", colors.violet[900]),
-            ),
-            "2": theme(
-              "colors.violet.dark.2",
-              theme("colors.violet.800", colors.violet[800]),
-            ),
-            "3": theme(
-              "colors.violet.dark.3",
-              theme("colors.violet.700", colors.violet[700]),
-            ),
-            "4": theme(
-              "colors.violet.dark.4",
-              theme("colors.violet.600", colors.violet[600]),
-            ),
-          },
-        };
-        break;
-      case "purple":
-        color = {
-          default: theme(
-            "colors.purple.default",
-            theme("colors.purple.500", colors.purple[500]),
-          ),
-          light: {
-            "0": theme(
-              "colors.purple.light.0",
-              theme("colors.purple.50", colors.purple[50]),
-            ),
-            "1": theme(
-              "colors.purple.light.1",
-              theme("colors.purple.100", colors.purple[100]),
-            ),
-            "2": theme(
-              "colors.purple.light.2",
-              theme("colors.purple.200", colors.purple[200]),
-            ),
-            "3": theme(
-              "colors.purple.light.3",
-              theme("colors.purple.300", colors.purple[300]),
-            ),
-            "4": theme(
-              "colors.purple.light.4",
-              theme("colors.purple.400", colors.purple[400]),
-            ),
-          },
-          dark: {
-            "0": theme(
-              "colors.purple.dark.0",
-              theme("colors.purple.950", colors.purple[950]),
-            ),
-            "1": theme(
-              "colors.purple.dark.1",
-              theme("colors.purple.900", colors.purple[900]),
-            ),
-            "2": theme(
-              "colors.purple.dark.2",
-              theme("colors.purple.800", colors.purple[800]),
-            ),
-            "3": theme(
-              "colors.purple.dark.3",
-              theme("colors.purple.700", colors.purple[700]),
-            ),
-            "4": theme(
-              "colors.purple.dark.4",
-              theme("colors.purple.600", colors.purple[600]),
-            ),
-          },
-        };
-        break;
-      case "fuchsia":
-        color = {
-          default: theme(
-            "colors.fuchsia.default",
-            theme("colors.fuchsia.500", colors.fuchsia[500]),
-          ),
-          light: {
-            "0": theme(
-              "colors.fuchsia.light.0",
-              theme("colors.fuchsia.50", colors.fuchsia[50]),
-            ),
-            "1": theme(
-              "colors.fuchsia.light.1",
-              theme("colors.fuchsia.100", colors.fuchsia[100]),
-            ),
-            "2": theme(
-              "colors.fuchsia.light.2",
-              theme("colors.fuchsia.200", colors.fuchsia[200]),
-            ),
-            "3": theme(
-              "colors.fuchsia.light.3",
-              theme("colors.fuchsia.300", colors.fuchsia[300]),
-            ),
-            "4": theme(
-              "colors.fuchsia.light.4",
-              theme("colors.fuchsia.400", colors.fuchsia[400]),
-            ),
-          },
-          dark: {
-            "0": theme(
-              "colors.fuchsia.dark.0",
-              theme("colors.fuchsia.950", colors.fuchsia[950]),
-            ),
-            "1": theme(
-              "colors.fuchsia.dark.1",
-              theme("colors.fuchsia.900", colors.fuchsia[900]),
-            ),
-            "2": theme(
-              "colors.fuchsia.dark.2",
-              theme("colors.fuchsia.800", colors.fuchsia[800]),
-            ),
-            "3": theme(
-              "colors.fuchsia.dark.3",
-              theme("colors.fuchsia.700", colors.fuchsia[700]),
-            ),
-            "4": theme(
-              "colors.fuchsia.dark.4",
-              theme("colors.fuchsia.600", colors.fuchsia[600]),
-            ),
-          },
-        };
-        break;
-      case "pink":
-        color = {
-          default: theme(
-            "colors.pink.default",
-            theme("colors.pink.500", colors.pink[500]),
-          ),
-          light: {
-            "0": theme(
-              "colors.pink.light.0",
-              theme("colors.pink.50", colors.pink[50]),
-            ),
-            "1": theme(
-              "colors.pink.light.1",
-              theme("colors.pink.100", colors.pink[100]),
-            ),
-            "2": theme(
-              "colors.pink.light.2",
-              theme("colors.pink.200", colors.pink[200]),
-            ),
-            "3": theme(
-              "colors.pink.light.3",
-              theme("colors.pink.300", colors.pink[300]),
-            ),
-            "4": theme(
-              "colors.pink.light.4",
-              theme("colors.pink.400", colors.pink[400]),
-            ),
-          },
-          dark: {
-            "0": theme(
-              "colors.pink.dark.0",
-              theme("colors.pink.950", colors.pink[950]),
-            ),
-            "1": theme(
-              "colors.pink.dark.1",
-              theme("colors.pink.900", colors.pink[900]),
-            ),
-            "2": theme(
-              "colors.pink.dark.2",
-              theme("colors.pink.800", colors.pink[800]),
-            ),
-            "3": theme(
-              "colors.pink.dark.3",
-              theme("colors.pink.700", colors.pink[700]),
-            ),
-            "4": theme(
-              "colors.pink.dark.4",
-              theme("colors.pink.600", colors.pink[600]),
-            ),
-          },
-        };
-        break;
-      case "rose":
-        color = {
-          default: theme(
-            "colors.rose.default",
-            theme("colors.rose.500", colors.rose[500]),
-          ),
-          light: {
-            "0": theme(
-              "colors.rose.light.0",
-              theme("colors.rose.50", colors.rose[50]),
-            ),
-            "1": theme(
-              "colors.rose.light.1",
-              theme("colors.rose.100", colors.rose[100]),
-            ),
-            "2": theme(
-              "colors.rose.light.2",
-              theme("colors.rose.200", colors.rose[200]),
-            ),
-            "3": theme(
-              "colors.rose.light.3",
-              theme("colors.rose.300", colors.rose[300]),
-            ),
-            "4": theme(
-              "colors.rose.light.4",
-              theme("colors.rose.400", colors.rose[400]),
-            ),
-          },
-          dark: {
-            "0": theme(
-              "colors.rose.dark.0",
-              theme("colors.rose.950", colors.rose[950]),
-            ),
-            "1": theme(
-              "colors.rose.dark.1",
-              theme("colors.rose.900", colors.rose[900]),
-            ),
-            "2": theme(
-              "colors.rose.dark.2",
-              theme("colors.rose.800", colors.rose[800]),
-            ),
-            "3": theme(
-              "colors.rose.dark.3",
-              theme("colors.rose.700", colors.rose[700]),
-            ),
-            "4": theme(
-              "colors.rose.dark.4",
-              theme("colors.rose.600", colors.rose[600]),
-            ),
-          },
-        };
-        break;
-      default:
-        color = {};
-    }
-
-    return color;
+  public addColor(name: ColorName, color: ColorOption): this {
+    return this.addColorComponents(name, color).addColorUtilities(name, color);
   }
 
-  protected addColor(name: string, variants: ColorVariants): this {
-    // biome-ignore lint/complexity/noForEach: <explanation>
-    Object.entries(variants).forEach((color) => {
-      const scheme = color[0];
-      const value = color[1];
-      if (typeof value === "string") {
-        this.addColorValue(name, value);
-      } else {
-        this.matchColorValues(`${name}-${scheme}`, value);
-      }
-    });
-
-    return this.matchColorScheme(name, variants);
+  public addColorComponents(name: ColorName, color: ColorOption): this {
+    return this.addComponents(this.stylizeColorComponents(name, color));
   }
 
-  protected matchColorScheme(name: string, variants: ColorVariants): this {
-    const lightColor = variants.light;
-    const darkColor = variants.dark;
-
-    if (lightColor !== undefined) {
-      this.addComponents(
-        this.stylizeColorSchemeComponent(name, lightColor, darkColor),
-      );
-      this.addUtilities(
-        this.stylizeColorSchemeUtility(name, lightColor, darkColor),
-      );
-    }
-
-    return this;
+  public addColorUtilities(name: ColorName, color: ColorOption): this {
+    return this.addUtilities(this.stylizeColorUtility(name, color));
   }
 
-  protected matchColorValues(name: string, values: ColorValues): this {
-    return this.matchColorComponents(name, values).matchColorUtilities(
-      name,
-      values,
-    );
-  }
-
-  protected addColorValue(name: string, value: ColorValue): this {
-    return this.addColorComponents(name, value).addColorUtilities(name, value);
-  }
-
-  protected addColorComponents(name: string, value: ColorValue): this {
-    return this.addComponents(this.stylizeComponents(name, value));
-  }
-
-  protected matchColorComponents(name: string, values: ColorValues): this {
-    return this.matchComponents(this.stylizeComponentsCallback(name), values);
-  }
-
-  protected addColorUtilities(name: string, value: ColorValue): this {
-    return this.addUtilities(this.stylizeColorUtility(name, value));
-  }
-
-  protected matchColorUtilities(name: string, values: ColorValues): this {
-    return this.matchUtilities(this.stylizeColorUtilityCallback(name), values);
-  }
-
-  protected stylizeColorSchemeComponent(
-    variant: string,
-    lightValues: ColorValues,
-    darkValues: ColorValues | undefined = undefined,
+  public stylizeColorComponents(
+    name: ColorName,
+    color: ColorOption,
   ): RuleSet[] {
     const { e } = this.api;
-    const style: RuleSet[] = [];
-    // biome-ignore lint/complexity/noForEach: <explanation>
-    Object.entries(this.components).forEach((component) => {
-      const name = `${component[0]}-${variant}`;
+    const rules: RuleSet[] = [];
+    for (const component of Object.entries(this.components)) {
+      const componentName = `${component[0]}-${name}`;
       const utilities = component[1];
+      let rule: RuleSet = {};
 
-      // biome-ignore lint/complexity/noForEach: <explanation>
-      Object.entries(lightValues).forEach((color) => {
-        const colorKey = color[0];
-        const colorName = `${name}-${colorKey}`;
-        const colorValue = color[1];
-        if (typeof utilities === "string") {
-          style.push(
-            darken_class(
-              this.darkMode,
-              colorName,
-              this.stylizeUtility(utilities, colorValue),
-              darkValues === undefined
-                ? undefined
-                : stylize_property(utilities, darkValues[colorKey]),
-            ),
-          );
-        } else if (Array.isArray(utilities)) {
-          style.push(
-            darken_class(
-              this.darkMode,
-              colorName,
-              this.stylizeUtilities(utilities, colorValue),
-              darkValues === undefined
-                ? undefined
-                : this.stylizeUtilities(utilities, darkValues[colorKey]),
-            ),
-          );
-        } else {
-          // biome-ignore lint/complexity/noForEach: <explanation>
-          Object.entries(utilities).forEach((utility) => {
-            const utilityName =
-              utility[0] === "DEFAULT"
-                ? colorName
-                : `${colorName}-${e(utility[0])}`;
-            const properties = utility[1];
-            if (typeof properties === "string") {
-              style.push(
-                darken_class(
-                  this.darkMode,
-                  utilityName,
-                  this.stylizeUtility(properties, colorValue),
-                  darkValues === undefined
-                    ? undefined
-                    : this.stylizeUtility(properties, darkValues[colorKey]),
-                ),
+      if (typeof utilities === "string") {
+        rule =
+          typeof color === "string"
+            ? {
+                [`.${componentName}`]: this.stylizeUtility(utilities, color),
+              }
+            : darken_class(
+                this.darkMode,
+                componentName,
+                this.stylizeUtility(utilities, color.light),
+                this.stylizeUtility(utilities, color.dark),
               );
+      } else if (Array.isArray(utilities)) {
+        rule =
+          typeof color === "string"
+            ? {
+                [`.${componentName}`]: this.stylizeUtilities(utilities, color),
+              }
+            : darken_class(
+                this.darkMode,
+                componentName,
+                this.stylizeUtilities(utilities, color.light),
+                this.stylizeUtilities(utilities, color.dark),
+              );
+      } else {
+        for (const utility of Object.entries(utilities)) {
+          const utilityName =
+            utility[0] === "DEFAULT"
+              ? componentName
+              : `${componentName}-${e(utility[0])}`;
+          const properties = utility[1];
+          if (typeof properties === "string") {
+            if (typeof color === "string") {
+              rule[`.${utilityName}`] = this.stylizeUtility(properties, color);
             } else {
-              style.push(
+              rule = append_style(
                 darken_class(
                   this.darkMode,
                   utilityName,
-                  this.stylizeUtilities(properties, colorValue),
-                  darkValues === undefined
-                    ? undefined
-                    : this.stylizeUtilities(properties, darkValues[colorKey]),
+                  this.stylizeUtility(properties, color.light),
+                  this.stylizeUtility(properties, color.dark),
                 ),
+                rule,
               );
             }
-          });
+          } else {
+            if (typeof color === "string") {
+              rule[`.${utilityName}`] = this.stylizeUtilities(
+                properties,
+                color,
+              );
+            } else {
+              rule = append_style(
+                darken_class(
+                  this.darkMode,
+                  utilityName,
+                  this.stylizeUtilities(properties, color.light),
+                  this.stylizeUtilities(properties, color.dark),
+                ),
+                rule,
+              );
+            }
+          }
+          rules.push(rule);
         }
-      });
-    });
-    return style;
+      }
+    }
+    return rules;
   }
 
-  protected stylizeColorSchemeUtility(
-    variant: string,
-    lightValues: ColorValues,
-    darkValues: ColorValues | undefined = undefined,
-  ): RuleSet[] {
-    const style: RuleSet[] = [];
-    // biome-ignore lint/complexity/noForEach: <explanation>
-    Object.entries(this.utilities).forEach((utility) => {
-      const utilityName = `${utility[0]}-${variant}`;
-      const propertyName = utility[1];
-      // biome-ignore lint/complexity/noForEach: <explanation>
-      Object.entries(lightValues).forEach((color) => {
-        const colorKey = color[0];
-        const colorValue = color[1];
-        style.push(
-          darken_class(
-            this.darkMode,
-            `${utilityName}-${colorKey}`,
-            stylize_property(propertyName, colorValue),
-            darkValues === undefined
-              ? undefined
-              : stylize_property(propertyName, darkValues[colorKey]),
-          ),
+  public stylizeColorUtility(name: string, color: ColorOption): RuleSet {
+    const { e } = this.api;
+    return typeof color === "string"
+      ? stylize_utility(this.utilities, e(name), color)
+      : darken_utility(
+          this.darkMode,
+          this.utilities,
+          e(name),
+          color.light,
+          color.dark,
         );
-      });
-    });
-    return style;
-  }
-
-  protected stylizeColorUtility(name: string, value: ColorValue): RuleSet {
-    const { e } = this.api;
-    let rules: RuleSet = {};
-
-    // biome-ignore lint/complexity/noForEach: <explanation>
-    Object.entries(this.utilities).forEach((utility) => {
-      const utilityName = `${utility[0]}-${e(name)}`;
-      const propertyName = utility[1];
-      rules = append_style(
-        stylize_class(utilityName, {
-          [propertyName]: value,
-        }),
-        rules,
-      );
-    });
-    return rules;
-  }
-
-  protected stylizeColorUtilityCallback(name: string): StyleCallbacks {
-    const { e } = this.api;
-    const rules: StyleCallbacks = {};
-
-    // biome-ignore lint/complexity/noForEach: <explanation>
-    Object.entries(this.utilities).forEach((utility) => {
-      const utilityName = utility[0];
-      const propertyName = utility[1];
-      rules[`${utilityName}-${e(name)}`] = (value) =>
-        stylize_property(propertyName, value);
-    });
-    return rules;
   }
 }

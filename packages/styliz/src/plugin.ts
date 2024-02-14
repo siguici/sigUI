@@ -12,7 +12,7 @@ import {
   stylize_properties_callback,
   stylize_property,
   stylize_property_callback,
-} from "./helpers";
+} from "./utils";
 
 export interface PluginContract<T> {
   readonly api: PluginAPI;
@@ -43,6 +43,15 @@ export type ClassNames = ClassName[];
 
 export type PropertyName = string;
 export type PropertyValue = string;
+export type PropertyVariant<T extends string> = {
+  [key in T]: PropertyValue;
+};
+export type PropertyOption<T extends string> =
+  | PropertyValue
+  | PropertyVariant<T>;
+export type PropertyConfig<T extends string> = {
+  [key in PropertyName]: PropertyOption<T>;
+};
 
 export type UtilityName = string;
 export type UtilityList = {
@@ -70,8 +79,10 @@ export type StyleCallback = (
 export type StyleCallbacks = Record<string, StyleCallback>;
 export type StyleValues = Record<string, string>;
 
+export type DarkMode = Partial<DarkModeConfig>;
+
 export abstract class Plugin<T> implements PluginContract<T> {
-  readonly darkMode: Partial<DarkModeConfig> = "media";
+  readonly darkMode: DarkMode = "media";
   abstract readonly components: ComponentList;
   abstract readonly utilities: UtilityList;
 
@@ -195,7 +206,7 @@ export abstract class Plugin<T> implements PluginContract<T> {
   protected addVar(name: string, value: string): this {
     return this.addBase({
       ":root": {
-        [`--ui-${name}`]: value,
+        [`--s-${name}`]: value,
       },
     });
   }

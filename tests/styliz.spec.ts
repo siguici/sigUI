@@ -30,26 +30,27 @@ describe.concurrent("suite", () => {
   const config = {
     content: [
       {
-        raw: html`<div class="text-red bg-red-0 border-red-4"><a href="#" class="button-blue">Click button</a><a href="#" class="link-green">Click link</a></div>`,
+        raw: html`<div class="text-red bg-red-xs border-red-xl"><a href="#" class="button-blue">Click button</a><a href="#" class="link-green">Click link</a></div>`,
       },
     ],
   };
 
   it("should have red text class", async () => {
     return run(config).then((result) => {
+      console.log(result.css);
       expect(result.css).toContain(css`.text-red`);
     });
   });
 
-  it("should have bg-red-0 class", async () => {
+  it("should have bg-red-xs class", async () => {
     return run(config).then((result) => {
-      expect(result.css).toContain(css`.bg-red-0`);
+      expect(result.css).toContain(css`.bg-red-xs`);
     });
   });
 
-  it("should have border-red-4 class", async () => {
+  it("should have border-red-xl class", async () => {
     return run(config).then((result) => {
-      expect(result.css).toContain(css`.border-red-4`);
+      expect(result.css).toContain(css`.border-red-xl`);
     });
   });
 
