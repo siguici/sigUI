@@ -10,7 +10,7 @@ class Flash extends Component
 
     public function __construct(
         string $type,
-        string $message = null,
+        ?string $message = null,
         public string $tag = 'p',
         public ?string $icon = null,
     ) {

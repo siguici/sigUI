@@ -120,7 +120,7 @@ class ServiceProvider extends BaseServiceProvider
     /**
      * @param  string[]|null  $groups
      */
-    protected function publishesToGroups(array $paths, array $groups = null): void
+    protected function publishesToGroups(array $paths, ?array $groups = null): void
     {
         if (is_null($groups)) {
             $this->publishes($paths);
@@ -170,7 +170,7 @@ class ServiceProvider extends BaseServiceProvider
         }
     }
 
-    protected function registerComponent(string $class, string $alias = null, bool $anonymous = false): void
+    protected function registerComponent(string $class, ?string $alias = null, bool $anonymous = false): void
     {
         Facade::component($class, $alias, $anonymous);
     }
@@ -178,7 +178,7 @@ class ServiceProvider extends BaseServiceProvider
     /**
      * @param  string[]  $aliases
      */
-    protected function registerComponentAliases(string $class, array $aliases = [], string $suffix = null): void
+    protected function registerComponentAliases(string $class, array $aliases = [], ?string $suffix = null): void
     {
         foreach ($aliases as $alias) {
             $this->registerComponent($class, is_null($suffix) ? $alias : "$alias-$suffix");

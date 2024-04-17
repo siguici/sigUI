@@ -13,7 +13,7 @@ class Link extends Component
      */
     public function __construct(
         string $href = '#',
-        string $route = null,
+        ?string $route = null,
         string|array $parameters = [],
         public ?string $text = null,
         public ?string $icon = null,

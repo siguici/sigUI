@@ -19,11 +19,11 @@ class Input extends FormControl
 
     public function __construct(
         string $type = 'text',
-        string $name = null,
-        string $id = null,
-        string|array $value = null,
-        string $current = null,
-        string $default = null,
+        ?string $name = null,
+        ?string $id = null,
+        string|array|null $value = null,
+        ?string $current = null,
+        ?string $default = null,
         public bool $invalid = false,
         public ?string $icon = null,
     ) {

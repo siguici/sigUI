@@ -14,10 +14,10 @@ class Textarea extends FormControl
 
     public function __construct(
         string $name,
-        string $id = null,
-        string|array $value = null,
-        string $current = null,
-        string $default = null,
+        ?string $id = null,
+        string|array|null $value = null,
+        ?string $current = null,
+        ?string $default = null,
         public bool $invalid = false,
         public ?string $icon = null,
     ) {

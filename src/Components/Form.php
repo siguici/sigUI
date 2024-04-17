@@ -16,7 +16,7 @@ class Form extends Component
     public function __construct(
         string $method = 'GET',
         string $action = '#',
-        string $route = null,
+        ?string $route = null,
         string|array $parameters = [],
         public bool $hasFiles = false,
     ) {

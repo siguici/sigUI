@@ -139,7 +139,7 @@ class ComponentCompiler extends ComponentTagCompiler implements IsComponentCompi
     /**
      * @param  array<mixed>  $attributes
      */
-    protected function componentString(string $component, array $attributes, string $contents = null): string
+    protected function componentString(string $component, array $attributes, ?string $contents = null): string
     {
         if ($info = Facade::find($component)) {
             ['class' => $class, 'alias' => $alias] = $info;

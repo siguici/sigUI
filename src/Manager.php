@@ -119,7 +119,7 @@ class Manager implements IsManager
         return $this->config('prefix', 'ui');
     }
 
-    public function component(string $class, string $alias = null, bool $anonymous = false): void
+    public function component(string $class, ?string $alias = null, bool $anonymous = false): void
     {
         $alias ??= $anonymous ? $class : $this->getAlias($class);
         if (is_null($this->find($alias))) {
@@ -169,7 +169,7 @@ class Manager implements IsManager
         }
     }
 
-    public function getAlias(string $class, string $namespace = null): string
+    public function getAlias(string $class, ?string $namespace = null): string
     {
         $namespace ??= self::COMPONENT_NAMESPACE;
         if (! str_ends_with($namespace, '\\')) {
@@ -204,7 +204,7 @@ class Manager implements IsManager
     /**
      * @param  array<string,string>|ComponentAttributes  $attributes
      */
-    public function make(string $name, array|ComponentAttributes $attributes = [], string|ComponentSlot $slot = null): string
+    public function make(string $name, array|ComponentAttributes $attributes = [], string|ComponentSlot|null $slot = null): string
     {
         if ($component = $this->find($name)) {
             ['alias' => $alias] = $component;
@@ -224,7 +224,7 @@ class Manager implements IsManager
     /**
      * @param  array<string,string>|ComponentAttributes  $attributes
      */
-    public function openTag(string $name, array|ComponentAttributes $attributes = [], string|ComponentSlot $contents = null): string
+    public function openTag(string $name, array|ComponentAttributes $attributes = [], string|ComponentSlot|null $contents = null): string
     {
         $tag = $this->makeComponentTag($name, $attributes, $contents);
 
@@ -253,7 +253,7 @@ class Manager implements IsManager
      * @param  Arrayable<int|string,mixed>|mixed[]  $contentData
      * @param  Arrayable<int|string,mixed>|mixed[]  $layoutData
      */
-    public function page(string $contentPath, Arrayable|array $contentData = [], string $layoutPath = null, Arrayable|array $layoutData = [], array $mergeData = []): ViewContract
+    public function page(string $contentPath, Arrayable|array $contentData = [], ?string $layoutPath = null, Arrayable|array $layoutData = [], array $mergeData = []): ViewContract
     {
         if (isset($layoutPath)) {
             $content = ViewFacade::make("contents.$contentPath", $contentData, $mergeData)->render();
@@ -303,7 +303,7 @@ class Manager implements IsManager
     /**
      * @param  array<string,string>|ComponentAttributes  $attributes
      */
-    public function makeComponentTag(string $component, array|ComponentAttributes $attributes = [], string|ComponentSlot $contents = null): IsComponentTag
+    public function makeComponentTag(string $component, array|ComponentAttributes $attributes = [], string|ComponentSlot|null $contents = null): IsComponentTag
     {
         $tag = $this->getComponentTag($component, $component);
 
@@ -315,7 +315,7 @@ class Manager implements IsManager
     /**
      * @param  array<string,string>|ComponentAttributes  $attributes
      */
-    public function makeComponentSlot(string $component, array|ComponentAttributes $attributes = [], string|ComponentSlot $contents = null): ComponentSlot
+    public function makeComponentSlot(string $component, array|ComponentAttributes $attributes = [], string|ComponentSlot|null $contents = null): ComponentSlot
     {
         $attributes = $this->makeComponentAttributes($component, $attributes);
 

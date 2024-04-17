@@ -23,7 +23,7 @@ class Icon extends Component
 
     public function __construct(
         string $name,
-        string $root = null,
+        ?string $root = null,
         int $size = 24,
         string $type = 'solid',
         string $tag = 'svg',

@@ -58,14 +58,14 @@ interface IsManager
 
     public function prefix(): string;
 
-    public function component(string $class, string $alias = null, bool $anonymous = false): void;
+    public function component(string $class, ?string $alias = null, bool $anonymous = false): void;
 
     /**
      * @param  array<string>  $classes
      */
     public function components(array $classes = [], bool $anonymous = false): void;
 
-    public function getAlias(string $class, string $namespace = null): string;
+    public function getAlias(string $class, ?string $namespace = null): string;
 
     /**
      * @return array{namespace:string,class:string,alias:string,options:IsComponentConfig}|null
@@ -75,12 +75,12 @@ interface IsManager
     /**
      * @param  array<string,string>|ComponentAttributes  $attributes
      */
-    public function make(string $name, array|ComponentAttributes $attributes = [], string|ComponentSlot $slot = null): string;
+    public function make(string $name, array|ComponentAttributes $attributes = [], string|ComponentSlot|null $slot = null): string;
 
     /**
      * @param  array<string,string>|ComponentAttributes  $attributes
      */
-    public function openTag(string $name, array|ComponentAttributes $attributes = [], string|ComponentSlot $contents = null): string;
+    public function openTag(string $name, array|ComponentAttributes $attributes = [], string|ComponentSlot|null $contents = null): string;
 
     /**
      * @throws RuntimeException If there is no open tag
@@ -91,7 +91,7 @@ interface IsManager
      * @param  Arrayable<int|string,mixed>|mixed[]  $contentData
      * @param  Arrayable<int|string,mixed>|mixed[]  $layoutData
      */
-    public function page(string $contentPath, Arrayable|array $contentData = [], string $layoutPath = null, Arrayable|array $layoutData = [], array $mergeData = []): ViewContract;
+    public function page(string $contentPath, Arrayable|array $contentData = [], ?string $layoutPath = null, Arrayable|array $layoutData = [], array $mergeData = []): ViewContract;
 
     /**
      * @param  mixed[]  $data
@@ -103,12 +103,12 @@ interface IsManager
     /**
      * @param  array<string,string>|ComponentAttributes  $attributes
      */
-    public function makeComponentTag(string $component, array|ComponentAttributes $attributes = [], string|ComponentSlot $contents = null): IsComponentTag;
+    public function makeComponentTag(string $component, array|ComponentAttributes $attributes = [], string|ComponentSlot|null $contents = null): IsComponentTag;
 
     /**
      * @param  array<string,string>|ComponentAttributes  $attributes
      */
-    public function makeComponentSlot(string $component, array|ComponentAttributes $attributes = [], string|ComponentSlot $contents = null): ComponentSlot;
+    public function makeComponentSlot(string $component, array|ComponentAttributes $attributes = [], string|ComponentSlot|null $contents = null): ComponentSlot;
 
     /**
      * @param  array<string,string>|ComponentAttributes  $attributes

@@ -15,8 +15,8 @@ class Entry extends FormControl
 
     public function __construct(
         string $type = 'text',
-        string $name = null,
-        string $id = null,
+        ?string $name = null,
+        ?string $id = null,
         bool|string $autocomplete = false,
         public array $datalist = [],
         public ?string $icon = null,

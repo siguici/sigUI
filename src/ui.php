@@ -6,7 +6,7 @@ use Sikessem\UI\Contracts\IsManager;
 use Sikessem\UI\Manager;
 
 if (! function_exists('sikessem_ui_path')) {
-    function sikessem_ui_path(string $path = null): string
+    function sikessem_ui_path(?string $path = null): string
     {
         $path = dirname(__DIR__).DIRECTORY_SEPARATOR.($path ?: '');
 
@@ -19,7 +19,7 @@ if (! function_exists('sikessem_ui_path')) {
 }
 
 if (! function_exists('sikessem_config_path')) {
-    function sikessem_config_path(string $path = null): string
+    function sikessem_config_path(?string $path = null): string
     {
         $path = config_path(rtrim('sikessem/'.($path ?: ''), '/'));
 
@@ -28,7 +28,7 @@ if (! function_exists('sikessem_config_path')) {
 }
 
 if (! function_exists('sikessem_lang_path')) {
-    function sikessem_lang_path(string $path = null): string
+    function sikessem_lang_path(?string $path = null): string
     {
         $path = lang_path(rtrim('sikessem/'.($path ?: ''), '/'));
 
@@ -37,7 +37,7 @@ if (! function_exists('sikessem_lang_path')) {
 }
 
 if (! function_exists('sikessem_resource_path')) {
-    function sikessem_resource_path(string $path = null): string
+    function sikessem_resource_path(?string $path = null): string
     {
         $path = resource_path(rtrim('views/vendor/sikessem/'.($path ?: ''), '/'));
 
@@ -74,7 +74,7 @@ if (! function_exists('page')) {
      * @param  Arrayable<int|string,mixed>|mixed[]  $contentData
      * @param  Arrayable<int|string,mixed>|mixed[]  $layoutData
      */
-    function page(string $contentPath, Arrayable|array $contentData = [], string $layoutPath = null, Arrayable|array $layoutData = [], array $mergeData = []): ViewContract
+    function page(string $contentPath, Arrayable|array $contentData = [], ?string $layoutPath = null, Arrayable|array $layoutData = [], array $mergeData = []): ViewContract
     {
         return ui()->page($contentPath, $contentData, $layoutPath, $layoutData, $mergeData);
     }

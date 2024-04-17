@@ -16,8 +16,8 @@ class Button extends FormControl
      */
     public function __construct(
         string $type = 'button',
-        string $href = null,
-        string $route = null,
+        ?string $href = null,
+        ?string $route = null,
         string|array $parameters = [],
         public ?string $name = null,
         public ?string $value = null,
