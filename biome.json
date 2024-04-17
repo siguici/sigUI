@@ -12,6 +12,9 @@
         "useBlockStatements": "error",
         "useShorthandArrayType": "error",
         "noShoutyConstants": "warn"
+      },
+      "complexity": {
+        "noForEach": "off"
       }
     },
     "ignore": ["node_modules", "vendor", "dist"]

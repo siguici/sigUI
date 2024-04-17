@@ -2,27 +2,29 @@ import type { Config, PluginCreator } from "tailwindcss/types/config";
 import type { ClassName } from "./styles";
 
 export type PluginWithoutOptions =
-    | PluginCreator
-    | {
-          handler: PluginCreator;
-          config?: Partial<Config>;
-      };
-export type PluginWithOptions<T> = {
-    (options: T): {
-        handler: PluginCreator;
-        config?: Partial<Config> | undefined;
+  | PluginCreator
+  | {
+      handler: PluginCreator;
+      config?: Partial<Config>;
     };
-    __isOptionsFunction: true;
+export type PluginWithOptions<T> = {
+  (
+    options: T,
+  ): {
+    handler: PluginCreator;
+    config?: Partial<Config> | undefined;
+  };
+  __isOptionsFunction: true;
 };
 
 export interface RequiredLinkOptions {
-    linkClass: ClassName;
+  linkClass: ClassName;
 }
 export type LinkOptions = Partial<RequiredLinkOptions>;
 
 export type RequiredEdgeOptions = {
-    entryClass: ClassName;
-    buttonClass: ClassName;
+  entryClass: ClassName;
+  buttonClass: ClassName;
 };
 export type EdgeOptions = Partial<RequiredEdgeOptions>;
 

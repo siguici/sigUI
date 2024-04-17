@@ -1,17 +1,10 @@
 {
-  "exclude": [
-    "node_modules",
-  ],
+  "exclude": ["node_modules"],
   "compilerOptions": {
     "allowJs": true,
     "target": "ES2020",
     "module": "ESNext",
-    "lib": [
-      "ES2020",
-      "DOM",
-      "WebWorker",
-      "DOM.Iterable"
-    ],
+    "lib": ["ES2020", "DOM", "WebWorker", "DOM.Iterable"],
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
@@ -22,16 +15,8 @@
     "isolatedModules": true,
     "outDir": "tmp",
     "noEmit": true,
-    "typeRoots": [
-      "./plugin/types",
-      "./node_modules/@types",
-      "./node_modules",
-    ],
-    "types": [
-      "node",
-      "vitest/globals",
-      "vite/client",
-    ],
+    "typeRoots": ["./plugin/types", "./node_modules/@types", "./node_modules"],
+    "types": ["node", "vitest/globals", "vite/client"],
     "baseUrl": ".",
     "paths": {},
     "noImplicitAny": true,
@@ -53,7 +38,7 @@
     "downlevelIteration": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "allowImportingTsExtensions": true,
+    "allowImportingTsExtensions": true
   },
-  "files": ["./biome.json"],
+  "files": ["./biome.json"]
 }
