@@ -6,7 +6,7 @@ import {
     stylize_property,
 } from "./helpers";
 import { Plugin } from "./plugin";
-import {
+import type {
     ColorName,
     ColorValue,
     ColorValues,
