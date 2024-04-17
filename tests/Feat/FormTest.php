@@ -14,10 +14,10 @@ it('should render form component', function () {
         '</li>',
         '</ul>',
         '<form action="#" method="GET">',
-        '<input type="hidden" name="_token" value="" autocomplete="off">',
         '<p >',
         'Input name required',
         '</p>',
+        '<input type="hidden" name="_token" value="" autocomplete="off">',
         '</form>',
     ], false);
 });
