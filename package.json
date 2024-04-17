@@ -1,89 +1,89 @@
 {
-    "name": "@sikessem/ui",
-    "private": true,
-    "type": "module",
-    "engines": {
-        "node": ">=20.10.0",
-        "pnpm": ">=8.10.0",
-        "npm": "prefer using pnpm",
-        "yarn": "prefer using pnpm"
-    },
-    "packageManager": "pnpm@8.11.0",
-    "publishConfig": {
-        "access": "public"
-    },
-    "bugs": "https://github.com/sikessem/ui/issues",
-    "homepage": "https://sikessem.github.io/packages/ui",
-    "author": {
-        "name": "SIGUI Kessé Emmanuel",
-        "email": "contact@sigui.ci",
-        "url": "https://sigui.ci"
-    },
-    "description": "TailwindCSS components and utilities to design faster.",
-    "keywords": [
-        "sikessem",
-        "tailwindcss",
-        "plugin",
-        "utilities",
-        "componants",
-        "css",
-        "typescript"
-    ],
-    "main": "./dist/index.js",
-    "types": "./plugin/types/index.d.ts",
-    "exports": {
-        ".": {
-            "import": {
-                "min": "./dist/index.min.js",
-                "development": "./dist/index.mjs",
-                "production": "./dist/index.prod.mjs",
-                "default": "./dist/index.mjs"
-            },
-            "require": {
-                "development": "./dist/index.cjs",
-                "production": "./dist/index.prod.cjs",
-                "default": "./dist/index.cjs"
-            }
-        }
-    },
-    "scripts": {
-        "build": "tsm scripts/build.ts",
-        "check": "biome ci .",
-        "check.format": "biome format .",
-        "check.lint": "biome check .",
-        "debug": "pnpm check && pnpm test",
-        "dev": "concurrently \"vite --host\" \"vitest\"",
-        "fix": "pnpm lint && pnpm format",
-        "format": "biome format --write .",
-        "inspect": "node --inspect-brk ./node_modules/vite/bin/vite.js --force",
-        "lint": "biome check --apply-unsafe .",
-        "preview": "vite preview",
-        "test": "vitest run",
-        "test.ui": "vitest --ui",
-        "test.cov": "vitest run --coverage",
-        "start": "vite --open",
-        "watch": "tsm scripts/build.ts --watch"
-    },
-    "devDependencies": {
-        "@biomejs/biome": "^1.4.0",
-        "@tailwindcss/nesting": "0.0.0-insiders.565cd3e",
-        "@types/node": "^20.10.1",
-        "@vitest/coverage-istanbul": "^0.34.6",
-        "autoprefixer": "^10.4.16",
-        "brotli-size": "^4.0.0",
-        "concurrently": "^8.2.2",
-        "esbuild": "^0.19.8",
-        "postcss": "^8.4.31",
-        "postcss-import": "^15.1.0",
-        "postcss-load-config": "^4.0.2",
-        "postcss-nested": "^6.0.1",
-        "tailwindcss": "^3.3.5",
-        "ts-node": "^10.9.1",
-        "tslib": "^2.6.2",
-        "tsm": "^2.3.0",
-        "typescript": "^5.3.2",
-        "vite": "^5.0.4",
-        "vite-tsconfig-paths": "^4.2.1",
-        "vitest": "^0.34.6"
+  "name": "@sikessem/ui",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20.12",
+    "pnpm": ">=9.0",
+    "npm": "prefer using pnpm",
+    "yarn": "prefer using pnpm"
+  },
+  "packageManager": "pnpm@9.0.1",
+  "publishConfig": {
+    "access": "public"
+  },
+  "bugs": "https://github.com/sikessem/ui/issues",
+  "homepage": "https://sikessem.github.io/packages/ui",
+  "author": {
+    "name": "SIGUI Kessé Emmanuel",
+    "email": "contact@sigui.ci",
+    "url": "https://sigui.ci"
+  },
+  "description": "TailwindCSS components and utilities to design faster.",
+  "keywords": [
+    "sikessem",
+    "tailwindcss",
+    "plugin",
+    "utilities",
+    "componants",
+    "css",
+    "typescript"
+  ],
+  "main": "./dist/index.js",
+  "types": "./plugin/types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "min": "./dist/index.min.js",
+        "development": "./dist/index.mjs",
+        "production": "./dist/index.prod.mjs",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "development": "./dist/index.cjs",
+        "production": "./dist/index.prod.cjs",
+        "default": "./dist/index.cjs"
+      }
     }
+  },
+  "scripts": {
+    "build": "tsm scripts/build.ts",
+    "check": "biome ci .",
+    "check.format": "biome format .",
+    "check.lint": "biome check .",
+    "debug": "pnpm check && pnpm test",
+    "dev": "concurrently \"vite --host\" \"vitest\"",
+    "fix": "pnpm lint && pnpm format",
+    "format": "biome format --write .",
+    "inspect": "node --inspect-brk ./node_modules/vite/bin/vite.js --force",
+    "lint": "biome check --apply-unsafe .",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test.ui": "vitest --ui",
+    "test.cov": "vitest run --coverage",
+    "start": "vite --open",
+    "watch": "tsm scripts/build.ts --watch"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.7.0",
+    "@tailwindcss/nesting": "0.0.0-insiders.565cd3e",
+    "@types/node": "^20.12.7",
+    "@vitest/coverage-istanbul": "^1.5.0",
+    "autoprefixer": "^10.4.19",
+    "brotli-size": "^4.0.0",
+    "concurrently": "^8.2.2",
+    "esbuild": "^0.20.2",
+    "postcss": "^8.4.38",
+    "postcss-import": "^16.1.0",
+    "postcss-load-config": "^5.0.3",
+    "postcss-nested": "^6.0.1",
+    "tailwindcss": "^3.4.3",
+    "ts-node": "^10.9.2",
+    "tslib": "^2.6.2",
+    "tsm": "^2.3.0",
+    "typescript": "^5.4.5",
+    "vite": "^5.2.9",
+    "vite-tsconfig-paths": "^4.3.2",
+    "vitest": "^1.5.0"
+  }
 }

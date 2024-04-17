@@ -13,8 +13,8 @@ jobs:
       fail-fast: true
       matrix:
         os: [ubuntu-latest]
-        php: [8.1, 8.2, 8.3]
-        node: [20.10.0]
+        php: [8.2, 8.3]
+        node: [20.12]
         dependencies: [lowest, highest]
         experimental: [false]
     name: 👷 CI PHP-${{ matrix.php }} ${{ matrix.dependencies }} with Node-${{ matrix.node }} on ${{ matrix.os }}
