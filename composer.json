@@ -45,6 +45,9 @@
       "Sikessem\\UI\\Tests\\": "tests/"
     }
   },
+  "conflict": {
+    "laravel/framework": "<11.0.0 || >=12.0.0"
+  },
   "scripts": {
     "analyse": "phpstan analyse --ansi --memory-limit=-1 --debug",
     "check": "pint --test -v",
