@@ -18,8 +18,7 @@ class BaseLayout extends Component
         public ?ComponentSlot $head = null,
         public ?ComponentSlot $body = null,
         public array $data = [],
-    ) {
-    }
+    ) {}
 
     /**
      * The properties / methods that should not be exposed to the component template.

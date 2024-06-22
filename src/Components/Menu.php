@@ -15,6 +15,5 @@ class Menu extends Component
         public array $list = [],
         public bool $ordered = false,
         public array|ComponentAttributeBag $itemAttributes = [],
-    ) {
-    }
+    ) {}
 }

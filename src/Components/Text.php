@@ -12,6 +12,5 @@ class Text extends Component
         public ?string $icon = null,
         public bool $escape = false,
         public bool $translate = false,
-    ) {
-    }
+    ) {}
 }

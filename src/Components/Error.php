@@ -11,6 +11,5 @@ class Error extends Component
         public string $stack = 'default',
         public string $tag = 'p',
         public ?string $icon = null
-    ) {
-    }
+    ) {}
 }
