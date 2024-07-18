@@ -4,11 +4,11 @@
   "type": "module",
   "engines": {
     "node": ">=20.15",
-    "pnpm": ">=9.0",
+    "pnpm": ">=9.5",
     "npm": "prefer using pnpm",
     "yarn": "prefer using pnpm"
   },
-  "packageManager": "pnpm@9.0.1",
+  "packageManager": "pnpm@9.5.0",
   "publishConfig": {
     "access": "public"
   },
