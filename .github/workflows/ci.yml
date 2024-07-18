@@ -15,6 +15,7 @@ jobs:
         os: [ubuntu-latest]
         php: [8.2, 8.3]
         node: [20.15]
+        pnpm: [9.5]
         dependencies: [lowest, highest]
         experimental: [false]
     name: 👷 CI PHP-${{ matrix.php }} ${{ matrix.dependencies }} with Node-${{ matrix.node }} on ${{ matrix.os }}
@@ -54,10 +55,13 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: ${{ matrix.pnpm }}
+
       - name: Install JavaScript dependencies
-        run: |
-          corepack enable
-          pnpm install
+        run: pnpm install
 
       - name: 🧹 Check code lint
         run: make check
