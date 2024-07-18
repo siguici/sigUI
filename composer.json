@@ -28,7 +28,7 @@
   },
   "require": {
     "php": ">=8.2",
-    "illuminate/view": "^11.11"
+    "illuminate/view": "^11.16"
   },
   "require-dev": {
     "sikessem/framework": "^0.6.0",
