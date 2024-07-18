@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "engines": {
-    "node": ">=20.12",
+    "node": ">=20.15",
     "pnpm": ">=9.0",
     "npm": "prefer using pnpm",
     "yarn": "prefer using pnpm"
