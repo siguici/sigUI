@@ -28,6 +28,7 @@
   },
   "require": {
     "php": ">=8.2",
+    "gehrisandro/tailwind-merge-laravel": "^1.2",
     "illuminate/view": "^11.16"
   },
   "require-dev": {
