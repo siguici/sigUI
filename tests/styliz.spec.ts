@@ -30,7 +30,7 @@ describe.concurrent("suite", () => {
   const config = {
     content: [
       {
-        raw: html`<div class="text-red bg-red-xs border-red-xl"><a href="#" class="button-blue">Click button</a><a href="#" class="link-green">Click link</a></div>`,
+        raw: html`<div class="text-red bg-red-xs border-red-xl"><a href="#" class="button-blue">Click button</a><a href="#" class="link">Click link</a></div>`,
       },
     ],
   };
@@ -60,9 +60,9 @@ describe.concurrent("suite", () => {
     });
   });
 
-  it("should have link-green class", async () => {
+  it("should have link class", async () => {
     return run(config).then((result) => {
-      expect(result.css).toContain(css`.link-green`);
+      expect(result.css).toContain(css`.link`);
     });
   });
 });
