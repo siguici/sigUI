@@ -1,6 +1,6 @@
 import styliz from "styliz";
 
 export default {
-  content: ["./design/**/*.{html,css,ts}"],
+  content: ["./resources/**/*.{html,css,ts}"],
   plugins: [styliz],
 };

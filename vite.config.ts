@@ -8,7 +8,7 @@ export default defineConfig(({ mode }) => {
   const port = Number(env.VITE_SERVER_PORT ?? "3000");
 
   return {
-    root: resolve(__dirname, "design"),
+    root: resolve(__dirname, "resources"),
     server: { host, port },
     plugins: [tsconfigPaths()],
     preview: {
