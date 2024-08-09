@@ -1,12 +1,12 @@
 import colors from "tailwindcss/colors";
 import {
-  ComponentList,
+  type ComponentList,
   Plugin,
-  PropertyName,
-  PropertyOption,
-  PropertyValue,
-  RuleSet,
-  UtilityList,
+  type PropertyName,
+  type PropertyOption,
+  type PropertyValue,
+  type RuleSet,
+  type UtilityList,
 } from "./plugin";
 import {
   append_style,

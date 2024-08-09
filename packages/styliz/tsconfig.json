@@ -1,20 +1,12 @@
 {
-  "include": [
-    "src",
-  ],
-  "exclude": [
-    "node_modules",
-    "js/**/*",
-    "ts/**/*",
-  ],
+  "include": ["src"],
+  "exclude": ["node_modules", "js/**/*", "ts/**/*"],
   "compilerOptions": {
     "strict": true,
     "outDir": "js",
     "declaration": true,
     "declarationDir": "ts",
-    "lib": [
-      "ESNext",
-    ],
+    "lib": ["ESNext"],
     "module": "ESNext",
     "target": "ESNext",
     "moduleResolution": "Node",
@@ -30,6 +22,6 @@
     "noImplicitOverride": true,
     "noFallthroughCasesInSwitch": true,
     "importHelpers": true,
-    "tsBuildInfoFile": null,
+    "tsBuildInfoFile": null
   }
 }

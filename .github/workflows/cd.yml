@@ -24,8 +24,8 @@ jobs:
       fail-fast: true
       matrix:
         os: [ubuntu-latest]
-        node: [20.11]
-        pnpm: [8.14]
+        node: [20.16]
+        pnpm: [9.7]
 
     name: 🚀 Deploy https://siguici.github.io/styliz sikessem.github.io to Node-${{ matrix.node }} and build with pnpm@${{ matrix.pnpm }} on ${{ matrix.os }}
 
@@ -47,7 +47,7 @@ jobs:
         run: make build
 
       - name: ⚡️ Install, build, and upload
-        uses: withastro/action@v1
+        uses: withastro/action@v2
         with:
           path: ./website
           node-version: ${{ matrix.node }}
@@ -74,4 +74,4 @@ jobs:
     steps:
       - name: 📂 Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4

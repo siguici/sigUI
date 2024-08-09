@@ -1,6 +1,6 @@
 import defaultTheme from "tailwindcss/defaultTheme";
-import { ComponentList, Plugin, UtilityList } from "./plugin";
-import { ClassName } from "./plugin";
+import { type ComponentList, Plugin, type UtilityList } from "./plugin";
+import type { ClassName } from "./plugin";
 
 export type RequiredEdgeOptions = {
   entryClass: ClassName;

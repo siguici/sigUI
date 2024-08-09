@@ -22,11 +22,9 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "styliz": ["packages/styliz/src/index.ts"],
+      "styliz": ["packages/styliz/src/index.ts"]
     },
-    "types": ["node", "vite/client", "vitest/globals"],
+    "types": ["node", "vite/client", "vitest/globals"]
   },
-  "include": [
-      "packages/styliz/src",
-  ],
+  "include": ["packages/styliz/src"]
 }
