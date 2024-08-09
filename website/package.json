@@ -23,7 +23,7 @@
     "@astrojs/sitemap": "^3.1.6",
     "@astrojs/starlight": "^0.25.4",
     "@astrojs/tailwind": "^5.1.0",
-    "astro": "^4.13.2",
+    "astro": "^4.13.3",
     "postcss-import": "^16.1.0",
     "postcss-nested": "^6.2.0",
     "sharp": "^0.33.4",

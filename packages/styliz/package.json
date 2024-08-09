@@ -48,6 +48,6 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "plugwind.js": "^0.4.0"
+    "plugwind.js": "^0.4.1"
   }
 }
