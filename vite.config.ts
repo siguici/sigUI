@@ -1,6 +1,5 @@
 import { resolve } from "node:path";
 import { defineConfig, loadEnv } from "vite";
-import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
@@ -10,7 +9,6 @@ export default defineConfig(({ mode }) => {
   return {
     root: resolve(__dirname, "resources"),
     server: { host, port },
-    plugins: [tsconfigPaths()],
     preview: {
       headers: {
         "Cache-Control": "public, max-age=600",
