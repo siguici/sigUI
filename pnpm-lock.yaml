@@ -61,6 +61,10 @@ importers:
         version: 2.0.5(@types/node@22.2.0)
 
   packages/styliz:
+    dependencies:
+      plugwind.js:
+        specifier: ^0.4.0
+        version: 0.4.0(tailwindcss@3.4.9(ts-node@10.9.2(@types/node@22.2.0)(typescript@5.5.4)))
     devDependencies:
       tailwindcss:
         specifier: ^3.4.9
@@ -1230,8 +1234,8 @@ packages:
   eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
 
-  electron-to-chromium@1.5.5:
-    resolution: {integrity: sha512-QR7/A7ZkMS8tZuoftC/jfqNkZLQO779SSW3YuZHP4eXpj3EffGLFcB/Xu9AAZQzLccTiCV+EmUo3ha4mQ9wnlA==}
+  electron-to-chromium@1.5.6:
+    resolution: {integrity: sha512-jwXWsM5RPf6j9dPYzaorcBSUg6AiqocPEyMpkchkvntaH9HGfOOMZwxMJjDY/XEs3T5dM7uyH1VhRMkqUU9qVw==}
 
   emmet@2.4.7:
     resolution: {integrity: sha512-O5O5QNqtdlnQM2bmKHtJgyChcrFMgQuulI+WdiOw2NArzprUqqxUW6bgYtKvzKgrsYpuLWalOkdhNP+1jluhCA==}
@@ -2061,6 +2065,12 @@ packages:
   pkg-dir@4.2.0:
     resolution: {integrity: sha512-HRDzbaKjC+AOWVXxAU/x54COGeIv9eb+6CkDSQoNTt4XyWoIJvuPsXizxu/Fr23EiekbtZwmh1IcIG/l/a10GQ==}
     engines: {node: '>=8'}
+
+  plugwind.js@0.4.0:
+    resolution: {integrity: sha512-2k95QSwioLJJI9IeCNxoN+sUA62RAX0DdBgFio+CuBuE1pnERTiNgzR1pcAVJ2/76RicbgiL67qh84gVMiyZVw==}
+    engines: {node: '>=20.16', npm: prefer using pnpm, pnpm: '>=9.6', yarn: prefer using pnpm}
+    peerDependencies:
+      tailwindcss: ^3.4.7
 
   postcss-import@15.1.0:
     resolution: {integrity: sha512-hpr+J05B2FVYUAXHeK1YyI267J/dDDhMU6B6civm8hSY1jYJnBXxzKDKDswzJmtLHryrjhnDjqqp/49t8FALew==}
@@ -3808,7 +3818,7 @@ snapshots:
   browserslist@4.23.3:
     dependencies:
       caniuse-lite: 1.0.30001651
-      electron-to-chromium: 1.5.5
+      electron-to-chromium: 1.5.6
       node-releases: 2.0.18
       update-browserslist-db: 1.1.0(browserslist@4.23.3)
 
@@ -3962,7 +3972,7 @@ snapshots:
 
   eastasianwidth@0.2.0: {}
 
-  electron-to-chromium@1.5.5: {}
+  electron-to-chromium@1.5.6: {}
 
   emmet@2.4.7:
     dependencies:
@@ -5178,6 +5188,10 @@ snapshots:
   pkg-dir@4.2.0:
     dependencies:
       find-up: 4.1.0
+
+  plugwind.js@0.4.0(tailwindcss@3.4.9(ts-node@10.9.2(@types/node@22.2.0)(typescript@5.5.4))):
+    dependencies:
+      tailwindcss: 3.4.9(ts-node@10.9.2(@types/node@22.2.0)(typescript@5.5.4))
 
   postcss-import@15.1.0(postcss@8.4.41):
     dependencies:

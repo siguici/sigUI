@@ -1,9 +1,10 @@
-import plugin from "tailwindcss/plugin";
-import type { PluginAPI } from "tailwindcss/types/config";
+import plug, {
+  type PluginAPI,
+  type PluginCreatorWithOptions,
+} from "plugwind.js";
 import { Colors, type ColorsConfig, DEFAULT_COLORS } from "./colors";
 import { type EdgeOptions, Edges, type RequiredEdgeOptions } from "./edges";
 import { type LinkOptions, Links, type RequiredLinkOptions } from "./links";
-import type { PluginWithOptions } from "./plugin";
 
 export type StylizConfig = Partial<{
   colors: boolean | ColorsConfig;
@@ -22,31 +23,26 @@ export const DEFAULT_OPTIONS: RequiredStylizOptions = {
   buttonClass: "button",
 };
 
-export function plugStyliz(): PluginWithOptions<StylizOptions> {
-  return plugin.withOptions(
-    (options: StylizOptions = DEFAULT_OPTIONS) =>
-      (api) => {
-        if (options.colors) {
-          useColors(
-            api,
-            typeof options.colors === "boolean"
-              ? DEFAULT_COLORS
-              : options.colors,
-          );
-        }
-        useLinks(api, {
-          linkClass: options.linkClass || DEFAULT_OPTIONS.linkClass,
-        });
-        useEdges(api, {
-          entryClass: options.entryClass || DEFAULT_OPTIONS.entryClass,
-          buttonClass: options.buttonClass || DEFAULT_OPTIONS.buttonClass,
-        });
-      },
-  );
+export function plugStyliz(): PluginCreatorWithOptions<StylizOptions> {
+  return plug.with((options: StylizOptions = DEFAULT_OPTIONS) => (api) => {
+    if (options.colors) {
+      useColors(
+        api,
+        typeof options.colors === "boolean" ? DEFAULT_COLORS : options.colors,
+      );
+    }
+    useLinks(api, {
+      linkClass: options.linkClass || DEFAULT_OPTIONS.linkClass,
+    });
+    useEdges(api, {
+      entryClass: options.entryClass || DEFAULT_OPTIONS.entryClass,
+      buttonClass: options.buttonClass || DEFAULT_OPTIONS.buttonClass,
+    });
+  });
 }
 
-export function plugLinks(): PluginWithOptions<LinkOptions> {
-  return plugin.withOptions(
+export function plugLinks(): PluginCreatorWithOptions<LinkOptions> {
+  return plug.with(
     (
       options: LinkOptions = {
         linkClass: DEFAULT_OPTIONS.linkClass,
@@ -57,8 +53,8 @@ export function plugLinks(): PluginWithOptions<LinkOptions> {
   );
 }
 
-export function plugEdges(): PluginWithOptions<EdgeOptions> {
-  return plugin.withOptions(
+export function plugEdges(): PluginCreatorWithOptions<EdgeOptions> {
+  return plug.with(
     (
       options: EdgeOptions = {
         entryClass: DEFAULT_OPTIONS.entryClass,
