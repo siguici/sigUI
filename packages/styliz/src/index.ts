@@ -1,9 +1,9 @@
 import plugin from "tailwindcss/plugin";
-import { PluginAPI } from "tailwindcss/types/config";
+import type { PluginAPI } from "tailwindcss/types/config";
 import { Colors } from "./colors";
-import { EdgeOptions, Edges, RequiredEdgeOptions } from "./edges";
-import { LinkOptions, Links, RequiredLinkOptions } from "./links";
-import { PluginWithOptions, PluginWithoutOptions } from "./plugin";
+import { type EdgeOptions, Edges, type RequiredEdgeOptions } from "./edges";
+import { type LinkOptions, Links, type RequiredLinkOptions } from "./links";
+import type { PluginWithOptions, PluginWithoutOptions } from "./plugin";
 
 export type RequiredStylizOptions = RequiredLinkOptions & RequiredEdgeOptions;
 

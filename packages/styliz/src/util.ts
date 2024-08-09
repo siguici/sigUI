@@ -1,5 +1,5 @@
-import { DarkModeConfig } from "tailwindcss/types/config";
-import {
+import type { DarkModeConfig } from "tailwindcss/types/config";
+import type {
   ClassName,
   DeclarationBlock,
   PropertyName,

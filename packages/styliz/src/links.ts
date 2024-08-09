@@ -1,4 +1,9 @@
-import { ClassName, ComponentList, Plugin, UtilityList } from "./plugin";
+import {
+  type ClassName,
+  type ComponentList,
+  Plugin,
+  type UtilityList,
+} from "./plugin";
 
 export interface RequiredLinkOptions {
   linkClass: ClassName;

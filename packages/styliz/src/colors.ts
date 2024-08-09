@@ -17,11 +17,11 @@ import {
   stylize_property,
 } from "./helpers";
 import {
-  ComponentList,
+  type ComponentList,
   Plugin,
-  RuleSet,
-  StyleCallbacks,
-  UtilityList,
+  type RuleSet,
+  type StyleCallbacks,
+  type UtilityList,
 } from "./plugin";
 
 export class Colors extends Plugin<void> {
