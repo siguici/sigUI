@@ -44,12 +44,12 @@
 [twitter-link]: https://x.com/intent/follow?screen_name=sikessem_news "Ping Sikessem"
 
 [license-icon]: https://img.shields.io/badge/license-MIT-blue.svg
-[license-link]: https://github.com/sikessem/ui/blob/HEAD/LICENSE "UI License"
-[contrib-link]: https://sikessem.github.io/contributions
-[docs-link]: https://sikessem.github.io/packages/ui "UI Documentation"
+[license-link]: https://github.com/sikessem/ui/blob/HEAD/LICENSE "Sikessem UI License"
+[contrib-link]: https://sikessem.github.io/ui/contributions
+[docs-link]: https://sikessem.github.io/ui "Sikessem UI Documentation"
 
 [tailwindcss-home]: https://tailwindcss.com "TailwindCSS"
-[blade-home]: https://laravel.com/docs/10.x/blade "Laravel Blade"
+[blade-home]: https://laravel.com/docs/11.x/blade "Laravel Blade"
 
 ***
 
