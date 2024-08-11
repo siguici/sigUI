@@ -6,7 +6,7 @@ export const UIConfig: Config = {
   content: [
     "./config/ui.php",
     "./src/Components/**/*.php",
-    "./res/views/**/*.blade.php",
+    "./resources/views/**/*.blade.php",
     "./design/**/*.{html,css,ts}",
   ],
 

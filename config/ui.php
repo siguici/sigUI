@@ -189,7 +189,7 @@ return [
         'icon' => [
             'attributes' => [
                 'tag' => 'svg',
-                'root' => sikessem_ui_path('res/icons'),
+                'root' => sikessem_ui_path('resources/icons'),
                 'size' => 24,
                 'type' => 'solid',
                 'width' => 24,

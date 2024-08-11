@@ -52,12 +52,12 @@ class ServiceProvider extends BaseServiceProvider
 
     protected function registerTranslations(): void
     {
-        $this->loadTranslationsFrom(sikessem_ui_path('res/langs'), 'ui');
+        $this->loadTranslationsFrom(sikessem_ui_path('resources/langs'), 'ui');
     }
 
     protected function registerViews(): void
     {
-        $this->loadViewsFrom(sikessem_ui_path('res/views'), 'ui');
+        $this->loadViewsFrom(sikessem_ui_path('resources/views'), 'ui');
     }
 
     protected function registerNamespaces(): void
@@ -98,7 +98,7 @@ class ServiceProvider extends BaseServiceProvider
     {
         $this->callAfterResolving(BladeCompiler::class, function () {
             $this->registerComponentPath(sikessem_ui_path('src/Components'));
-            $this->registerComponentPath(sikessem_ui_path('res/views/components'), anonymous: true);
+            $this->registerComponentPath(sikessem_ui_path('resources/views/components'), anonymous: true);
         });
     }
 
@@ -109,11 +109,11 @@ class ServiceProvider extends BaseServiceProvider
         ], ['sikessem', 'sikessem:ui', 'sikessem:ui-config']);
 
         $this->publishesToGroups([
-            sikessem_ui_path('res/langs') => sikessem_lang_path('ui'),
+            sikessem_ui_path('resources/langs') => sikessem_lang_path('ui'),
         ], ['sikessem', 'sikessem:ui', 'sikessem:ui-langs']);
 
         $this->publishesToGroups([
-            sikessem_ui_path('res/views') => sikessem_resource_path('ui'),
+            sikessem_ui_path('resources/views') => sikessem_resource_path('ui'),
         ], ['sikessem', 'sikessem:ui', 'sikessem:ui-views']);
     }
 

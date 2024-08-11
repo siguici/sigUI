@@ -34,7 +34,7 @@ class Icon extends Component
         $name = Str::squish($name);
         $name = Str::kebab($name);
 
-        $root ??= sikessem_ui_path('res/icons');
+        $root ??= sikessem_ui_path('resources/icons');
 
         if (! \is_file($icon = "$root/$size/$type/$name.svg")) {
             throw new RuntimeException("No icon named $name was found for type $type of size $size.");
