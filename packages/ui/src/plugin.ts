@@ -1,3 +1,4 @@
+import type { DeclarationBlock } from "plugwind.js";
 import type { DarkModeConfig, PluginAPI } from "tailwindcss/types/config";
 import type {
   ComponentList,
@@ -5,6 +6,7 @@ import type {
   PropertyName,
   PropertyValue,
   RuleSet,
+  StyleCallback,
   StyleCallbacks,
   StyleValues,
   UtilityList,
@@ -62,19 +64,25 @@ export abstract class Plugin<T> implements PluginContract<T> {
     return properties;
   }
 
-  protected stylizeUtility(utility: UtilityName, value: PropertyValue) {
+  protected stylizeUtility(
+    utility: UtilityName,
+    value: PropertyValue,
+  ): DeclarationBlock {
     return stylize_property(this.getPropertyOf(utility), value);
   }
 
-  protected stylizeUtilityCallback(utility: UtilityName) {
+  protected stylizeUtilityCallback(utility: UtilityName): StyleCallback {
     return stylize_property_callback(this.getPropertyOf(utility));
   }
 
-  protected stylizeUtilities(utilities: UtilityName[], value: PropertyValue) {
+  protected stylizeUtilities(
+    utilities: UtilityName[],
+    value: PropertyValue,
+  ): DeclarationBlock {
     return stylize_properties(this.getPropertiesOf(utilities), value);
   }
 
-  protected stylizeUtilitiesCallback(utilities: UtilityName[]) {
+  protected stylizeUtilitiesCallback(utilities: UtilityName[]): StyleCallback {
     return stylize_properties_callback(this.getPropertiesOf(utilities));
   }
 
