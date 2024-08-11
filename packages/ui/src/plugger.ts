@@ -5,7 +5,7 @@ import type {
   RequiredLinkOptions,
   RequiredUIOptions,
   UIOptions,
-} from "./types";
+} from ".";
 
 import plug, {
   type PluginAPI,

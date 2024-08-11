@@ -1,13 +1,12 @@
-import {
-  type ClassName,
-  type DarkMode,
-  type DeclarationBlock,
-  type PropertyName,
-  type PropertyValue,
-  type RuleSet,
-  type StyleCallback,
-  StyleCallbacks,
-} from "./types";
+import type {
+  ClassName,
+  DarkMode,
+  DeclarationBlock,
+  PropertyName,
+  PropertyValue,
+  RuleSet,
+  StyleCallback,
+} from ".";
 
 export function darken(
   darkMode: DarkMode,

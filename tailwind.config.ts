@@ -1,6 +1,6 @@
+import { UI } from "@sikessem/ui";
 import type { Config } from "tailwindcss";
 import defaultTheme from "tailwindcss/defaultTheme";
-import { UI } from "./plugin";
 
 export const UIConfig: Config = {
   content: [

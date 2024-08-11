@@ -1,6 +1,6 @@
 import defaultTheme from "tailwindcss/defaultTheme";
+import type { ComponentList, RequiredEdgeOptions, UtilityList } from ".";
 import { Plugin } from "./plugin";
-import type { ComponentList, RequiredEdgeOptions, UtilityList } from "./types";
 
 export class Edges extends Plugin<RequiredEdgeOptions> {
   readonly components: ComponentList = {};

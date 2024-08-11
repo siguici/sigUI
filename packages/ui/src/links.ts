@@ -1,5 +1,5 @@
+import type { ComponentList, RequiredLinkOptions, UtilityList } from ".";
 import { Plugin } from "./plugin";
-import type { ComponentList, RequiredLinkOptions, UtilityList } from "./types";
 
 export class Links extends Plugin<RequiredLinkOptions> {
   readonly components: ComponentList = {};

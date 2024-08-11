@@ -31,23 +31,8 @@
   ],
   "main": "./dist/index.js",
   "types": "./plugin/types/index.d.ts",
-  "exports": {
-    ".": {
-      "import": {
-        "min": "./dist/index.min.js",
-        "development": "./dist/index.mjs",
-        "production": "./dist/index.prod.mjs",
-        "default": "./dist/index.mjs"
-      },
-      "require": {
-        "development": "./dist/index.cjs",
-        "production": "./dist/index.prod.cjs",
-        "default": "./dist/index.cjs"
-      }
-    }
-  },
   "scripts": {
-    "build": "tsm scripts/build.ts",
+    "build": "pnpm -C packages/ui build",
     "check": "biome ci .",
     "check.format": "biome format .",
     "check.lint": "biome check .",
@@ -63,13 +48,12 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.3",
+    "@sikessem/ui": "workspace:*",
     "@tailwindcss/nesting": "0.0.0-insiders.565cd3e",
     "@types/node": "^22.2.0",
     "@vitest/coverage-istanbul": "^2.0.5",
     "autoprefixer": "^10.4.20",
-    "brotli-size": "^4.0.0",
     "concurrently": "^8.2.2",
-    "esbuild": "^0.23.0",
     "postcss": "^8.4.41",
     "postcss-import": "^16.1.0",
     "postcss-load-config": "^6.0.1",
@@ -77,11 +61,7 @@
     "tailwindcss": "^3.4.9",
     "ts-node": "^10.9.2",
     "tslib": "^2.6.3",
-    "tsm": "^2.3.0",
     "typescript": "^5.5.4",
     "vitest": "^2.0.5"
-  },
-  "dependencies": {
-    "plugwind.js": "^0.4.1"
   }
 }

@@ -62,6 +62,9 @@ jobs:
       - name: Install JavaScript dependencies
         run: pnpm install
 
+      - name: ✅ Fix code style and build for production
+        run: make build
+
       - name: 🧹 Check code lint
         run: make check
 
@@ -69,8 +72,11 @@ jobs:
         run: |
           composer analyse
 
-      - name: ✅ Test features
+      - name: 🧪 Test features
         run: make test
 
-      - name: 🧪 Test the whole application
-        run: make debug
+      - name: 📦️ Upload Deno distribution files
+        uses: actions/upload-artifact@v4
+        with:
+          name: deno_dist
+          path: packages/ui/jsr

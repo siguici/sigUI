@@ -1,14 +1,14 @@
-.PHONY: install install-js install-php check fix test debug
+.PHONY: install install-js install-php check fix build test debug
 
 install: install-js install-php
 
 node_deps: node_modules pnpm-lock.yaml
 
-node_modules: package.json
-	pnpm i
+node_modules: package.json packages/ui/package.json website/package.json
+	pnpm i -r
 
-pnpm-lock.yaml: package.json
-	pnpm up
+pnpm-lock.yaml: package.json packages/ui/package.json website/package.json
+	pnpm up -r
 
 php_deps: vendor composer.lock
 
@@ -25,6 +25,9 @@ check: install
 fix: install
 	pnpm fix
 	composer fix
+
+build: fix
+	pnpm build
 
 test: install
 	pnpm test

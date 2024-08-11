@@ -5,7 +5,7 @@ dist/
 out/
 
 # Development
-/node_modules/
+node_modules/
 /vendor/
 .yarn/*
 !.yarn/releases

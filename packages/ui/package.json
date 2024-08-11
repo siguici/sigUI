@@ -1,0 +1,65 @@
+{
+  "name": "@sikessem/ui",
+  "version": "0.0.0",
+  "license": "MIT",
+  "packageManager": "pnpm@9.7.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=20.16",
+    "pnpm": ">=9.7",
+    "npm": "prefer using pnpm",
+    "yarn": "prefer using pnpm"
+  },
+  "type": "module",
+  "module": "./src/index.ts",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "files": ["src/**/*"],
+  "exports": {
+    ".": "./src/index.ts",
+    "./package.json": "./package.json"
+  },
+  "bugs": "https://github.com/sikessem/ui/issues",
+  "homepage": "https://sikessem.github.io/ui",
+  "author": {
+    "name": "Sigui Kessé Emmanuel",
+    "email": "siguici@proton.me",
+    "url": "https://github.com/siguici"
+  },
+  "description": "Design responsive user interfaces with light/dark mode and theme management quickly with this TailwindCSS-based plugin.",
+  "keywords": [
+    "color-scheme",
+    "componants",
+    "css",
+    "dark-mode",
+    "light-mode",
+    "plugin",
+    "sikessem",
+    "tailwindcss",
+    "tailwind-color-scheme",
+    "theme",
+    "typescript",
+    "ui",
+    "utilities"
+  ],
+  "sideEffects": false,
+  "private": false,
+  "scripts": {
+    "build": "rimraf jsr/* && denoify --out jsr"
+  },
+  "devDependencies": {
+    "@types/node": "^22.2.0",
+    "denoify": "^1.6.13",
+    "rimraf": "^6.0.1",
+    "tailwindcss": "^3.4.9",
+    "typescript": "^5.5.4"
+  },
+  "peerDependencies": {
+    "tailwindcss": "^3.4.9"
+  },
+  "dependencies": {
+    "plugwind.js": "^0.4.1"
+  }
+}

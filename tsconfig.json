@@ -15,10 +15,12 @@
     "isolatedModules": true,
     "outDir": "tmp",
     "noEmit": true,
-    "typeRoots": ["./plugin/types", "./node_modules/@types", "./node_modules"],
-    "types": ["node", "vitest/globals", "vite/client"],
+    "typeRoots": ["./node_modules/@types", "./node_modules"],
+    "types": ["node", "vitest/globals"],
     "baseUrl": ".",
-    "paths": {},
+    "paths": {
+      "@sikessem/ui/*": ["./packages/ui/src/*"]
+    },
     "noImplicitAny": true,
     "strictNullChecks": true,
     "sourceMap": true,
