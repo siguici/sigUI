@@ -1,0 +1,480 @@
+---
+title: The UI Package
+description: Develop beautiful user interfaces with Sikessem/UI.
+---
+
+[php-link]: https://github.com/sikessem/ui/search?l=php "PHP code"
+[typescript-link]:  https://github.com/sikessem/ui/search?l=typescript "TypeScript code"
+[tailwindcss-home]: https://tailwindcss.com "TailwindCSS"
+[alpinejs-home]: https://alpinejs.dev "Alpine.js"
+[laravel-home]: https://laravel.com "Laravel"
+[livewire-home]: https://laravel-livewire.com "Laravel Livewire"
+
+:::caution[Work in progress]
+Starlight is in early development.
+If you find something that’s not working, open an issue on [the GitHub repository](https://github.com/sikessem/ui/issues/new/choose) or on [our GitHub discussions](https://github.com/orgs/sikessem/discussions/new/choose).
+:::
+
+[TailwindCSS][tailwindcss-home], [Alpine.js][alpinejs-home] and [Laravel][laravel-home] [Livewire][livewire-home] UI kit for Artisans.
+
+## 📋 Requirements
+
+> - **Requires [PHP 8.1+](https://php.net/releases/)** (at least 8.1.21 recommended to avoid potential bugs).
+> - **Requires [Node JS 18.16+](https://nodejs.org/)** (at least 18.16.1 recommended to avoid potential bugs).
+> - **Requires [Composer >=2.5.8](https://getcomposer.org/)** to manage [PHP][php-link] dependencies.
+> - **Requires [pnpm@^8.0.0](https://pnpm.io/)** to manage [TypeScript][typescript-link] dependencies.
+> - **Requires [Git ~2.40.0](https://git-scm.com/)** to manage source code versions.
+
+## 🎉 Getting Started
+
+### ⚡️ Installation
+
+Install [the Sikessem UI kit](https://packagist.org/packages/sikessem/ui) using [Composer](https://getcomposer.org/):
+
+- By adding the `sikessem/ui` dependency to your `composer.json` file:
+
+```json
+{
+    "require" : {
+        "sikessem/ui": "self.version"
+    }
+}
+```
+
+- Or by including the dependency:
+
+```shell
+composer require sikessem/ui --no-dev
+```
+
+### 🧑‍💻 Usage
+
+#### 📝 Syntax
+
+There are several ways to use Sikessem's UI components.
+
+In the following examples **component-name** represents the name of the desired UI component.
+If you want to use the text component, replace **component-name** with **text** as needed.
+
+You can find the list of [all components here](#-ui-components).
+
+##### View namespace
+
+```html
+<x-ui::component-name property="value">
+  Content
+</x-ui::component-name>
+```
+
+##### Component alias
+
+```html
+<x-ui-component-name property="value">
+  Content
+</x-ui-component-name>
+```
+
+##### Component tags
+
+```html
+<s-component-name property="value"/>
+```
+
+```html
+<s-component-name property="value">
+  {{ $slot }}
+</s-component-name>
+```
+
+##### Component slots
+
+```html
+<s-component-name property="value">
+  <s:slot-name slot-property="property-value">
+    My Slot
+  </s:slot-name>
+</s-component-name>
+```
+
+##### Blade directives
+
+Render a UI component:
+
+```blade
+@ui('component-name', ['property' => 'value'], 'Optional component slot or content')
+```
+
+If **component-name** is not a [UI component](#-ui-components) it will be rendered as an HTML element.
+
+Render an HTML orphan tag:
+
+```blade
+@tag('element-name', ['property' => 'value'])
+```
+
+Render an HTML paired tag:
+
+```blade
+@tag('element-name', ['property' => 'value'])
+  Here, element content or nothing.
+@endtag
+```
+
+Note that the name of the element is not specified when closing. This is automatically detected according to the nesting order of the paired elements.
+
+##### ui() helper
+
+```php
+ui()->make('component-name', ['property' => 'value'], 'content')
+```
+
+##### UI facade
+
+```php
+UI::make('component-name', ['property' => 'value'], 'content')
+```
+
+#### 🍱 UI Components
+
+In the following examples, we will use [component tags](#component-tags). However, the result will be the same if you prefer to [use another syntax](#-syntax).
+
+##### Text component
+
+Allows to translate and/or escape a text:
+
+```html
+<s-text value="Sigui Kessé Emmanuel<contact@sigui.ci>" escape translate/>
+```
+
+This will output the following HTML:
+
+```html
+Sigui Kessé Emmanuel&lt;contact@sigui.ci&gt;
+```
+
+##### Link component
+
+Create an anchor pointing to a route or URL:
+
+```html
+<s-link route="home">Back to home</s-link>
+```
+
+```html
+<s-link href="/">Back to home</s-link>
+```
+
+This will output the following HTML:
+
+```html
+<a href="/">Back to home</a>
+```
+
+```html
+<a href="http://localhost/">Back to home</a>
+```
+
+##### Button component
+
+The Blade input:
+
+```html
+<s-button>Click me</s-button>
+```
+
+The HTML output:
+
+```html
+<button type="button">Click me</button>
+```
+
+The Blade input:
+
+```html
+<s-button value="Click me"/>
+```
+
+The HTML output:
+
+```html
+<input type="button" value="Click me"/>
+```
+
+The Blade input:
+
+```html
+<s-button href="/">Click me</s-button>
+```
+
+The HTML output:
+
+```html
+<a href="http://localhost">Click me</a>
+```
+
+The Blade input:
+
+```html
+<s-submit-button>Click me</s-submit-button>
+```
+
+The HTML output:
+
+```html
+<button type="submit">Click me</button>
+```
+
+The Blade input:
+
+```html
+<s-reset-button>Click me</s-reset-button>
+```
+
+The HTML output:
+
+```html
+<button type="reset">Click me</button>
+```
+
+The Blade input:
+
+```html
+<s-image-button src="..." alt="...">Click me</s-image-button>
+```
+
+The HTML output:
+
+```html
+<button type="image" src="..." alt="...">Click me</button>
+```
+
+##### Menu component
+
+Create a menu containing a list of entries:
+
+```html
+<s-menu ordered :list="['Red', 'Green', 'Blue']"/>
+```
+
+```html
+<s-menu href="['Color' => ['Red', 'Green', 'Blue'], 'Author' => ['Kessé Emmanuel', 'Sigui']]"/>
+```
+
+This will output the following HTML:
+
+```html
+<ol>
+  <li>Red</li>
+  <li>Green</li>
+  <li>Blue</li>
+</ol>
+```
+
+```html
+<ul>
+  <li>
+    Color
+    <ul>
+      <li>Red</li>
+      <li>Green</li>
+      <li>Blue</li>
+    </ul>
+  </li>
+  <li>
+    Author
+    <ul>
+      <li>Kessé Emmanuel</li>
+      <li>Sigui</li>
+    </ul>
+  </li>
+</ul>
+```
+
+##### Label component
+
+Create a label:
+
+```html
+<s-label>Content</s-label>
+```
+
+```html
+<s-label for="name" text="Name"/>
+```
+
+This will output the following HTML:
+
+```html
+<label>Content</label>
+```
+
+```html
+<label for="name">Name</label>
+```
+
+##### Flash component
+
+Create a flash:
+
+```html
+<s-flash type="info"/>
+```
+
+```html
+<s-flash class="alert" type="info" message="Default info"/>
+```
+
+If session "info" was set to "Info", the output will be:
+
+```html
+<p>Info</p>
+```
+
+Otherwise, the output will be:
+
+```html
+<p></p>
+```
+
+Or (in the second example):
+
+```html
+<p class="alert">Default info</p>
+```
+
+##### Flashes component
+
+```html
+<s-flashes :messages="['info' => 'Info', 'warning']"/>
+```
+
+If the "info" and "warning" sessions have been set to "Info" and "Warning" respectively, the output will be:
+
+```html
+<ul>
+  <li>Info</li>
+  <li>Warning</li>
+</ul>
+```
+
+Otherwise, the output will be:
+
+```html
+<ul>
+  <li>Info</li>
+</ul>
+```
+
+##### Form component
+
+Create a form:
+
+```html
+<s-form>
+  Put the form content here
+</s-form>
+```
+
+This will output the following HTML:
+
+```html
+<form method="GET" action="#">
+  <input type="hidden" name="_token" value="...">
+</form>
+
+```
+
+##### Error component
+
+Create a error:
+
+```html
+<s-error field="name"/>
+```
+
+##### Errors component
+
+```html
+<s-errors/>
+```
+
+##### Entry component
+
+Create an entry:
+
+```html
+<s-entry type="email"/>
+```
+
+```html
+<s-entry type="textarea" name="comment"/>
+```
+
+```html
+<s-entry type="name" autocomplete :datalist=""/>
+```
+
+This will output the following HTML:
+
+```html
+<input type="email" name="email" id="email" autocomplete="email" :datalist="[\'Emmanuel\', \'Kessé\', \'Sigui\']" aria-invalid="false"/>
+```
+
+```html
+<textarea name="comment" id="comment" autocomplete="comment" aria-invalid="false">
+</textarea>
+```
+
+```html
+<input type="name" name="name" id="name" autocomplete="name" list="name-input-datalist" aria-invalid="false"/>
+<datalist id="text-input-datalist">
+  <option >Emmanuel</option>
+  <option >Kessé</option>
+  <option >Sigui</option>
+</datalist>',
+```
+
+##### Icon component
+
+```html
+<s-icon name="user-group"/>
+```
+
+```html
+<s-icon element="svg" name="user-group" type="solid" width="20" height="20" size="20"/>
+```
+
+```html
+<s-icon element="i" name="user-group" type="solid" width="20" height="20" size="20"/>
+```
+
+```html
+<s-icon element="img" name="user-group" type="solid" width="20" height="20" size="20"/>
+```
+
+#### 🎨 Custom components
+
+Create custom components from `config/ui.php` file.
+
+```blade
+@ui('custom', ['class' => 'element', 'id' => 'myElement'], '')
+  My custom component
+@endui
+```
+
+Output:
+
+```html
+<custom-element class="my custom element" id="myElement">
+  My custom component
+</custom-element>
+
+```
+
+#### Component styles
+
+#### Color utilities
+
+```html
+<div class="text-red bg-red-light-0 border-red-dark-0"></div>
+```

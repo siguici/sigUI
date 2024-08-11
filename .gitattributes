@@ -13,7 +13,10 @@
 *.neon linguist-language=YAML
 
 /.github export-ignore
+/.vscode export-ignore
+/website export-ignore
 /tests export-ignore
+/specs export-ignore
 .editorconfig export-ignore
 .gitattributes export-ignore
 .gitignore export-ignore

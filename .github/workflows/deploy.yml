@@ -1,0 +1,63 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+
+defaults:
+  run:
+    working-directory: ./website
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ${{ matrix.operating-system }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    environment: 
+      name: production
+      url: https://sikessem.github.io
+
+    strategy:
+      fail-fast: true
+      matrix:
+        operating-system: [ubuntu-latest]
+        node-version: [20.16]
+        pnpm-version: [9.7.0]
+
+    name: 🚀 Deploy https://sikessem.github.io/ui to Node-${{ matrix.node-version }} and build with pnpm@${{ matrix.pnpm-version }} on ${{ matrix.operating-system }}
+
+    steps:
+      - name: 🚚 Checkout the repository
+        uses: actions/checkout@v4
+
+      - name: 📚 Install, build, and upload website
+        uses: withastro/action@v2
+        with:
+          path: ./website
+          node-version: ${{ matrix.node-version }}
+          package-manager: pnpm@${{ matrix.pnpm-version }}
+
+  deploy:
+    needs: build
+
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: 📂 Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
