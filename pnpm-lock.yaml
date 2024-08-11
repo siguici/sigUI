@@ -63,12 +63,6 @@ importers:
       typescript:
         specifier: ^5.5.4
         version: 5.5.4
-      vite:
-        specifier: ^5.4.0
-        version: 5.4.0(@types/node@22.2.0)
-      vite-tsconfig-paths:
-        specifier: ^5.0.1
-        version: 5.0.1(typescript@5.5.4)(vite@5.4.0(@types/node@22.2.0))
       vitest:
         specifier: ^2.0.5
         version: 2.0.5(@types/node@22.2.0)
@@ -1077,9 +1071,6 @@ packages:
     resolution: {integrity: sha512-WOBp/EEGUiIsJSp7wcv/y6MO+lV9UoncWqxuFfm8eBwzWNgyfBd6Gz+IeKQ9jCmyhoH99g15M3T+QaVHFjizVA==}
     engines: {node: '>=4'}
 
-  globrex@0.1.2:
-    resolution: {integrity: sha512-uHJgbwAMwNFf5mLst7IWLNg14x1CkeqglJb/K3doi4dw6q2IvAAmM/Y81kevy83wP+Sst+nutFTYOGg3d1lsxg==}
-
   has-flag@3.0.0:
     resolution: {integrity: sha512-sKJf1+ceQBr4SMkvQnBDNDtf4TXpVhVGateu0t918bl30FnbE2m4vNLX+VWe/dpjlb+HugGYzW7uQXH98HPEYw==}
     engines: {node: '>=4'}
@@ -1561,16 +1552,6 @@ packages:
       '@swc/wasm':
         optional: true
 
-  tsconfck@3.1.1:
-    resolution: {integrity: sha512-00eoI6WY57SvZEVjm13stEVE90VkEdJAFGgpFLTsZbJyW/LwFQ7uQxJHWpZ2hzSWgCPKc9AnBnNP+0X7o3hAmQ==}
-    engines: {node: ^18 || >=20}
-    hasBin: true
-    peerDependencies:
-      typescript: ^5.0.0
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-
   tslib@2.6.3:
     resolution: {integrity: sha512-xNvxJEOUiWPGhUuUdQgAJPKOOJfGnIyKySOc09XkKsgdUV/3E2zvwZYdejjmRgPCgcym1juLH3226yA7sEFJKQ==}
 
@@ -1603,14 +1584,6 @@ packages:
     resolution: {integrity: sha512-LdsW4pxj0Ot69FAoXZ1yTnA9bjGohr2yNBU7QKRxpz8ITSkhuDl6h3zS/tvgz4qrNjeRnvrWeXQ8ZF7Um4W00Q==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
-
-  vite-tsconfig-paths@5.0.1:
-    resolution: {integrity: sha512-yqwv+LstU7NwPeNqajZzLEBVpUFU6Dugtb2P84FXuvaoYA+/70l9MHE+GYfYAycVyPSDYZ7mjOFuYBRqlEpTig==}
-    peerDependencies:
-      vite: '*'
-    peerDependenciesMeta:
-      vite:
-        optional: true
 
   vite@5.4.0:
     resolution: {integrity: sha512-5xokfMX0PIiwCMCMb9ZJcMyh5wbBun0zUzKib+L65vAZ8GY9ePZMXxFrHbr/Kyll2+LSCY7xtERPpxkBDKngwg==}
@@ -2573,8 +2546,6 @@ snapshots:
 
   globals@11.12.0: {}
 
-  globrex@0.1.2: {}
-
   has-flag@3.0.0: {}
 
   has-flag@4.0.0: {}
@@ -3019,10 +2990,6 @@ snapshots:
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
 
-  tsconfck@3.1.1(typescript@5.5.4):
-    optionalDependencies:
-      typescript: 5.5.4
-
   tslib@2.6.3: {}
 
   tsm@2.3.0:
@@ -3060,17 +3027,6 @@ snapshots:
       - sugarss
       - supports-color
       - terser
-
-  vite-tsconfig-paths@5.0.1(typescript@5.5.4)(vite@5.4.0(@types/node@22.2.0)):
-    dependencies:
-      debug: 4.3.6
-      globrex: 0.1.2
-      tsconfck: 3.1.1(typescript@5.5.4)
-    optionalDependencies:
-      vite: 5.4.0(@types/node@22.2.0)
-    transitivePeerDependencies:
-      - supports-color
-      - typescript
 
   vite@5.4.0(@types/node@22.2.0):
     dependencies:

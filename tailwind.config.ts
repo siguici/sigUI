@@ -7,7 +7,6 @@ export const UIConfig: Config = {
     "./config/ui.php",
     "./src/Components/**/*.php",
     "./resources/views/**/*.blade.php",
-    "./design/**/*.{html,css,ts}",
   ],
 
   theme: {
