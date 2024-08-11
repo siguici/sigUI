@@ -16,9 +16,9 @@ jobs:
         php: [8.2, 8.3]
         node: [20.16]
         pnpm: [9.7.0]
-        dependencies: [lowest, highest]
+        dependency: [prefer-stable]
         experimental: [false]
-    name: 👷 CI PHP-${{ matrix.php }} ${{ matrix.dependencies }} with Node-${{ matrix.node }} on ${{ matrix.os }}
+    name: 👷 CI PHP-${{ matrix.php }} ${{ matrix.dependency }} with Node-${{ matrix.node }} on ${{ matrix.os }}
 
     steps:
       - name: Checkout
@@ -31,9 +31,9 @@ jobs:
       - uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-dependencies-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
+          key: ${{ runner.os }}-php-${{ matrix.php }}-composer-${{ matrix.dependency }}-${{ hashFiles('composer.json') }}
           restore-keys: |
-            ${{ runner.os }}-dependencies-php-${{ matrix.php }}-composer-
+            ${{ runner.os }}-php-${{ matrix.php }}-composer-${{ matrix.dependency }}-
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -45,10 +45,9 @@ jobs:
           coverage: pcov
 
       - name: Install Composer dependencies
-        uses: ramsey/composer-install@v3
-        with:
-          dependency-versions: ${{ matrix.dependencies }}
-          composer-options: --no-ansi --no-cache --no-interaction --no-scripts --no-progress --prefer-dist
+        run: |
+          composer install -q --no-ansi --no-cache --no-interaction --no-scripts --no-progress --prefer-dist
+          composer update --${{ matrix.dependency }} --no-interaction --prefer-dist --no-progress --no-suggest
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
