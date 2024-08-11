@@ -1,16 +1,17 @@
 import type {
   EdgeOptions,
   LinkOptions,
-  PluginWithOptions,
-  PluginWithoutOptions,
   RequiredEdgeOptions,
   RequiredLinkOptions,
   RequiredUIOptions,
   UIOptions,
 } from "./types";
 
-import plugin from "tailwindcss/plugin";
-import type { PluginAPI } from "tailwindcss/types/config";
+import plug, {
+  type PluginAPI,
+  type PluginCreator,
+  type PluginCreatorWithOptions,
+} from "plugwind.js";
 import { Colors } from "./colors";
 import { Edges } from "./edges";
 import { Links } from "./links";
@@ -21,8 +22,8 @@ export const DEFAULT_OPTIONS: RequiredUIOptions = {
   buttonClass: "button",
 };
 
-export function plugUI(): PluginWithOptions<UIOptions> {
-  return plugin.withOptions((options: UIOptions = DEFAULT_OPTIONS) => (api) => {
+export function plugUI(): PluginCreatorWithOptions<UIOptions> {
+  return plug.with((options: UIOptions = DEFAULT_OPTIONS) => (api) => {
     useColors(api);
     useLinks(api, {
       linkClass: options.linkClass || DEFAULT_OPTIONS.linkClass,
@@ -34,12 +35,12 @@ export function plugUI(): PluginWithOptions<UIOptions> {
   });
 }
 
-export function plugColors(): PluginWithoutOptions {
-  return plugin((api) => useColors(api));
+export function plugColors(): PluginCreator {
+  return plug((api) => useColors(api));
 }
 
-export function plugLinks(): PluginWithOptions<LinkOptions> {
-  return plugin.withOptions(
+export function plugLinks(): PluginCreatorWithOptions<LinkOptions> {
+  return plug.with(
     (
       options: LinkOptions = {
         linkClass: DEFAULT_OPTIONS.linkClass,
@@ -50,8 +51,8 @@ export function plugLinks(): PluginWithOptions<LinkOptions> {
   );
 }
 
-export function plugEdges(): PluginWithOptions<EdgeOptions> {
-  return plugin.withOptions(
+export function plugEdges(): PluginCreatorWithOptions<EdgeOptions> {
+  return plug.with(
     (
       options: EdgeOptions = {
         entryClass: DEFAULT_OPTIONS.entryClass,

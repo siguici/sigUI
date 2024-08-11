@@ -1,22 +1,6 @@
 import type { Config, PluginCreator } from "tailwindcss/types/config";
 import type { ClassName } from "./styles";
 
-export type PluginWithoutOptions =
-  | PluginCreator
-  | {
-      handler: PluginCreator;
-      config?: Partial<Config>;
-    };
-export type PluginWithOptions<T> = {
-  (
-    options: T,
-  ): {
-    handler: PluginCreator;
-    config?: Partial<Config> | undefined;
-  };
-  __isOptionsFunction: true;
-};
-
 export interface RequiredLinkOptions {
   linkClass: ClassName;
 }
@@ -38,5 +22,3 @@ export type DarkMode = [DarkModeStrategy, DarkModeQuery];
 
 export * from "./styles";
 export * from "./colors";
-
-export default PluginWithOptions;
