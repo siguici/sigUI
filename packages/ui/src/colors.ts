@@ -1,6 +1,14 @@
-import tailwindColors from "tailwindcss/colors";
+import colors from "tailwindcss/colors";
+import type { ComponentList, RuleSet, StyleCallbacks, UtilityList } from ".";
+import {
+  append_style,
+  darken_class,
+  stylize_class,
+  stylize_property,
+} from "./helpers";
+import { Plugin } from "./plugin";
 
-export type ColorName = keyof typeof tailwindColors;
+export type ColorName = keyof typeof colors;
 export type ColorValue = string;
 export type ColorValues = Record<string | number, ColorValue>;
 export type RequiredColorVariants = {
@@ -10,624 +18,1387 @@ export type RequiredColorVariants = {
 };
 export type ColorVariants = Partial<RequiredColorVariants>;
 
-export { tailwindColors };
+export class Colors extends Plugin<void> {
+  readonly components: ComponentList = {
+    link: ["text", "decoration"],
 
-export const cssColors = {
-  aliceblue: "#f0f8ff",
-  antiquewhite: "#faebd7",
-  aqua: "#00ffff",
-  aquamarine: "#7fffd4",
-  azure: "#f0ffff",
-  beige: "#f5f5dc",
-  bisque: "#ffe4c4",
-  black: "#000000",
-  blanchedalmond: "#ffebcd",
-  blue: "#0000ff",
-  blueviolet: "#8a2be2",
-  brown: "#a52a2a",
-  burlywood: "#deb887",
-  cadetblue: "#5f9ea0",
-  chartreuse: "#7fff00",
-  chocolate: "#d2691e",
-  coral: "#ff7f50",
-  cornflowerblue: "#6495ed",
-  cornsilk: "#fff8dc",
-  crimson: "#dc143c",
-  cyan: "#00ffff",
-  darkblue: "#00008b",
-  darkcyan: "#008b8b",
-  darkgoldenrod: "#b8860b",
-  darkgray: "#a9a9a9",
-  darkgreen: "#006400",
-  darkgrey: "#a9a9a9",
-  darkkhaki: "#bdb76b",
-  darkmagenta: "#8b008b",
-  darkolivegreen: "#556b2f",
-  darkorange: "#ff8c00",
-  darkorchid: "#9932cc",
-  darkred: "#8b0000",
-  darksalmon: "#e9967a",
-  darkseagreen: "#8fbc8f",
-  darkslateblue: "#483d8b",
-  darkslategray: "#2f4f4f",
-  darkslategrey: "#2f4f4f",
-  darkturquoise: "#00ced1",
-  darkviolet: "#9400d3",
-  deeppink: "#ff1493",
-  deepskyblue: "#00bfff",
-  dimgray: "#696969",
-  dimgrey: "#696969",
-  dodgerblue: "#1e90ff",
-  firebrick: "#b22222",
-  floralwhite: "#fffaf0",
-  forestgreen: "#228b22",
-  fuchsia: "#ff00ff",
-  gainsboro: "#dcdcdc",
-  ghostwhite: "#f8f8ff",
-  gold: "#ffd700",
-  goldenrod: "#daa520",
-  gray: "#808080",
-  green: "#008000",
-  greenyellow: "#adff2f",
-  grey: "#808080",
-  honeydew: "#f0fff0",
-  hotpink: "#ff69b4",
-  indianred: "#cd5c5c",
-  indigo: "#4b0082",
-  ivory: "#fffff0",
-  khaki: "#f0e68c",
-  lavender: "#e6e6fa",
-  lavenderblush: "#fff0f5",
-  lawngreen: "#7cfc00",
-  lemonchiffon: "#fffacd",
-  lightblue: "#add8e6",
-  lightcoral: "#f08080",
-  lightcyan: "#e0ffff",
-  lightgoldenrodyellow: "#fafad2",
-  lightgray: "#d3d3d3",
-  lightgreen: "#90ee90",
-  lightgrey: "#d3d3d3",
-  lightpink: "#ffb6c1",
-  lightsalmon: "#ffa07a",
-  lightseagreen: "#20b2aa",
-  lightskyblue: "#87cefa",
-  lightslategray: "#778899",
-  lightslategrey: "#778899",
-  lightsteelblue: "#b0c4de",
-  lightyellow: "#ffffe0",
-  lime: "#00ff00",
-  limegreen: "#32cd32",
-  linen: "#faf0e6",
-  magenta: "#ff00ff",
-  maroon: "#800000",
-  mediumaquamarine: "#66cdaa",
-  mediumblue: "#0000cd",
-  mediumorchid: "#ba55d3",
-  mediumpurple: "#9370db",
-  mediumseagreen: "#3cb371",
-  mediumslateblue: "#7b68ee",
-  mediumspringgreen: "#00fa9a",
-  mediumturquoise: "#48d1cc",
-  mediumvioletred: "#c71585",
-  midnightblue: "#191970",
-  mintcream: "#f5fffa",
-  mistyrose: "#ffe4e1",
-  moccasin: "#ffe4b5",
-  navajowhite: "#ffdead",
-  navy: "#000080",
-  oldlace: "#fdf5e6",
-  olive: "#808000",
-  olivedrab: "#6b8e23",
-  orange: "#ffa500",
-  orangered: "#ff4500",
-  orchid: "#da70d6",
-  palegoldenrod: "#eee8aa",
-  palegreen: "#98fb98",
-  paleturquoise: "#afeeee",
-  palevioletred: "#db7093",
-  papayawhip: "#ffefd5",
-  peachpuff: "#ffdab9",
-  peru: "#cd853f",
-  pink: "#ffc0cb",
-  plum: "#dda0dd",
-  powderblue: "#b0e0e6",
-  purple: "#800080",
-  rebeccapurple: "#663399",
-  red: "#ff0000",
-  rosybrown: "#bc8f8f",
-  royalblue: "#4169e1",
-  saddlebrown: "#8b4513",
-  salmon: "#fa8072",
-  sandybrown: "#f4a460",
-  seagreen: "#2e8b57",
-  seashell: "#fff5ee",
-  sienna: "#a0522d",
-  silver: "#c0c0c0",
-  skyblue: "#87ceeb",
-  slateblue: "#6a5acd",
-  slategray: "#708090",
-  slategrey: "#708090",
-  snow: "#fffafa",
-  springgreen: "#00ff7f",
-  steelblue: "#4682b4",
-  tan: "#d2b48c",
-  teal: "#008080",
-  thistle: "#d8bfd8",
-  tomato: "#ff6347",
-  turquoise: "#40e0d0",
-  violet: "#ee82ee",
-  wheat: "#f5deb3",
-  white: "#ffffff",
-  whitesmoke: "#f5f5f5",
-  yellow: "#ffff00",
-  yellowgreen: "#9acd32",
-} as const;
+    entry: ["text", "caret", "border"],
 
-export default {
-  pure: {
-    light: tailwindColors.white,
-    dark: tailwindColors.black,
-  },
-  slate: tailwindColors.slate[500],
-  "slate-4": {
-    light: tailwindColors.slate[400],
-    dark: tailwindColors.slate[600],
-  },
-  "slate-3": {
-    light: tailwindColors.slate[300],
-    dark: tailwindColors.slate[700],
-  },
-  "slate-2": {
-    light: tailwindColors.slate[200],
-    dark: tailwindColors.slate[800],
-  },
-  "slate-1": {
-    light: tailwindColors.slate[100],
-    dark: tailwindColors.slate[900],
-  },
-  "slate-0": {
-    light: tailwindColors.slate[50],
-    dark: tailwindColors.slate[950],
-  },
-  gray: tailwindColors.gray[500],
-  "gray-4": {
-    light: tailwindColors.gray[400],
-    dark: tailwindColors.gray[600],
-  },
-  "gray-3": {
-    light: tailwindColors.gray[300],
-    dark: tailwindColors.gray[700],
-  },
-  "gray-2": {
-    light: tailwindColors.gray[200],
-    dark: tailwindColors.gray[800],
-  },
-  "gray-1": {
-    light: tailwindColors.gray[100],
-    dark: tailwindColors.gray[900],
-  },
-  "gray-0": {
-    light: tailwindColors.gray[50],
-    dark: tailwindColors.gray[950],
-  },
-  zinc: tailwindColors.zinc[500],
-  "zinc-4": {
-    light: tailwindColors.zinc[400],
-    dark: tailwindColors.zinc[600],
-  },
-  "zinc-3": {
-    light: tailwindColors.zinc[300],
-    dark: tailwindColors.zinc[700],
-  },
-  "zinc-2": {
-    light: tailwindColors.zinc[200],
-    dark: tailwindColors.zinc[800],
-  },
-  "zinc-1": {
-    light: tailwindColors.zinc[100],
-    dark: tailwindColors.zinc[900],
-  },
-  "zinc-0": {
-    light: tailwindColors.zinc[50],
-    dark: tailwindColors.zinc[950],
-  },
-  neutral: tailwindColors.neutral[500],
-  "neutral-4": {
-    light: tailwindColors.neutral[400],
-    dark: tailwindColors.neutral[600],
-  },
-  "neutral-3": {
-    light: tailwindColors.neutral[300],
-    dark: tailwindColors.neutral[700],
-  },
-  "neutral-2": {
-    light: tailwindColors.neutral[200],
-    dark: tailwindColors.neutral[800],
-  },
-  "neutral-1": {
-    light: tailwindColors.neutral[100],
-    dark: tailwindColors.neutral[900],
-  },
-  "neutral-0": {
-    light: tailwindColors.neutral[50],
-    dark: tailwindColors.neutral[950],
-  },
-  stone: tailwindColors.stone[500],
-  "stone-4": {
-    light: tailwindColors.stone[400],
-    dark: tailwindColors.stone[600],
-  },
-  "stone-3": {
-    light: tailwindColors.stone[300],
-    dark: tailwindColors.stone[700],
-  },
-  "stone-2": {
-    light: tailwindColors.stone[200],
-    dark: tailwindColors.stone[800],
-  },
-  "stone-1": {
-    light: tailwindColors.stone[100],
-    dark: tailwindColors.stone[900],
-  },
-  "stone-0": {
-    light: tailwindColors.stone[50],
-    dark: tailwindColors.stone[950],
-  },
-  red: tailwindColors.red[500],
-  "red-4": {
-    light: tailwindColors.red[400],
-    dark: tailwindColors.red[600],
-  },
-  "red-3": {
-    light: tailwindColors.red[300],
-    dark: tailwindColors.red[700],
-  },
-  "red-2": {
-    light: tailwindColors.red[200],
-    dark: tailwindColors.red[800],
-  },
-  "red-1": {
-    light: tailwindColors.red[100],
-    dark: tailwindColors.red[900],
-  },
-  "red-0": {
-    light: tailwindColors.red[50],
-    dark: tailwindColors.red[950],
-  },
-  orange: tailwindColors.orange[500],
-  "orange-4": {
-    light: tailwindColors.orange[400],
-    dark: tailwindColors.orange[600],
-  },
-  "orange-3": {
-    light: tailwindColors.orange[300],
-    dark: tailwindColors.orange[700],
-  },
-  "orange-2": {
-    light: tailwindColors.orange[200],
-    dark: tailwindColors.orange[800],
-  },
-  "orange-1": {
-    light: tailwindColors.orange[100],
-    dark: tailwindColors.orange[900],
-  },
-  "orange-0": {
-    light: tailwindColors.orange[50],
-    dark: tailwindColors.orange[950],
-  },
-  amber: tailwindColors.amber[500],
-  "amber-4": {
-    light: tailwindColors.amber[400],
-    dark: tailwindColors.amber[600],
-  },
-  "amber-3": {
-    light: tailwindColors.amber[300],
-    dark: tailwindColors.amber[700],
-  },
-  "amber-2": {
-    light: tailwindColors.amber[200],
-    dark: tailwindColors.amber[800],
-  },
-  "amber-1": {
-    light: tailwindColors.amber[100],
-    dark: tailwindColors.amber[900],
-  },
-  "amber-0": {
-    light: tailwindColors.amber[50],
-    dark: tailwindColors.amber[950],
-  },
-  yellow: tailwindColors.yellow[500],
-  "yellow-4": {
-    light: tailwindColors.yellow[400],
-    dark: tailwindColors.yellow[600],
-  },
-  "yellow-3": {
-    light: tailwindColors.yellow[300],
-    dark: tailwindColors.yellow[700],
-  },
-  "yellow-2": {
-    light: tailwindColors.yellow[200],
-    dark: tailwindColors.yellow[800],
-  },
-  "yellow-1": {
-    light: tailwindColors.yellow[100],
-    dark: tailwindColors.yellow[900],
-  },
-  "yellow-0": {
-    light: tailwindColors.yellow[50],
-    dark: tailwindColors.yellow[950],
-  },
-  lime: tailwindColors.lime[500],
-  "lime-4": {
-    light: tailwindColors.lime[400],
-    dark: tailwindColors.lime[600],
-  },
-  "lime-3": {
-    light: tailwindColors.lime[300],
-    dark: tailwindColors.lime[700],
-  },
-  "lime-2": {
-    light: tailwindColors.lime[200],
-    dark: tailwindColors.lime[800],
-  },
-  "lime-1": {
-    light: tailwindColors.lime[100],
-    dark: tailwindColors.lime[900],
-  },
-  "lime-0": {
-    light: tailwindColors.lime[50],
-    dark: tailwindColors.lime[950],
-  },
-  green: tailwindColors.green[500],
-  "green-4": {
-    light: tailwindColors.green[400],
-    dark: tailwindColors.green[600],
-  },
-  "green-3": {
-    light: tailwindColors.green[300],
-    dark: tailwindColors.green[700],
-  },
-  "green-2": {
-    light: tailwindColors.green[200],
-    dark: tailwindColors.green[800],
-  },
-  "green-1": {
-    light: tailwindColors.green[100],
-    dark: tailwindColors.green[900],
-  },
-  "green-0": {
-    light: tailwindColors.green[50],
-    dark: tailwindColors.green[950],
-  },
-  emerald: tailwindColors.emerald[500],
-  "emerald-4": {
-    light: tailwindColors.emerald[400],
-    dark: tailwindColors.emerald[600],
-  },
-  "emerald-3": {
-    light: tailwindColors.emerald[300],
-    dark: tailwindColors.emerald[700],
-  },
-  "emerald-2": {
-    light: tailwindColors.emerald[200],
-    dark: tailwindColors.emerald[800],
-  },
-  "emerald-1": {
-    light: tailwindColors.emerald[100],
-    dark: tailwindColors.emerald[900],
-  },
-  "emerald-0": {
-    light: tailwindColors.emerald[50],
-    dark: tailwindColors.emerald[950],
-  },
-  teal: tailwindColors.teal[500],
-  "teal-4": {
-    light: tailwindColors.teal[400],
-    dark: tailwindColors.teal[600],
-  },
-  "teal-3": {
-    light: tailwindColors.teal[300],
-    dark: tailwindColors.teal[700],
-  },
-  "teal-2": {
-    light: tailwindColors.teal[200],
-    dark: tailwindColors.teal[800],
-  },
-  "teal-1": {
-    light: tailwindColors.teal[100],
-    dark: tailwindColors.teal[900],
-  },
-  "teal-0": {
-    light: tailwindColors.teal[50],
-    dark: tailwindColors.teal[950],
-  },
-  cyan: tailwindColors.cyan[500],
-  "cyan-4": {
-    light: tailwindColors.cyan[400],
-    dark: tailwindColors.cyan[600],
-  },
-  "cyan-3": {
-    light: tailwindColors.cyan[300],
-    dark: tailwindColors.cyan[700],
-  },
-  "cyan-2": {
-    light: tailwindColors.cyan[200],
-    dark: tailwindColors.cyan[800],
-  },
-  "cyan-1": {
-    light: tailwindColors.cyan[100],
-    dark: tailwindColors.cyan[900],
-  },
-  "cyan-0": {
-    light: tailwindColors.cyan[50],
-    dark: tailwindColors.cyan[950],
-  },
-  sky: tailwindColors.sky[500],
-  "sky-4": {
-    light: tailwindColors.sky[400],
-    dark: tailwindColors.sky[600],
-  },
-  "sky-3": {
-    light: tailwindColors.sky[300],
-    dark: tailwindColors.sky[700],
-  },
-  "sky-2": {
-    light: tailwindColors.sky[200],
-    dark: tailwindColors.sky[800],
-  },
-  "sky-1": {
-    light: tailwindColors.sky[100],
-    dark: tailwindColors.sky[900],
-  },
-  "sky-0": {
-    light: tailwindColors.sky[50],
-    dark: tailwindColors.sky[950],
-  },
-  blue: tailwindColors.blue[500],
-  "blue-4": {
-    light: tailwindColors.blue[400],
-    dark: tailwindColors.blue[600],
-  },
-  "blue-3": {
-    light: tailwindColors.blue[300],
-    dark: tailwindColors.blue[700],
-  },
-  "blue-2": {
-    light: tailwindColors.blue[200],
-    dark: tailwindColors.blue[800],
-  },
-  "blue-1": {
-    light: tailwindColors.blue[100],
-    dark: tailwindColors.blue[900],
-  },
-  "blue-0": {
-    light: tailwindColors.blue[50],
-    dark: tailwindColors.blue[950],
-  },
-  indigo: tailwindColors.indigo[500],
-  "indigo-4": {
-    light: tailwindColors.indigo[400],
-    dark: tailwindColors.indigo[600],
-  },
-  "indigo-3": {
-    light: tailwindColors.indigo[300],
-    dark: tailwindColors.indigo[700],
-  },
-  "indigo-2": {
-    light: tailwindColors.indigo[200],
-    dark: tailwindColors.indigo[800],
-  },
-  "indigo-1": {
-    light: tailwindColors.indigo[100],
-    dark: tailwindColors.indigo[900],
-  },
-  "indigo-0": {
-    light: tailwindColors.indigo[50],
-    dark: tailwindColors.indigo[950],
-  },
-  violet: tailwindColors.violet[500],
-  "violet-4": {
-    light: tailwindColors.violet[400],
-    dark: tailwindColors.violet[600],
-  },
-  "violet-3": {
-    light: tailwindColors.violet[300],
-    dark: tailwindColors.violet[700],
-  },
-  "violet-2": {
-    light: tailwindColors.violet[200],
-    dark: tailwindColors.violet[800],
-  },
-  "violet-1": {
-    light: tailwindColors.violet[100],
-    dark: tailwindColors.violet[900],
-  },
-  "violet-0": {
-    light: tailwindColors.violet[50],
-    dark: tailwindColors.violet[950],
-  },
-  purple: tailwindColors.purple[500],
-  "purple-4": {
-    light: tailwindColors.purple[400],
-    dark: tailwindColors.purple[600],
-  },
-  "purple-3": {
-    light: tailwindColors.purple[300],
-    dark: tailwindColors.purple[700],
-  },
-  "purple-2": {
-    light: tailwindColors.purple[200],
-    dark: tailwindColors.purple[800],
-  },
-  "purple-1": {
-    light: tailwindColors.purple[100],
-    dark: tailwindColors.purple[900],
-  },
-  "purple-0": {
-    light: tailwindColors.purple[50],
-    dark: tailwindColors.purple[950],
-  },
-  fuchsia: tailwindColors.fuchsia[500],
-  "fuchsia-4": {
-    light: tailwindColors.fuchsia[400],
-    dark: tailwindColors.fuchsia[600],
-  },
-  "fuchsia-3": {
-    light: tailwindColors.fuchsia[300],
-    dark: tailwindColors.fuchsia[700],
-  },
-  "fuchsia-2": {
-    light: tailwindColors.fuchsia[200],
-    dark: tailwindColors.fuchsia[800],
-  },
-  "fuchsia-1": {
-    light: tailwindColors.fuchsia[100],
-    dark: tailwindColors.fuchsia[900],
-  },
-  "fuchsia-0": {
-    light: tailwindColors.fuchsia[50],
-    dark: tailwindColors.fuchsia[950],
-  },
-  pink: tailwindColors.pink[500],
-  "pink-4": {
-    light: tailwindColors.pink[400],
-    dark: tailwindColors.pink[600],
-  },
-  "pink-3": {
-    light: tailwindColors.pink[300],
-    dark: tailwindColors.pink[700],
-  },
-  "pink-2": {
-    light: tailwindColors.pink[200],
-    dark: tailwindColors.pink[800],
-  },
-  "pink-1": {
-    light: tailwindColors.pink[100],
-    dark: tailwindColors.pink[900],
-  },
-  "pink-0": {
-    light: tailwindColors.pink[50],
-    dark: tailwindColors.pink[950],
-  },
-  rose: tailwindColors.rose[500],
-  "rose-4": {
-    light: tailwindColors.rose[400],
-    dark: tailwindColors.rose[600],
-  },
-  "rose-3": {
-    light: tailwindColors.rose[300],
-    dark: tailwindColors.rose[700],
-  },
-  "rose-2": {
-    light: tailwindColors.rose[200],
-    dark: tailwindColors.rose[800],
-  },
-  "rose-1": {
-    light: tailwindColors.rose[100],
-    dark: tailwindColors.rose[900],
-  },
-  "rose-0": {
-    light: tailwindColors.rose[50],
-    dark: tailwindColors.rose[950],
-  },
-};
+    choice: ["accent"],
+
+    button: {
+      DEFAULT: ["bg"],
+      link: ["text", "decoration"],
+      ring: ["text", "ring"],
+      bordered: ["text", "border"],
+      outlined: ["text", "outline"],
+    },
+  };
+
+  readonly utilities: UtilityList = {
+    text: "color",
+    bg: "background-color",
+    decoration: "text-decoration-color",
+    border: "border-color",
+    outline: "outline-color",
+    accent: "accent-color",
+    caret: "caret-color",
+    divide: "border-color",
+    fill: "fill",
+    stroke: "stroke",
+    shadow: "--tw-shadow-color",
+    ring: "--tw-ring-color",
+  };
+
+  public create(): this {
+    for (const name in colors) {
+      const colorDetails = this.getDetailsColorOf(name as ColorName);
+      this.addColor(name, colorDetails);
+    }
+    return this;
+  }
+
+  public getDetailsColorOf(name: ColorName): ColorVariants {
+    const { theme } = this.api;
+    let color: ColorVariants;
+
+    switch (name) {
+      case "slate":
+        color = {
+          default: theme(
+            "colors.slate.default",
+            theme("colors.slate.500", colors.slate[500]),
+          ),
+          light: {
+            "0": theme(
+              "colors.slate.light.0",
+              theme("colors.slate.50", colors.slate[50]),
+            ),
+            "1": theme(
+              "colors.slate.light.1",
+              theme("colors.slate.100", colors.slate[100]),
+            ),
+            "2": theme(
+              "colors.slate.light.2",
+              theme("colors.slate.200", colors.slate[200]),
+            ),
+            "3": theme(
+              "colors.slate.light.3",
+              theme("colors.slate.300", colors.slate[300]),
+            ),
+            "4": theme(
+              "colors.slate.light.4",
+              theme("colors.slate.400", colors.slate[400]),
+            ),
+          },
+          dark: {
+            "0": theme(
+              "colors.slate.dark.0",
+              theme("colors.slate.950", colors.slate[950]),
+            ),
+            "1": theme(
+              "colors.slate.dark.1",
+              theme("colors.slate.900", colors.slate[900]),
+            ),
+            "2": theme(
+              "colors.slate.dark.2",
+              theme("colors.slate.800", colors.slate[800]),
+            ),
+            "3": theme(
+              "colors.slate.dark.3",
+              theme("colors.slate.700", colors.slate[700]),
+            ),
+            "4": theme(
+              "colors.slate.dark.4",
+              theme("colors.slate.600", colors.slate[600]),
+            ),
+          },
+        };
+        break;
+      case "gray":
+        color = {
+          default: theme(
+            "colors.gray.default",
+            theme("colors.gray.500", colors.gray[500]),
+          ),
+          light: {
+            "0": theme(
+              "colors.gray.light.0",
+              theme("colors.gray.50", colors.gray[50]),
+            ),
+            "1": theme(
+              "colors.gray.light.1",
+              theme("colors.gray.100", colors.gray[100]),
+            ),
+            "2": theme(
+              "colors.gray.light.2",
+              theme("colors.gray.200", colors.gray[200]),
+            ),
+            "3": theme(
+              "colors.gray.light.3",
+              theme("colors.gray.300", colors.gray[300]),
+            ),
+            "4": theme(
+              "colors.gray.light.4",
+              theme("colors.gray.400", colors.gray[400]),
+            ),
+          },
+          dark: {
+            "0": theme(
+              "colors.gray.dark.0",
+              theme("colors.gray.950", colors.gray[950]),
+            ),
+            "1": theme(
+              "colors.gray.dark.1",
+              theme("colors.gray.900", colors.gray[900]),
+            ),
+            "2": theme(
+              "colors.gray.dark.2",
+              theme("colors.gray.800", colors.gray[800]),
+            ),
+            "3": theme(
+              "colors.gray.dark.3",
+              theme("colors.gray.700", colors.gray[700]),
+            ),
+            "4": theme(
+              "colors.gray.dark.4",
+              theme("colors.gray.600", colors.gray[600]),
+            ),
+          },
+        };
+        break;
+      case "zinc":
+        color = {
+          default: theme(
+            "colors.zinc.default",
+            theme("colors.zinc.500", colors.zinc[500]),
+          ),
+          light: {
+            "0": theme(
+              "colors.zinc.light.0",
+              theme("colors.zinc.50", colors.zinc[50]),
+            ),
+            "1": theme(
+              "colors.zinc.light.1",
+              theme("colors.zinc.100", colors.zinc[100]),
+            ),
+            "2": theme(
+              "colors.zinc.light.2",
+              theme("colors.zinc.200", colors.zinc[200]),
+            ),
+            "3": theme(
+              "colors.zinc.light.3",
+              theme("colors.zinc.300", colors.zinc[300]),
+            ),
+            "4": theme(
+              "colors.zinc.light.4",
+              theme("colors.zinc.400", colors.zinc[400]),
+            ),
+          },
+          dark: {
+            "0": theme(
+              "colors.zinc.dark.0",
+              theme("colors.zinc.950", colors.zinc[950]),
+            ),
+            "1": theme(
+              "colors.zinc.dark.1",
+              theme("colors.zinc.900", colors.zinc[900]),
+            ),
+            "2": theme(
+              "colors.zinc.dark.2",
+              theme("colors.zinc.800", colors.zinc[800]),
+            ),
+            "3": theme(
+              "colors.zinc.dark.3",
+              theme("colors.zinc.700", colors.zinc[700]),
+            ),
+            "4": theme(
+              "colors.zinc.dark.4",
+              theme("colors.zinc.600", colors.zinc[600]),
+            ),
+          },
+        };
+        break;
+      case "neutral":
+        color = {
+          default: theme(
+            "colors.neutral.default",
+            theme("colors.neutral.500", colors.neutral[500]),
+          ),
+          light: {
+            "0": theme(
+              "colors.neutral.light.0",
+              theme("colors.neutral.50", colors.neutral[50]),
+            ),
+            "1": theme(
+              "colors.neutral.light.1",
+              theme("colors.neutral.100", colors.neutral[100]),
+            ),
+            "2": theme(
+              "colors.neutral.light.2",
+              theme("colors.neutral.200", colors.neutral[200]),
+            ),
+            "3": theme(
+              "colors.neutral.light.3",
+              theme("colors.neutral.300", colors.neutral[300]),
+            ),
+            "4": theme(
+              "colors.neutral.light.4",
+              theme("colors.neutral.400", colors.neutral[400]),
+            ),
+          },
+          dark: {
+            "0": theme(
+              "colors.neutral.dark.0",
+              theme("colors.neutral.950", colors.neutral[950]),
+            ),
+            "1": theme(
+              "colors.neutral.dark.1",
+              theme("colors.neutral.900", colors.neutral[900]),
+            ),
+            "2": theme(
+              "colors.neutral.dark.2",
+              theme("colors.neutral.800", colors.neutral[800]),
+            ),
+            "3": theme(
+              "colors.neutral.dark.3",
+              theme("colors.neutral.700", colors.neutral[700]),
+            ),
+            "4": theme(
+              "colors.neutral.dark.4",
+              theme("colors.neutral.600", colors.neutral[600]),
+            ),
+          },
+        };
+        break;
+      case "stone":
+        color = {
+          default: theme(
+            "colors.stone.default",
+            theme("colors.stone.500", colors.stone[500]),
+          ),
+          light: {
+            "0": theme(
+              "colors.stone.light.0",
+              theme("colors.stone.50", colors.stone[50]),
+            ),
+            "1": theme(
+              "colors.stone.light.1",
+              theme("colors.stone.100", colors.stone[100]),
+            ),
+            "2": theme(
+              "colors.stone.light.2",
+              theme("colors.stone.200", colors.stone[200]),
+            ),
+            "3": theme(
+              "colors.stone.light.3",
+              theme("colors.stone.300", colors.stone[300]),
+            ),
+            "4": theme(
+              "colors.stone.light.4",
+              theme("colors.stone.400", colors.stone[400]),
+            ),
+          },
+          dark: {
+            "0": theme(
+              "colors.stone.dark.0",
+              theme("colors.stone.950", colors.stone[950]),
+            ),
+            "1": theme(
+              "colors.stone.dark.1",
+              theme("colors.stone.900", colors.stone[900]),
+            ),
+            "2": theme(
+              "colors.stone.dark.2",
+              theme("colors.stone.800", colors.stone[800]),
+            ),
+            "3": theme(
+              "colors.stone.dark.3",
+              theme("colors.stone.700", colors.stone[700]),
+            ),
+            "4": theme(
+              "colors.stone.dark.4",
+              theme("colors.stone.600", colors.stone[600]),
+            ),
+          },
+        };
+        break;
+      case "red":
+        color = {
+          default: theme(
+            "colors.red.default",
+            theme("colors.red.500", colors.red[500]),
+          ),
+          light: {
+            "0": theme(
+              "colors.red.light.0",
+              theme("colors.red.50", colors.red[50]),
+            ),
+            "1": theme(
+              "colors.red.light.1",
+              theme("colors.red.100", colors.red[100]),
+            ),
+            "2": theme(
+              "colors.red.light.2",
+              theme("colors.red.200", colors.red[200]),
+            ),
+            "3": theme(
+              "colors.red.light.3",
+              theme("colors.red.300", colors.red[300]),
+            ),
+            "4": theme(
+              "colors.red.light.4",
+              theme("colors.red.400", colors.red[400]),
+            ),
+          },
+          dark: {
+            "0": theme(
+              "colors.red.dark.0",
+              theme("colors.red.950", colors.red[950]),
+            ),
+            "1": theme(
+              "colors.red.dark.1",
+              theme("colors.red.900", colors.red[900]),
+            ),
+            "2": theme(
+              "colors.red.dark.2",
+              theme("colors.red.800", colors.red[800]),
+            ),
+            "3": theme(
+              "colors.red.dark.3",
+              theme("colors.red.700", colors.red[700]),
+            ),
+            "4": theme(
+              "colors.red.dark.4",
+              theme("colors.red.600", colors.red[600]),
+            ),
+          },
+        };
+        break;
+      case "orange":
+        color = {
+          default: theme(
+            "colors.orange.default",
+            theme("colors.orange.500", colors.orange[500]),
+          ),
+          light: {
+            "0": theme(
+              "colors.orange.light.0",
+              theme("colors.orange.50", colors.orange[50]),
+            ),
+            "1": theme(
+              "colors.orange.light.1",
+              theme("colors.orange.100", colors.orange[100]),
+            ),
+            "2": theme(
+              "colors.orange.light.2",
+              theme("colors.orange.200", colors.orange[200]),
+            ),
+            "3": theme(
+              "colors.orange.light.3",
+              theme("colors.orange.300", colors.orange[300]),
+            ),
+            "4": theme(
+              "colors.orange.light.4",
+              theme("colors.orange.400", colors.orange[400]),
+            ),
+          },
+          dark: {
+            "0": theme(
+              "colors.orange.dark.0",
+              theme("colors.orange.950", colors.orange[950]),
+            ),
+            "1": theme(
+              "colors.orange.dark.1",
+              theme("colors.orange.900", colors.orange[900]),
+            ),
+            "2": theme(
+              "colors.orange.dark.2",
+              theme("colors.orange.800", colors.orange[800]),
+            ),
+            "3": theme(
+              "colors.orange.dark.3",
+              theme("colors.orange.700", colors.orange[700]),
+            ),
+            "4": theme(
+              "colors.orange.dark.4",
+              theme("colors.orange.600", colors.orange[600]),
+            ),
+          },
+        };
+        break;
+      case "amber":
+        color = {
+          default: theme(
+            "colors.amber.default",
+            theme("colors.amber.500", colors.amber[500]),
+          ),
+          light: {
+            "0": theme(
+              "colors.amber.light.0",
+              theme("colors.amber.50", colors.amber[50]),
+            ),
+            "1": theme(
+              "colors.amber.light.1",
+              theme("colors.amber.100", colors.amber[100]),
+            ),
+            "2": theme(
+              "colors.amber.light.2",
+              theme("colors.amber.200", colors.amber[200]),
+            ),
+            "3": theme(
+              "colors.amber.light.3",
+              theme("colors.amber.300", colors.amber[300]),
+            ),
+            "4": theme(
+              "colors.amber.light.4",
+              theme("colors.amber.400", colors.amber[400]),
+            ),
+          },
+          dark: {
+            "0": theme(
+              "colors.amber.dark.0",
+              theme("colors.amber.950", colors.amber[950]),
+            ),
+            "1": theme(
+              "colors.amber.dark.1",
+              theme("colors.amber.900", colors.amber[900]),
+            ),
+            "2": theme(
+              "colors.amber.dark.2",
+              theme("colors.amber.800", colors.amber[800]),
+            ),
+            "3": theme(
+              "colors.amber.dark.3",
+              theme("colors.amber.700", colors.amber[700]),
+            ),
+            "4": theme(
+              "colors.amber.dark.4",
+              theme("colors.amber.600", colors.amber[600]),
+            ),
+          },
+        };
+        break;
+      case "yellow":
+        color = {
+          default: theme(
+            "colors.yellow.default",
+            theme("colors.yellow.500", colors.yellow[500]),
+          ),
+          light: {
+            "0": theme(
+              "colors.yellow.light.0",
+              theme("colors.yellow.50", colors.yellow[50]),
+            ),
+            "1": theme(
+              "colors.yellow.light.1",
+              theme("colors.yellow.100", colors.yellow[100]),
+            ),
+            "2": theme(
+              "colors.yellow.light.2",
+              theme("colors.yellow.200", colors.yellow[200]),
+            ),
+            "3": theme(
+              "colors.yellow.light.3",
+              theme("colors.yellow.300", colors.yellow[300]),
+            ),
+            "4": theme(
+              "colors.yellow.light.4",
+              theme("colors.yellow.400", colors.yellow[400]),
+            ),
+          },
+          dark: {
+            "0": theme(
+              "colors.yellow.dark.0",
+              theme("colors.yellow.950", colors.yellow[950]),
+            ),
+            "1": theme(
+              "colors.yellow.dark.1",
+              theme("colors.yellow.900", colors.yellow[900]),
+            ),
+            "2": theme(
+              "colors.yellow.dark.2",
+              theme("colors.yellow.800", colors.yellow[800]),
+            ),
+            "3": theme(
+              "colors.yellow.dark.3",
+              theme("colors.yellow.700", colors.yellow[700]),
+            ),
+            "4": theme(
+              "colors.yellow.dark.4",
+              theme("colors.yellow.600", colors.yellow[600]),
+            ),
+          },
+        };
+        break;
+      case "lime":
+        color = {
+          default: theme(
+            "colors.lime.default",
+            theme("colors.lime.500", colors.lime[500]),
+          ),
+          light: {
+            "0": theme(
+              "colors.lime.light.0",
+              theme("colors.lime.50", colors.lime[50]),
+            ),
+            "1": theme(
+              "colors.lime.light.1",
+              theme("colors.lime.100", colors.lime[100]),
+            ),
+            "2": theme(
+              "colors.lime.light.2",
+              theme("colors.lime.200", colors.lime[200]),
+            ),
+            "3": theme(
+              "colors.lime.light.3",
+              theme("colors.lime.300", colors.lime[300]),
+            ),
+            "4": theme(
+              "colors.lime.light.4",
+              theme("colors.lime.400", colors.lime[400]),
+            ),
+          },
+          dark: {
+            "0": theme(
+              "colors.lime.dark.0",
+              theme("colors.lime.950", colors.lime[950]),
+            ),
+            "1": theme(
+              "colors.lime.dark.1",
+              theme("colors.lime.900", colors.lime[900]),
+            ),
+            "2": theme(
+              "colors.lime.dark.2",
+              theme("colors.lime.800", colors.lime[800]),
+            ),
+            "3": theme(
+              "colors.lime.dark.3",
+              theme("colors.lime.700", colors.lime[700]),
+            ),
+            "4": theme(
+              "colors.lime.dark.4",
+              theme("colors.lime.600", colors.lime[600]),
+            ),
+          },
+        };
+        break;
+      case "green":
+        color = {
+          default: theme(
+            "colors.green.default",
+            theme("colors.green.500", colors.green[500]),
+          ),
+          light: {
+            "0": theme(
+              "colors.green.light.0",
+              theme("colors.green.50", colors.green[50]),
+            ),
+            "1": theme(
+              "colors.green.light.1",
+              theme("colors.green.100", colors.green[100]),
+            ),
+            "2": theme(
+              "colors.green.light.2",
+              theme("colors.green.200", colors.green[200]),
+            ),
+            "3": theme(
+              "colors.green.light.3",
+              theme("colors.green.300", colors.green[300]),
+            ),
+            "4": theme(
+              "colors.green.light.4",
+              theme("colors.green.400", colors.green[400]),
+            ),
+          },
+          dark: {
+            "0": theme(
+              "colors.green.dark.0",
+              theme("colors.green.950", colors.green[950]),
+            ),
+            "1": theme(
+              "colors.green.dark.1",
+              theme("colors.green.900", colors.green[900]),
+            ),
+            "2": theme(
+              "colors.green.dark.2",
+              theme("colors.green.800", colors.green[800]),
+            ),
+            "3": theme(
+              "colors.green.dark.3",
+              theme("colors.green.700", colors.green[700]),
+            ),
+            "4": theme(
+              "colors.green.dark.4",
+              theme("colors.green.600", colors.green[600]),
+            ),
+          },
+        };
+        break;
+      case "emerald":
+        color = {
+          default: theme(
+            "colors.emerald.default",
+            theme("colors.emerald.500", colors.emerald[500]),
+          ),
+          light: {
+            "0": theme(
+              "colors.emerald.light.0",
+              theme("colors.emerald.50", colors.emerald[50]),
+            ),
+            "1": theme(
+              "colors.emerald.light.1",
+              theme("colors.emerald.100", colors.emerald[100]),
+            ),
+            "2": theme(
+              "colors.emerald.light.2",
+              theme("colors.emerald.200", colors.emerald[200]),
+            ),
+            "3": theme(
+              "colors.emerald.light.3",
+              theme("colors.emerald.300", colors.emerald[300]),
+            ),
+            "4": theme(
+              "colors.emerald.light.4",
+              theme("colors.emerald.400", colors.emerald[400]),
+            ),
+          },
+          dark: {
+            "0": theme(
+              "colors.emerald.dark.0",
+              theme("colors.emerald.950", colors.emerald[950]),
+            ),
+            "1": theme(
+              "colors.emerald.dark.1",
+              theme("colors.emerald.900", colors.emerald[900]),
+            ),
+            "2": theme(
+              "colors.emerald.dark.2",
+              theme("colors.emerald.800", colors.emerald[800]),
+            ),
+            "3": theme(
+              "colors.emerald.dark.3",
+              theme("colors.emerald.700", colors.emerald[700]),
+            ),
+            "4": theme(
+              "colors.emerald.dark.4",
+              theme("colors.emerald.600", colors.emerald[600]),
+            ),
+          },
+        };
+        break;
+      case "teal":
+        color = {
+          default: theme(
+            "colors.teal.default",
+            theme("colors.teal.500", colors.teal[500]),
+          ),
+          light: {
+            "0": theme(
+              "colors.teal.light.0",
+              theme("colors.teal.50", colors.teal[50]),
+            ),
+            "1": theme(
+              "colors.teal.light.1",
+              theme("colors.teal.100", colors.teal[100]),
+            ),
+            "2": theme(
+              "colors.teal.light.2",
+              theme("colors.teal.200", colors.teal[200]),
+            ),
+            "3": theme(
+              "colors.teal.light.3",
+              theme("colors.teal.300", colors.teal[300]),
+            ),
+            "4": theme(
+              "colors.teal.light.4",
+              theme("colors.teal.400", colors.teal[400]),
+            ),
+          },
+          dark: {
+            "0": theme(
+              "colors.teal.dark.0",
+              theme("colors.teal.950", colors.teal[950]),
+            ),
+            "1": theme(
+              "colors.teal.dark.1",
+              theme("colors.teal.900", colors.teal[900]),
+            ),
+            "2": theme(
+              "colors.teal.dark.2",
+              theme("colors.teal.800", colors.teal[800]),
+            ),
+            "3": theme(
+              "colors.teal.dark.3",
+              theme("colors.teal.700", colors.teal[700]),
+            ),
+            "4": theme(
+              "colors.teal.dark.4",
+              theme("colors.teal.600", colors.teal[600]),
+            ),
+          },
+        };
+        break;
+      case "cyan":
+        color = {
+          default: theme(
+            "colors.cyan.default",
+            theme("colors.cyan.500", colors.cyan[500]),
+          ),
+          light: {
+            "0": theme(
+              "colors.cyan.light.0",
+              theme("colors.cyan.50", colors.cyan[50]),
+            ),
+            "1": theme(
+              "colors.cyan.light.1",
+              theme("colors.cyan.100", colors.cyan[100]),
+            ),
+            "2": theme(
+              "colors.cyan.light.2",
+              theme("colors.cyan.200", colors.cyan[200]),
+            ),
+            "3": theme(
+              "colors.cyan.light.3",
+              theme("colors.cyan.300", colors.cyan[300]),
+            ),
+            "4": theme(
+              "colors.cyan.light.4",
+              theme("colors.cyan.400", colors.cyan[400]),
+            ),
+          },
+          dark: {
+            "0": theme(
+              "colors.cyan.dark.0",
+              theme("colors.cyan.950", colors.cyan[950]),
+            ),
+            "1": theme(
+              "colors.cyan.dark.1",
+              theme("colors.cyan.900", colors.cyan[900]),
+            ),
+            "2": theme(
+              "colors.cyan.dark.2",
+              theme("colors.cyan.800", colors.cyan[800]),
+            ),
+            "3": theme(
+              "colors.cyan.dark.3",
+              theme("colors.cyan.700", colors.cyan[700]),
+            ),
+            "4": theme(
+              "colors.cyan.dark.4",
+              theme("colors.cyan.600", colors.cyan[600]),
+            ),
+          },
+        };
+        break;
+      case "sky":
+        color = {
+          default: theme(
+            "colors.sky.default",
+            theme("colors.sky.500", colors.sky[500]),
+          ),
+          light: {
+            "0": theme(
+              "colors.sky.light.0",
+              theme("colors.sky.50", colors.sky[50]),
+            ),
+            "1": theme(
+              "colors.sky.light.1",
+              theme("colors.sky.100", colors.sky[100]),
+            ),
+            "2": theme(
+              "colors.sky.light.2",
+              theme("colors.sky.200", colors.sky[200]),
+            ),
+            "3": theme(
+              "colors.sky.light.3",
+              theme("colors.sky.300", colors.sky[300]),
+            ),
+            "4": theme(
+              "colors.sky.light.4",
+              theme("colors.sky.400", colors.sky[400]),
+            ),
+          },
+          dark: {
+            "0": theme(
+              "colors.sky.dark.0",
+              theme("colors.sky.950", colors.sky[950]),
+            ),
+            "1": theme(
+              "colors.sky.dark.1",
+              theme("colors.sky.900", colors.sky[900]),
+            ),
+            "2": theme(
+              "colors.sky.dark.2",
+              theme("colors.sky.800", colors.sky[800]),
+            ),
+            "3": theme(
+              "colors.sky.dark.3",
+              theme("colors.sky.700", colors.sky[700]),
+            ),
+            "4": theme(
+              "colors.sky.dark.4",
+              theme("colors.sky.600", colors.sky[600]),
+            ),
+          },
+        };
+        break;
+      case "blue":
+        color = {
+          default: theme(
+            "colors.blue.default",
+            theme("colors.blue.500", colors.blue[500]),
+          ),
+          light: {
+            "0": theme(
+              "colors.blue.light.0",
+              theme("colors.blue.50", colors.blue[50]),
+            ),
+            "1": theme(
+              "colors.blue.light.1",
+              theme("colors.blue.100", colors.blue[100]),
+            ),
+            "2": theme(
+              "colors.blue.light.2",
+              theme("colors.blue.200", colors.blue[200]),
+            ),
+            "3": theme(
+              "colors.blue.light.3",
+              theme("colors.blue.300", colors.blue[300]),
+            ),
+            "4": theme(
+              "colors.blue.light.4",
+              theme("colors.blue.400", colors.blue[400]),
+            ),
+          },
+          dark: {
+            "0": theme(
+              "colors.blue.dark.0",
+              theme("colors.blue.950", colors.blue[950]),
+            ),
+            "1": theme(
+              "colors.blue.dark.1",
+              theme("colors.blue.900", colors.blue[900]),
+            ),
+            "2": theme(
+              "colors.blue.dark.2",
+              theme("colors.blue.800", colors.blue[800]),
+            ),
+            "3": theme(
+              "colors.blue.dark.3",
+              theme("colors.blue.700", colors.blue[700]),
+            ),
+            "4": theme(
+              "colors.blue.dark.4",
+              theme("colors.blue.600", colors.blue[600]),
+            ),
+          },
+        };
+        break;
+      case "indigo":
+        color = {
+          default: theme(
+            "colors.indigo.default",
+            theme("colors.indigo.500", colors.indigo[500]),
+          ),
+          light: {
+            "0": theme(
+              "colors.indigo.light.0",
+              theme("colors.indigo.50", colors.indigo[50]),
+            ),
+            "1": theme(
+              "colors.indigo.light.1",
+              theme("colors.indigo.100", colors.indigo[100]),
+            ),
+            "2": theme(
+              "colors.indigo.light.2",
+              theme("colors.indigo.200", colors.indigo[200]),
+            ),
+            "3": theme(
+              "colors.indigo.light.3",
+              theme("colors.indigo.300", colors.indigo[300]),
+            ),
+            "4": theme(
+              "colors.indigo.light.4",
+              theme("colors.indigo.400", colors.indigo[400]),
+            ),
+          },
+          dark: {
+            "0": theme(
+              "colors.indigo.dark.0",
+              theme("colors.indigo.950", colors.indigo[950]),
+            ),
+            "1": theme(
+              "colors.indigo.dark.1",
+              theme("colors.indigo.900", colors.indigo[900]),
+            ),
+            "2": theme(
+              "colors.indigo.dark.2",
+              theme("colors.indigo.800", colors.indigo[800]),
+            ),
+            "3": theme(
+              "colors.indigo.dark.3",
+              theme("colors.indigo.700", colors.indigo[700]),
+            ),
+            "4": theme(
+              "colors.indigo.dark.4",
+              theme("colors.indigo.600", colors.indigo[600]),
+            ),
+          },
+        };
+        break;
+      case "violet":
+        color = {
+          default: theme(
+            "colors.violet.default",
+            theme("colors.violet.500", colors.violet[500]),
+          ),
+          light: {
+            "0": theme(
+              "colors.violet.light.0",
+              theme("colors.violet.50", colors.violet[50]),
+            ),
+            "1": theme(
+              "colors.violet.light.1",
+              theme("colors.violet.100", colors.violet[100]),
+            ),
+            "2": theme(
+              "colors.violet.light.2",
+              theme("colors.violet.200", colors.violet[200]),
+            ),
+            "3": theme(
+              "colors.violet.light.3",
+              theme("colors.violet.300", colors.violet[300]),
+            ),
+            "4": theme(
+              "colors.violet.light.4",
+              theme("colors.violet.400", colors.violet[400]),
+            ),
+          },
+          dark: {
+            "0": theme(
+              "colors.violet.dark.0",
+              theme("colors.violet.950", colors.violet[950]),
+            ),
+            "1": theme(
+              "colors.violet.dark.1",
+              theme("colors.violet.900", colors.violet[900]),
+            ),
+            "2": theme(
+              "colors.violet.dark.2",
+              theme("colors.violet.800", colors.violet[800]),
+            ),
+            "3": theme(
+              "colors.violet.dark.3",
+              theme("colors.violet.700", colors.violet[700]),
+            ),
+            "4": theme(
+              "colors.violet.dark.4",
+              theme("colors.violet.600", colors.violet[600]),
+            ),
+          },
+        };
+        break;
+      case "purple":
+        color = {
+          default: theme(
+            "colors.purple.default",
+            theme("colors.purple.500", colors.purple[500]),
+          ),
+          light: {
+            "0": theme(
+              "colors.purple.light.0",
+              theme("colors.purple.50", colors.purple[50]),
+            ),
+            "1": theme(
+              "colors.purple.light.1",
+              theme("colors.purple.100", colors.purple[100]),
+            ),
+            "2": theme(
+              "colors.purple.light.2",
+              theme("colors.purple.200", colors.purple[200]),
+            ),
+            "3": theme(
+              "colors.purple.light.3",
+              theme("colors.purple.300", colors.purple[300]),
+            ),
+            "4": theme(
+              "colors.purple.light.4",
+              theme("colors.purple.400", colors.purple[400]),
+            ),
+          },
+          dark: {
+            "0": theme(
+              "colors.purple.dark.0",
+              theme("colors.purple.950", colors.purple[950]),
+            ),
+            "1": theme(
+              "colors.purple.dark.1",
+              theme("colors.purple.900", colors.purple[900]),
+            ),
+            "2": theme(
+              "colors.purple.dark.2",
+              theme("colors.purple.800", colors.purple[800]),
+            ),
+            "3": theme(
+              "colors.purple.dark.3",
+              theme("colors.purple.700", colors.purple[700]),
+            ),
+            "4": theme(
+              "colors.purple.dark.4",
+              theme("colors.purple.600", colors.purple[600]),
+            ),
+          },
+        };
+        break;
+      case "fuchsia":
+        color = {
+          default: theme(
+            "colors.fuchsia.default",
+            theme("colors.fuchsia.500", colors.fuchsia[500]),
+          ),
+          light: {
+            "0": theme(
+              "colors.fuchsia.light.0",
+              theme("colors.fuchsia.50", colors.fuchsia[50]),
+            ),
+            "1": theme(
+              "colors.fuchsia.light.1",
+              theme("colors.fuchsia.100", colors.fuchsia[100]),
+            ),
+            "2": theme(
+              "colors.fuchsia.light.2",
+              theme("colors.fuchsia.200", colors.fuchsia[200]),
+            ),
+            "3": theme(
+              "colors.fuchsia.light.3",
+              theme("colors.fuchsia.300", colors.fuchsia[300]),
+            ),
+            "4": theme(
+              "colors.fuchsia.light.4",
+              theme("colors.fuchsia.400", colors.fuchsia[400]),
+            ),
+          },
+          dark: {
+            "0": theme(
+              "colors.fuchsia.dark.0",
+              theme("colors.fuchsia.950", colors.fuchsia[950]),
+            ),
+            "1": theme(
+              "colors.fuchsia.dark.1",
+              theme("colors.fuchsia.900", colors.fuchsia[900]),
+            ),
+            "2": theme(
+              "colors.fuchsia.dark.2",
+              theme("colors.fuchsia.800", colors.fuchsia[800]),
+            ),
+            "3": theme(
+              "colors.fuchsia.dark.3",
+              theme("colors.fuchsia.700", colors.fuchsia[700]),
+            ),
+            "4": theme(
+              "colors.fuchsia.dark.4",
+              theme("colors.fuchsia.600", colors.fuchsia[600]),
+            ),
+          },
+        };
+        break;
+      case "pink":
+        color = {
+          default: theme(
+            "colors.pink.default",
+            theme("colors.pink.500", colors.pink[500]),
+          ),
+          light: {
+            "0": theme(
+              "colors.pink.light.0",
+              theme("colors.pink.50", colors.pink[50]),
+            ),
+            "1": theme(
+              "colors.pink.light.1",
+              theme("colors.pink.100", colors.pink[100]),
+            ),
+            "2": theme(
+              "colors.pink.light.2",
+              theme("colors.pink.200", colors.pink[200]),
+            ),
+            "3": theme(
+              "colors.pink.light.3",
+              theme("colors.pink.300", colors.pink[300]),
+            ),
+            "4": theme(
+              "colors.pink.light.4",
+              theme("colors.pink.400", colors.pink[400]),
+            ),
+          },
+          dark: {
+            "0": theme(
+              "colors.pink.dark.0",
+              theme("colors.pink.950", colors.pink[950]),
+            ),
+            "1": theme(
+              "colors.pink.dark.1",
+              theme("colors.pink.900", colors.pink[900]),
+            ),
+            "2": theme(
+              "colors.pink.dark.2",
+              theme("colors.pink.800", colors.pink[800]),
+            ),
+            "3": theme(
+              "colors.pink.dark.3",
+              theme("colors.pink.700", colors.pink[700]),
+            ),
+            "4": theme(
+              "colors.pink.dark.4",
+              theme("colors.pink.600", colors.pink[600]),
+            ),
+          },
+        };
+        break;
+      case "rose":
+        color = {
+          default: theme(
+            "colors.rose.default",
+            theme("colors.rose.500", colors.rose[500]),
+          ),
+          light: {
+            "0": theme(
+              "colors.rose.light.0",
+              theme("colors.rose.50", colors.rose[50]),
+            ),
+            "1": theme(
+              "colors.rose.light.1",
+              theme("colors.rose.100", colors.rose[100]),
+            ),
+            "2": theme(
+              "colors.rose.light.2",
+              theme("colors.rose.200", colors.rose[200]),
+            ),
+            "3": theme(
+              "colors.rose.light.3",
+              theme("colors.rose.300", colors.rose[300]),
+            ),
+            "4": theme(
+              "colors.rose.light.4",
+              theme("colors.rose.400", colors.rose[400]),
+            ),
+          },
+          dark: {
+            "0": theme(
+              "colors.rose.dark.0",
+              theme("colors.rose.950", colors.rose[950]),
+            ),
+            "1": theme(
+              "colors.rose.dark.1",
+              theme("colors.rose.900", colors.rose[900]),
+            ),
+            "2": theme(
+              "colors.rose.dark.2",
+              theme("colors.rose.800", colors.rose[800]),
+            ),
+            "3": theme(
+              "colors.rose.dark.3",
+              theme("colors.rose.700", colors.rose[700]),
+            ),
+            "4": theme(
+              "colors.rose.dark.4",
+              theme("colors.rose.600", colors.rose[600]),
+            ),
+          },
+        };
+        break;
+      default:
+        color = {};
+    }
+
+    return color;
+  }
+
+  protected addColor(name: string, variants: ColorVariants): this {
+    Object.entries(variants).forEach((color) => {
+      const scheme = color[0];
+      const value = color[1];
+      if (typeof value === "string") {
+        this.addColorValue(name, value);
+      } else {
+        this.matchColorValues(`${name}-${scheme}`, variants[scheme]);
+      }
+    });
+
+    return this.matchColorScheme(name, variants);
+  }
+
+  protected matchColorScheme(name: string, variants: ColorVariants): this {
+    const lightColor = variants.light;
+    const darkColor = variants.dark;
+
+    if (lightColor !== undefined) {
+      this.addComponents(
+        this.stylizeColorSchemeComponent(name, lightColor, darkColor),
+      );
+      this.addUtilities(
+        this.stylizeColorSchemeUtility(name, lightColor, darkColor),
+      );
+    }
+
+    return this;
+  }
+
+  protected matchColorValues(name: string, values: ColorValues): this {
+    return this.matchColorComponents(name, values).matchColorUtilities(
+      name,
+      values,
+    );
+  }
+
+  protected addColorValue(name: string, value: ColorValue): this {
+    return this.addColorComponents(name, value).addColorUtilities(name, value);
+  }
+
+  protected addColorComponents(name: string, value: ColorValue): this {
+    return this.addComponents(this.stylizeComponents(name, value));
+  }
+
+  protected matchColorComponents(name: string, values: ColorValues): this {
+    return this.matchComponents(this.stylizeComponentsCallback(name), values);
+  }
+
+  protected addColorUtilities(name: string, value: ColorValue): this {
+    return this.addUtilities(this.stylizeColorUtility(name, value));
+  }
+
+  protected matchColorUtilities(name: string, values: ColorValues): this {
+    return this.matchUtilities(this.stylizeColorUtilityCallback(name), values);
+  }
+
+  protected stylizeColorSchemeComponent(
+    variant: string,
+    lightValues: ColorValues,
+    darkValues: ColorValues | undefined = undefined,
+  ): RuleSet[] {
+    const { e } = this.api;
+    const style: RuleSet[] = [];
+    Object.entries(this.components).forEach((component) => {
+      const name = `${component[0]}-${variant}`;
+      const utilities = component[1];
+
+      Object.entries(lightValues).forEach((color) => {
+        const colorKey = color[0];
+        const colorName = `${name}-${colorKey}`;
+        const colorValue = color[1];
+        if (typeof utilities === "string") {
+          style.push(
+            darken_class(
+              this.darkMode,
+              colorName,
+              this.stylizeUtility(utilities, colorValue),
+              darkValues === undefined
+                ? undefined
+                : stylize_property(utilities, darkValues[colorKey]),
+            ),
+          );
+        } else if (Array.isArray(utilities)) {
+          style.push(
+            darken_class(
+              this.darkMode,
+              colorName,
+              this.stylizeUtilities(utilities, colorValue),
+              darkValues === undefined
+                ? undefined
+                : this.stylizeUtilities(utilities, darkValues[colorKey]),
+            ),
+          );
+        } else {
+          Object.entries(utilities).forEach((utility) => {
+            const utilityName =
+              utility[0] === "DEFAULT"
+                ? colorName
+                : `${colorName}-${e(utility[0])}`;
+            const properties = utility[1];
+            if (typeof properties === "string") {
+              style.push(
+                darken_class(
+                  this.darkMode,
+                  utilityName,
+                  this.stylizeUtility(properties, colorValue),
+                  darkValues === undefined
+                    ? undefined
+                    : this.stylizeUtility(properties, darkValues[colorKey]),
+                ),
+              );
+            } else {
+              style.push(
+                darken_class(
+                  this.darkMode,
+                  utilityName,
+                  this.stylizeUtilities(properties, colorValue),
+                  darkValues === undefined
+                    ? undefined
+                    : this.stylizeUtilities(properties, darkValues[colorKey]),
+                ),
+              );
+            }
+          });
+        }
+      });
+    });
+    return style;
+  }
+
+  protected stylizeColorSchemeUtility(
+    variant: string,
+    lightValues: ColorValues,
+    darkValues: ColorValues | undefined = undefined,
+  ): RuleSet[] {
+    const style: RuleSet[] = [];
+    Object.entries(this.utilities).forEach((utility) => {
+      const utilityName = `${utility[0]}-${variant}`;
+      const propertyName = utility[1];
+      Object.entries(lightValues).forEach((color) => {
+        const colorKey = color[0];
+        const colorValue = color[1];
+        style.push(
+          darken_class(
+            this.darkMode,
+            `${utilityName}-${colorKey}`,
+            stylize_property(propertyName, colorValue),
+            darkValues === undefined
+              ? undefined
+              : stylize_property(propertyName, darkValues[colorKey]),
+          ),
+        );
+      });
+    });
+    return style;
+  }
+
+  protected stylizeColorUtility(name: string, value: ColorValue): RuleSet {
+    const { e } = this.api;
+    let rules: RuleSet = {};
+
+    Object.entries(this.utilities).forEach((utility) => {
+      const utilityName = `${utility[0]}-${e(name)}`;
+      const propertyName = utility[1];
+      rules = append_style(
+        stylize_class(utilityName, {
+          [propertyName]: value,
+        }),
+        rules,
+      );
+    });
+    return rules;
+  }
+
+  protected stylizeColorUtilityCallback(name: string): StyleCallbacks {
+    const { e } = this.api;
+    const rules: StyleCallbacks = {};
+
+    Object.entries(this.utilities).forEach((utility) => {
+      const utilityName = utility[0];
+      const propertyName = utility[1];
+      rules[`${utilityName}-${e(name)}`] = (value) =>
+        stylize_property(propertyName, value);
+    });
+    return rules;
+  }
+}

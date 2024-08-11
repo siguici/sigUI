@@ -1,12 +1,5 @@
-import plug, {
-  type PluginAPI,
-  type PluginCreator,
-  type PluginCreatorWithOptions,
-} from "plugwind.js";
-import plugin, { type PluginOptions } from "./plugin";
+import * as Plugger from "./plugger";
 import type { ClassName } from "./styles";
-
-export * as config from "./config";
 
 export interface RequiredLinkOptions {
   linkClass: ClassName;
@@ -29,16 +22,10 @@ export type DarkMode = [DarkModeStrategy, DarkModeQuery];
 
 export * from "./styles";
 export * from "./colors";
-export { plugin };
 
-export const colorwind: PluginCreatorWithOptions<PluginOptions> = plug.with(
-  (options) => (api: PluginAPI) => {
-    return plugin(api, options);
-  },
-);
+export const UI = Plugger.plugUI();
+export const UIColors = Plugger.plugColors();
+export const UILinks = Plugger.plugLinks();
+export const UIEdges = Plugger.plugEdges();
 
-const _colorwind: PluginCreator = plug((api: PluginAPI) => {
-  return plugin(api);
-});
-
-export default _colorwind;
+export default UI;

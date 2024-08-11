@@ -1,227 +1,197 @@
-import type { DeclarationBlock, PluginAPI } from "plugwind.js";
+import type { DarkModeConfig, PluginAPI } from "tailwindcss/types/config";
+import type {
+  ComponentList,
+  DarkMode,
+  PropertyName,
+  PropertyValue,
+  RuleSet,
+  StyleCallbacks,
+  StyleValues,
+  UtilityList,
+  UtilityName,
+} from ".";
+import type { PluginContract } from "./contracts";
 import {
-  type Config,
-  type UserConfig,
-  defaultConfig,
-  defineConfig,
-} from "./config";
-import { isArray, isObject, isString } from "./utils";
+  append_style,
+  stylize_class,
+  stylize_properties,
+  stylize_properties_callback,
+  stylize_property,
+  stylize_property_callback,
+} from "./helpers";
 
-export type PluginOptions = UserConfig;
+export abstract class Plugin<T> implements PluginContract<T> {
+  readonly darkMode: DarkMode = ["media", "prefers-color-scheme: dark"];
+  abstract readonly components: ComponentList;
+  abstract readonly utilities: UtilityList;
 
-export type UtilityList = string[];
-export type UtilityMap = Record<string, string>;
+  constructor(
+    readonly api: PluginAPI,
+    readonly options: T,
+  ) {
+    const { config } = api;
+    const configDarkMode: Partial<DarkModeConfig> | undefined =
+      config().darkMode;
 
-export type ComponentValue = string | UtilityList;
-export type ComponentVariant = Record<string, ComponentValue>;
-export type ComponentOption = ComponentValue | ComponentVariant;
+    if (configDarkMode !== undefined) {
+      const mediaQuery = "prefers-color-scheme: dark";
+      const classQuery = ".dark";
 
-export type ComponentList = Record<string, ComponentOption>;
-
-export function isUtilityList(utilities: unknown): utilities is UtilityList {
-  return isArray<string>(utilities, isString);
-}
-
-export function isUtilityMap(utilities: unknown): utilities is UtilityMap {
-  return isObject<string, string>(utilities, isString, isString);
-}
-
-export function isComponentValue(value: unknown): value is ComponentValue {
-  return isString(value) || isUtilityList(value);
-}
-
-export function isComponentVariant(
-  variant: unknown,
-): variant is ComponentVariant {
-  return isObject<string, ComponentValue>(variant, isString, isComponentValue);
-}
-
-export function isComponentOption(option: unknown): option is ComponentOption {
-  return isComponentValue(option) || isComponentVariant(option);
-}
-
-function stylizeUtilities(
-  utilityList: UtilityList,
-  propertyValue: string,
-  utilityMap: UtilityMap,
-): DeclarationBlock {
-  return utilityList.reduce<DeclarationBlock>((acc, utilityName) => {
-    acc[utilityMap[utilityName]] = propertyValue;
-    return acc;
-  }, {} as DeclarationBlock);
-}
-
-export function addColors(
-  api: PluginAPI,
-  colors: ColorsConfig,
-  config: Config = defaultConfig,
-): void {
-  for (const [colorName, colorOption] of Object.entries(colors)) {
-    addColor(api, colorName, colorOption, config);
-  }
-}
-
-export function addColor(
-  api: PluginAPI,
-  name: string,
-  option: ColorOption,
-  config = DEFAULT_OPTIONS,
-): void {
-  addColorComponents(api, name, option, config.components);
-  addColorUtilities(api, name, option, config.utilities);
-}
-
-export function addColorComponents(
-  api: PluginAPI,
-  colorName: string,
-  colorOption: ColorOption,
-  componentList: ComponentList,
-): void {
-  for (const [componentName, componentOption] of Object.entries(
-    componentList,
-  )) {
-    addColorComponent(
-      api,
-      componentName,
-      componentOption,
-      colorName,
-      colorOption,
-    );
-  }
-}
-
-export function addColorComponent(
-  api: PluginAPI,
-  componentName: string,
-  componentOption: ComponentOption,
-  colorName: string,
-  colorOption: ColorOption,
-): void {
-  if (isString(componentOption)) {
-    addColorComponentUtility(
-      api,
-      componentName,
-      componentOption,
-      colorName,
-      colorOption,
-    );
-    return;
+      if (configDarkMode === "media" || configDarkMode === "class") {
+        this.darkMode = [
+          configDarkMode,
+          configDarkMode === "media" ? mediaQuery : classQuery,
+        ];
+      } else if (configDarkMode[0] !== undefined) {
+        this.darkMode = [configDarkMode[0], classQuery];
+      }
+    }
   }
 
-  if (isUtilityList(componentOption)) {
-    addColorComponentUtilityList(
-      api,
-      componentName,
-      componentOption,
-      colorName,
-      colorOption,
-    );
-    return;
+  abstract create(): this;
+
+  protected getPropertyOf(utility: UtilityName): PropertyName {
+    return this.utilities[utility];
   }
 
-  addColorComponentVariant(
-    api,
-    componentName,
-    componentOption,
-    colorName,
-    colorOption,
-  );
-}
-
-export function addColorComponentUtility(
-  api: PluginAPI,
-  componentName: string,
-  utilityName: string,
-  colorName: string,
-  colorOption: ColorOption,
-  utilityMap: UtilityMap = {},
-): void {
-  const className = `${componentName}-${utilityName}-${colorName}`;
-  const utility = utilityMap[utilityName];
-  isString(colorOption)
-    ? api.addUtility(className, {
-        [utility]: colorOption,
-      })
-    : api.addDark(
-        className,
-        { [utility]: colorOption.light },
-        { [utility]: colorOption.dark },
-      );
-}
-
-export function addColorComponentUtilityList(
-  api: PluginAPI,
-  componentName: string,
-  utilityList: UtilityList,
-  colorName: string,
-  colorOption: ColorOption,
-  utilityMap: UtilityMap = {},
-): void {
-  const className = `${componentName}-${colorName}`;
-  isString(colorOption)
-    ? api.addComponent(
-        className,
-        stylizeUtilities(utilityList, colorOption, utilityMap),
-      )
-    : api.addDark(
-        className,
-        stylizeUtilities(utilityList, colorOption.light, utilityMap),
-        stylizeUtilities(utilityList, colorOption.dark, utilityMap),
-      );
-}
-
-export function addColorComponentVariant(
-  api: PluginAPI,
-  componentName: string,
-  componentVariant: ComponentVariant,
-  colorName: string,
-  colorOption: ColorOption,
-): void {
-  for (const [variantName, utilities] of Object.entries(componentVariant)) {
-    addColorComponent(
-      api,
-      variantName === "DEFAULT"
-        ? componentName
-        : `${componentName}-${variantName}`,
-      utilities,
-      colorName,
-      colorOption,
-    );
+  protected getPropertiesOf(utilities: UtilityName[]): PropertyName[] {
+    const properties: PropertyName[] = [];
+    utilities.forEach((utility) => {
+      properties.push(this.getPropertyOf(utility));
+    });
+    return properties;
   }
-}
 
-export function addColorUtilities(
-  api: PluginAPI,
-  colorName: string,
-  colorOption: ColorOption,
-  utilityMap: UtilityMap,
-): void {
-  for (const [utilityName, propertyName] of Object.entries(utilityMap)) {
-    addColorUtility(api, utilityName, propertyName, colorName, colorOption);
+  protected stylizeUtility(utility: UtilityName, value: PropertyValue) {
+    return stylize_property(this.getPropertyOf(utility), value);
   }
-}
 
-export function addColorUtility(
-  api: PluginAPI,
-  utilityName: string,
-  propertyName: string,
-  colorName: string,
-  colorOption: ColorOption,
-): void {
-  const className = `${utilityName}-${colorName}`;
-  isString(colorOption)
-    ? api.addUtility(className, { [propertyName]: colorOption })
-    : api.addDark(
-        className,
-        { [propertyName]: colorOption.light },
-        { [propertyName]: colorOption.dark },
-      );
-}
+  protected stylizeUtilityCallback(utility: UtilityName) {
+    return stylize_property_callback(this.getPropertyOf(utility));
+  }
 
-export default function (
-  api: PluginAPI,
-  options: PluginOptions = defaultConfig,
-): void {
-  const config: Config = defineConfig(options);
-  makePlugin(api, config);
+  protected stylizeUtilities(utilities: UtilityName[], value: PropertyValue) {
+    return stylize_properties(this.getPropertiesOf(utilities), value);
+  }
+
+  protected stylizeUtilitiesCallback(utilities: UtilityName[]) {
+    return stylize_properties_callback(this.getPropertiesOf(utilities));
+  }
+
+  protected stylizeComponentsCallback(variant: string): StyleCallbacks {
+    const { e } = this.api;
+    const rules: StyleCallbacks = {};
+
+    Object.entries(this.components).forEach((component) => {
+      const name = `${component[0]}-${e(variant)}`;
+      const utilities = component[1];
+
+      if (typeof utilities === "string") {
+        rules[name] = this.stylizeUtilityCallback(utilities);
+      } else if (Array.isArray(utilities)) {
+        rules[name] = this.stylizeUtilitiesCallback(utilities);
+      } else {
+        Object.entries(utilities).forEach((utility) => {
+          const utilityName =
+            utility[0] === "DEFAULT" ? name : `${name}-${e(utility[0])}`;
+          const properties = utility[1];
+          if (typeof properties === "string") {
+            rules[utilityName] = this.stylizeUtilityCallback(properties);
+          } else {
+            rules[utilityName] = this.stylizeUtilitiesCallback(properties);
+          }
+        });
+      }
+    });
+    return rules;
+  }
+
+  protected stylizeComponents(variant: string, value: PropertyValue): RuleSet {
+    const { e } = this.api;
+    let rules: RuleSet = {};
+
+    Object.entries(this.components).forEach((component) => {
+      const name = `${component[0]}-${e(variant)}`;
+      const utilities = component[1];
+
+      if (typeof utilities === "string") {
+        rules = append_style(
+          stylize_class(name, this.stylizeUtility(utilities, value)),
+          rules,
+        );
+      } else if (Array.isArray(utilities)) {
+        rules = append_style(
+          stylize_class(name, this.stylizeUtilities(utilities, value)),
+          rules,
+        );
+      } else {
+        Object.entries(utilities).forEach((utility) => {
+          const utilityName =
+            utility[0] === "DEFAULT" ? name : `${name}-${e(utility[0])}`;
+          const properties = utility[1];
+          if (typeof properties === "string") {
+            rules = append_style(
+              stylize_class(
+                utilityName,
+                this.stylizeUtility(properties, value),
+              ),
+              rules,
+            );
+          } else {
+            rules = append_style(
+              stylize_class(
+                utilityName,
+                this.stylizeUtilities(properties, value),
+              ),
+              rules,
+            );
+          }
+        });
+      }
+    });
+    return rules;
+  }
+
+  protected addVar(name: string, value: string): this {
+    return this.addBase({
+      ":root": {
+        [`--ui-${name}`]: value,
+      },
+    });
+  }
+
+  protected addBase(base: RuleSet | RuleSet[]): this {
+    this.api.addBase(base);
+    return this;
+  }
+
+  protected addComponents(components: RuleSet | RuleSet[]): this {
+    this.api.addComponents(components);
+    return this;
+  }
+
+  protected matchComponents(
+    components: StyleCallbacks,
+    values: StyleValues = {},
+  ): this {
+    this.api.matchComponents(components, {
+      values,
+    });
+    return this;
+  }
+
+  protected addUtilities(utilities: RuleSet | RuleSet[]): this {
+    this.api.addUtilities(utilities);
+    return this;
+  }
+
+  protected matchUtilities(
+    utilities: StyleCallbacks,
+    values: StyleValues = {},
+  ): this {
+    this.api.matchUtilities(utilities, {
+      values,
+    });
+    return this;
+  }
 }
