@@ -29,7 +29,7 @@
   "require": {
     "php": ">=8.2",
     "gehrisandro/tailwind-merge-laravel": "^1.2",
-    "illuminate/view": "^11.16"
+    "illuminate/view": "^11.20"
   },
   "require-dev": {
     "sikessem/framework": "^0.6.0",
