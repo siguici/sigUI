@@ -14,8 +14,8 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         php: [8.2, 8.3]
-        node: [20.15]
-        pnpm: [9.5]
+        node: [20.16]
+        pnpm: [9.7]
         dependencies: [lowest, highest]
         experimental: [false]
     name: 👷 CI PHP-${{ matrix.php }} ${{ matrix.dependencies }} with Node-${{ matrix.node }} on ${{ matrix.os }}
