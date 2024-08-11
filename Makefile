@@ -1,6 +1,6 @@
-.PHONY: install php_deps node_deps check fix test debug
+.PHONY: install install-js install-php check fix test debug
 
-install: node_deps php_deps
+install: install-js install-php
 
 node_deps: node_modules pnpm-lock.yaml
 
