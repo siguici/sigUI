@@ -2,7 +2,7 @@
 
 install: install-js install-php
 
-node_deps: node_modules pnpm-lock.yaml
+install-js: node_modules pnpm-lock.yaml
 
 node_modules: package.json packages/ui/package.json website/package.json
 	pnpm i -r
@@ -10,7 +10,7 @@ node_modules: package.json packages/ui/package.json website/package.json
 pnpm-lock.yaml: package.json packages/ui/package.json website/package.json
 	pnpm up -r
 
-php_deps: vendor composer.lock
+install-php: vendor composer.lock
 
 vendor: composer.json
 	composer i
