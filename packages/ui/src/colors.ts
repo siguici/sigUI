@@ -11,11 +11,14 @@ import { Plugin } from "./plugin";
 export type ColorName = keyof typeof colors;
 export type ColorValue = string;
 export type ColorValues = Record<string | number, ColorValue>;
+export type ColorVariant = ColorValues | ColorValue;
 export type RequiredColorVariants = {
   default: ColorValue;
   light: ColorValues;
   dark: ColorValues;
 };
+export type ColorScheme<T extends ColorValue | ColorValues> =
+  T extends ColorValue ? "default" : "light" | "dark";
 export type ColorVariants = Partial<RequiredColorVariants>;
 
 export class Colors extends Plugin<void> {
@@ -1215,15 +1218,13 @@ export class Colors extends Plugin<void> {
   }
 
   protected addColor(name: string, variants: ColorVariants): this {
-    Object.entries(variants).forEach((color) => {
-      const scheme = color[0];
-      const value = color[1];
+    for (const [scheme, value] of Object.entries(variants)) {
       if (typeof value === "string") {
         this.addColorValue(name, value);
       } else {
-        this.matchColorValues(`${name}-${scheme}`, variants[scheme]);
+        this.matchColorValues(`${name}-${scheme}`, value);
       }
-    });
+    }
 
     return this.matchColorScheme(name, variants);
   }
@@ -1278,11 +1279,11 @@ export class Colors extends Plugin<void> {
   ): RuleSet[] {
     const { e } = this.api;
     const style: RuleSet[] = [];
-    Object.entries(this.components).forEach((component) => {
+    for (const component of Object.entries(this.components)) {
       const name = `${component[0]}-${variant}`;
       const utilities = component[1];
 
-      Object.entries(lightValues).forEach((color) => {
+      for (const color of Object.entries(lightValues)) {
         const colorKey = color[0];
         const colorName = `${name}-${colorKey}`;
         const colorValue = color[1];
@@ -1309,7 +1310,7 @@ export class Colors extends Plugin<void> {
             ),
           );
         } else {
-          Object.entries(utilities).forEach((utility) => {
+          for (const utility of Object.entries(utilities)) {
             const utilityName =
               utility[0] === "DEFAULT"
                 ? colorName
@@ -1338,10 +1339,10 @@ export class Colors extends Plugin<void> {
                 ),
               );
             }
-          });
+          }
         }
-      });
-    });
+      }
+    }
     return style;
   }
 
@@ -1351,12 +1352,10 @@ export class Colors extends Plugin<void> {
     darkValues: ColorValues | undefined = undefined,
   ): RuleSet[] {
     const style: RuleSet[] = [];
-    Object.entries(this.utilities).forEach((utility) => {
+    for (const utility of Object.entries(this.utilities)) {
       const utilityName = `${utility[0]}-${variant}`;
       const propertyName = utility[1];
-      Object.entries(lightValues).forEach((color) => {
-        const colorKey = color[0];
-        const colorValue = color[1];
+      for (const [colorKey, colorValue] of Object.entries(lightValues)) {
         style.push(
           darken_class(
             this.darkMode,
@@ -1367,8 +1366,8 @@ export class Colors extends Plugin<void> {
               : stylize_property(propertyName, darkValues[colorKey]),
           ),
         );
-      });
-    });
+      }
+    }
     return style;
   }
 
@@ -1376,7 +1375,7 @@ export class Colors extends Plugin<void> {
     const { e } = this.api;
     let rules: RuleSet = {};
 
-    Object.entries(this.utilities).forEach((utility) => {
+    for (const utility of Object.entries(this.utilities)) {
       const utilityName = `${utility[0]}-${e(name)}`;
       const propertyName = utility[1];
       rules = append_style(
@@ -1385,7 +1384,7 @@ export class Colors extends Plugin<void> {
         }),
         rules,
       );
-    });
+    }
     return rules;
   }
 
@@ -1393,12 +1392,10 @@ export class Colors extends Plugin<void> {
     const { e } = this.api;
     const rules: StyleCallbacks = {};
 
-    Object.entries(this.utilities).forEach((utility) => {
-      const utilityName = utility[0];
-      const propertyName = utility[1];
+    for (const [utilityName, propertyName] of Object.entries(this.utilities)) {
       rules[`${utilityName}-${e(name)}`] = (value) =>
         stylize_property(propertyName, value);
-    });
+    }
     return rules;
   }
 }

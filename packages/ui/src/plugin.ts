@@ -3,6 +3,7 @@ import type { DarkModeConfig, PluginAPI } from "tailwindcss/types/config";
 import type {
   ComponentList,
   DarkMode,
+  DarkModeStrategy,
   PropertyName,
   PropertyValue,
   RuleSet,
@@ -45,7 +46,7 @@ export abstract class Plugin<T> implements PluginContract<T> {
           configDarkMode === "media" ? mediaQuery : classQuery,
         ];
       } else if (configDarkMode[0] !== undefined) {
-        this.darkMode = [configDarkMode[0], classQuery];
+        this.darkMode = [configDarkMode[0] as DarkModeStrategy, classQuery];
       }
     }
   }
@@ -58,9 +59,9 @@ export abstract class Plugin<T> implements PluginContract<T> {
 
   protected getPropertiesOf(utilities: UtilityName[]): PropertyName[] {
     const properties: PropertyName[] = [];
-    utilities.forEach((utility) => {
+    for (const utility of utilities) {
       properties.push(this.getPropertyOf(utility));
-    });
+    }
     return properties;
   }
 
@@ -90,7 +91,7 @@ export abstract class Plugin<T> implements PluginContract<T> {
     const { e } = this.api;
     const rules: StyleCallbacks = {};
 
-    Object.entries(this.components).forEach((component) => {
+    for (const component of Object.entries(this.components)) {
       const name = `${component[0]}-${e(variant)}`;
       const utilities = component[1];
 
@@ -99,7 +100,7 @@ export abstract class Plugin<T> implements PluginContract<T> {
       } else if (Array.isArray(utilities)) {
         rules[name] = this.stylizeUtilitiesCallback(utilities);
       } else {
-        Object.entries(utilities).forEach((utility) => {
+        for (const utility of Object.entries(utilities)) {
           const utilityName =
             utility[0] === "DEFAULT" ? name : `${name}-${e(utility[0])}`;
           const properties = utility[1];
@@ -108,9 +109,9 @@ export abstract class Plugin<T> implements PluginContract<T> {
           } else {
             rules[utilityName] = this.stylizeUtilitiesCallback(properties);
           }
-        });
+        }
       }
-    });
+    }
     return rules;
   }
 
@@ -118,7 +119,7 @@ export abstract class Plugin<T> implements PluginContract<T> {
     const { e } = this.api;
     let rules: RuleSet = {};
 
-    Object.entries(this.components).forEach((component) => {
+    for (const component of Object.entries(this.components)) {
       const name = `${component[0]}-${e(variant)}`;
       const utilities = component[1];
 
@@ -133,7 +134,7 @@ export abstract class Plugin<T> implements PluginContract<T> {
           rules,
         );
       } else {
-        Object.entries(utilities).forEach((utility) => {
+        for (const utility of Object.entries(utilities)) {
           const utilityName =
             utility[0] === "DEFAULT" ? name : `${name}-${e(utility[0])}`;
           const properties = utility[1];
@@ -154,9 +155,9 @@ export abstract class Plugin<T> implements PluginContract<T> {
               rules,
             );
           }
-        });
+        }
       }
-    });
+    }
     return rules;
   }
 

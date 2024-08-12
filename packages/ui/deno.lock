@@ -695,6 +695,9 @@
   },
   "remote": {},
   "workspace": {
+    "dependencies": [
+      "jsr:@siguici/plugwind"
+    ],
     "packageJson": {
       "dependencies": [
         "npm:@types/node@^22.2.0",
