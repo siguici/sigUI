@@ -59,9 +59,6 @@ jobs:
         with:
           version: ${{ matrix.pnpm }}
 
-      - name: Install JavaScript dependencies
-        run: pnpm install
-
       - name: ✅ Fix code style and build for production
         run: make build
 
@@ -74,9 +71,3 @@ jobs:
 
       - name: 🧪 Test features
         run: make test
-
-      - name: 📦️ Upload Deno distribution files
-        uses: actions/upload-artifact@v4
-        with:
-          name: deno_dist
-          path: packages/ui/jsr

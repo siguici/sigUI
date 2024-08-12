@@ -6,7 +6,7 @@ on:
       - main
 
   workflow_run:
-    workflows: [CI]
+    workflows: [Build]
     types: [completed]
     branches: [main]
 
@@ -32,18 +32,18 @@ jobs:
         operating-system: [ubuntu-latest]
         deno-version: [1.45]
 
-    name: 🚀 Deploy UI to JSR using Deno ${{ matrix.deno-version }}
+    name: 🎉 Publish to JSR using Deno ${{ matrix.deno-version }}
 
     steps:
       - name: 🚚 Get latest code
         uses: actions/checkout@v4
 
-      - name: 🔨 Configure Deno
+      - name: 🔧 Configure Deno
         uses: denoland/setup-deno@v1
         with:
           deno-version: ${{ matrix.deno-version }}
 
-      - name: 📦️ Download Deno distribution files
+      - name: 📂 Download Deno distribution files
         uses: actions/download-artifact@v4
         with:
           name: deno_dist
@@ -54,5 +54,5 @@ jobs:
       - name: 🚨 Fix code style
         run: deno task fix
 
-      - name: 🚀 Publish to JSR
+      - name: 🎉 Publish to JSR
         run: deno publish

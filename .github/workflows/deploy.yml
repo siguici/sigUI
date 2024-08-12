@@ -6,7 +6,7 @@ on:
       - main
 
   workflow_run:
-    workflows: [CI, Publish]
+    workflows: [CI]
     types: [completed]
     branches: [main]
 
@@ -41,7 +41,7 @@ jobs:
       - name: 🚚 Checkout the repository
         uses: actions/checkout@v4
 
-      - name: 📚 Install, build, and upload website
+      - name: 🔨 Install, build, and upload website
         uses: withastro/action@v2
         with:
           path: ./website
@@ -58,6 +58,6 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-      - name: 📂 Deploy to GitHub Pages
+      - name: 🚀 Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
