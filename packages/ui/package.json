@@ -1,5 +1,5 @@
 {
-  "name": "sigui",
+  "name": "@sikessem/ui",
   "version": "0.0.0",
   "license": "MIT",
   "packageManager": "pnpm@9.7.0",
