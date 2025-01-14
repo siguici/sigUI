@@ -11,9 +11,6 @@ importers:
       '@biomejs/biome':
         specifier: ^1.8.3
         version: 1.8.3
-      '@sikessem/ui':
-        specifier: workspace:*
-        version: link:packages/ui
       '@tailwindcss/nesting':
         specifier: 0.0.0-insiders.565cd3e
         version: 0.0.0-insiders.565cd3e(postcss@8.4.41)
@@ -41,6 +38,9 @@ importers:
       postcss-nested:
         specifier: ^6.2.0
         version: 6.2.0(postcss@8.4.41)
+      sigui:
+        specifier: workspace:*
+        version: link:packages/sigui
       tailwindcss:
         specifier: ^3.4.9
         version: 3.4.9(ts-node@10.9.2(@types/node@22.2.0)(typescript@5.5.4))
@@ -57,7 +57,7 @@ importers:
         specifier: ^2.0.5
         version: 2.0.5(@types/node@22.2.0)
 
-  packages/ui:
+  packages/sigui:
     dependencies:
       plugwind.js:
         specifier: ^0.4.1
@@ -3945,7 +3945,7 @@ snapshots:
 
   '@types/sax@1.2.7':
     dependencies:
-      '@types/node': 17.0.45
+      '@types/node': 22.2.0
 
   '@types/unist@2.0.10': {}
 
