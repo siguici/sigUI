@@ -19,7 +19,7 @@
     "types": ["node", "vitest/globals"],
     "baseUrl": ".",
     "paths": {
-      "@sikessem/ui/*": ["./packages/ui/src/*"]
+      "@sikessem/ui/*": ["./packages/sigui/src/*"]
     },
     "noImplicitAny": true,
     "strictNullChecks": true,

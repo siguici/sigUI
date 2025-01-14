@@ -1,5 +1,5 @@
 {
-  "name": "@sikessem/ui",
+  "name": "sigui",
   "version": "0.0.0",
   "license": "MIT",
   "packageManager": "pnpm@9.7.0",
@@ -21,8 +21,8 @@
     ".": "./src/index.ts",
     "./package.json": "./package.json"
   },
-  "bugs": "https://github.com/sikessem/ui/issues",
-  "homepage": "https://sikessem.github.io/ui",
+  "bugs": "https://github.com/siguici/sigUI/issues",
+  "homepage": "https://siguici.github.io/sigUI",
   "author": {
     "name": "Sigui Kessé Emmanuel",
     "email": "siguici@proton.me",
@@ -30,19 +30,24 @@
   },
   "description": "Design responsive user interfaces with light/dark mode and theme management quickly with this TailwindCSS-based plugin.",
   "keywords": [
+    "blade",
     "color-scheme",
     "componants",
     "css",
     "dark-mode",
+    "laravel",
     "light-mode",
     "plugin",
-    "sikessem",
+    "php",
+    "sigui",
+    "siguici",
     "tailwindcss",
     "tailwind-color-scheme",
     "theme",
     "typescript",
     "ui",
-    "utilities"
+    "utilities",
+    "widgets"
   ],
   "sideEffects": false,
   "private": false,

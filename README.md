@@ -14,7 +14,6 @@
 [![packagist-download-icon]][packagist-download-link]
 [![license-icon]][license-link]
 [![actions-icon]][actions-link]
-[![pr-icon]][pr-link]
 [![twitter-icon]][twitter-link]
 
 <sub>Made with ❤︎ by <a href="https://twitter.com/intent/follow?screen_name=siguici" style="content:url(https://img.shields.io/twitter/follow/siguici.svg?label=@siguici);margin-bottom:-6px">@siguici</a>.</sub>
@@ -27,17 +26,14 @@
 [typescript-icon]: https://img.shields.io/badge/TypeScript-294E80.svg?logo=typescript
 [typescript-link]:  https://github.com/siguici/sigUI/search?l=typescript "SigUI TypeScript code"
 
-[packagist-version-icon]: https://img.shields.io/packagist/v/siguici/sigUI
-[packagist-version-link]: https://packagist.org/packages/siguici/sigUI "SigUI Releases"
+[packagist-version-icon]: https://img.shields.io/packagist/v/siguici/sigui
+[packagist-version-link]: https://packagist.org/packages/siguici/sigui "SigUI Releases"
 
-[packagist-download-icon]: https://img.shields.io/packagist/dt/siguici/sigUI
-[packagist-download-link]: https://packagist.org/packages/siguici/sigUI "SigUI Downloads"
+[packagist-download-icon]: https://img.shields.io/packagist/dt/siguici/sigui
+[packagist-download-link]: https://packagist.org/packages/siguici/sigui "SigUI Downloads"
 
 [actions-icon]: https://github.com/siguici/sigUI/workflows/CI/badge.svg
 [actions-link]: https://github.com/siguici/sigUI/actions "SigUI status"
-
-[pr-icon]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?color=brightgreen
-[pr-link]: [contrib-link] "PRs welcome!"
 
 [twitter-icon]: https://img.shields.io/twitter/follow/siguici_news.svg?label=@siguici_news
 [twitter-link]: https://x.com/intent/follow?screen_name=siguici_news "Ping ⚡ Sigui"

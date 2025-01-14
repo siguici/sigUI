@@ -1,4 +1,4 @@
-import { UI } from "@sikessem/ui";
+import { UI } from "sigui";
 import type { Config } from "tailwindcss";
 import defaultTheme from "tailwindcss/defaultTheme";
 

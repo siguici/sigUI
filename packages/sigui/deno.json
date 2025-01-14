@@ -1,5 +1,5 @@
 {
-  "name": "@sikessem/ui",
+  "name": "@siguici/sigui",
   "version": "0.0.0",
   "imports": {
     "npm:plugwind.js": "jsr:@siguici/plugwind"

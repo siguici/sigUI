@@ -1,5 +1,5 @@
 {
-  "name": "@sikessem/ui",
+  "name": "sigui-monorepo",
   "private": true,
   "type": "module",
   "engines": {
@@ -12,8 +12,8 @@
   "publishConfig": {
     "access": "public"
   },
-  "bugs": "https://github.com/sikessem/ui/issues",
-  "homepage": "https://sikessem.github.io/packages/ui",
+  "bugs": "https://github.com/siguici/sigUI/issues",
+  "homepage": "https://siguici.github.io/sigUI",
   "author": {
     "name": "SIGUI Kessé Emmanuel",
     "email": "contact@sigui.ci",
@@ -21,18 +21,22 @@
   },
   "description": "TailwindCSS components and utilities to design faster.",
   "keywords": [
-    "sikessem",
-    "tailwindcss",
-    "plugin",
-    "utilities",
-    "componants",
+    "blade",
+    "components",
     "css",
-    "typescript"
+    "laravel",
+    "php",
+    "sigui",
+    "siguici",
+    "tailwindcss",
+    "typescript",
+    "ui",
+    "widgets"
   ],
   "main": "./dist/index.js",
   "types": "./plugin/types/index.d.ts",
   "scripts": {
-    "build": "pnpm -C packages/ui build",
+    "build": "pnpm -C packages/sigUI build",
     "check": "biome ci .",
     "check.format": "biome format .",
     "check.lint": "biome check .",
@@ -48,7 +52,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.3",
-    "@sikessem/ui": "workspace:*",
+    "sigui": "workspace:*",
     "@tailwindcss/nesting": "0.0.0-insiders.565cd3e",
     "@types/node": "^22.2.0",
     "@vitest/coverage-istanbul": "^2.0.5",

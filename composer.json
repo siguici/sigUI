@@ -1,5 +1,5 @@
 {
-  "name": "sikessem/ui",
+  "name": "siguici/sigui",
   "description": "Blade and TailwindCSS components to design faster.",
   "keywords": [
     "blade",
@@ -7,12 +7,14 @@
     "css",
     "laravel",
     "php",
-    "sikessem",
+    "sigui",
+    "siguici",
     "tailwindcss",
     "typescript",
+    "ui",
     "widgets"
   ],
-  "homepage": "https://sikessem.github.io/packages/ui",
+  "homepage": "https://siguici.github.io/sigUI",
   "license": "MIT",
   "authors": [
     {
@@ -22,9 +24,9 @@
     }
   ],
   "support": {
-    "source": "https://github.com/sikessem/ui",
-    "issues": "https://github.com/sikessem/ui/issues",
-    "chat": "https://github.com/orgs/sikessem/discussions"
+    "source": "https://github.com/siguici/sigUI",
+    "issues": "https://github.com/siguici/sigUI/issues",
+    "chat": "https://github.com/siguici/sigUI/discussions"
   },
   "require": {
     "php": ">=8.2",
@@ -37,13 +39,13 @@
   },
   "autoload": {
     "psr-4": {
-      "Sikessem\\UI\\": "src/"
+      "Sigui\\UI\\": "src/"
     },
-    "files": ["src/ui.php"]
+    "files": ["src/sigui.php"]
   },
   "autoload-dev": {
     "psr-4": {
-      "Sikessem\\UI\\Tests\\": "tests/"
+      "Sigui\\UI\\Tests\\": "tests/"
     }
   },
   "conflict": {
@@ -65,9 +67,9 @@
   },
   "extra": {
     "laravel": {
-      "providers": ["Sikessem\\UI\\ServiceProvider"],
+      "providers": ["Sigui\\UI\\ServiceProvider"],
       "aliases": {
-        "UI": "Sikessem\\UI\\Facade"
+        "UI": "Sigui\\UI\\Facade"
       },
       "dont-discover": []
     },
