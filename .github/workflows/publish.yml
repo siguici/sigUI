@@ -1,0 +1,58 @@
+name: Publish
+
+on:
+  push:
+    branches:
+      - main
+
+  workflow_run:
+    workflows: [Build]
+    types: [completed]
+    branches: [main]
+
+defaults:
+  run:
+    working-directory: ./packages/ui
+
+jobs:
+  ui:
+    runs-on: ${{ matrix.operating-system }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    environment: 
+      name: production
+      url: https://jsr.io/@sikessem/ui
+
+    permissions:
+      id-token: write
+      contents: read
+
+    strategy:
+      matrix:
+        operating-system: [ubuntu-latest]
+        deno-version: [1.45]
+
+    name: 🎉 Publish to JSR using Deno ${{ matrix.deno-version }}
+
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v4
+
+      - name: 🔧 Configure Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: ${{ matrix.deno-version }}
+
+      - name: 📂 Download Deno distribution files
+        uses: actions/download-artifact@v4
+        with:
+          name: deno_dist
+          path: packages/ui/jsr
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 🚨 Fix code style
+        run: deno task fix
+
+      - name: 🎉 Publish to JSR
+        run: deno publish

@@ -1,6 +1,21 @@
-import styliz from "styliz";
+import { UI } from "@sikessem/ui";
+import type { Config } from "tailwindcss";
+import defaultTheme from "tailwindcss/defaultTheme";
 
-export default {
-  content: ["./resources/**/*.{html,css,ts}"],
-  plugins: [styliz],
+export const UIConfig: Config = {
+  content: [
+    "./config/ui.php",
+    "./src/Components/**/*.php",
+    "./resources/views/**/*.blade.php",
+  ],
+
+  theme: {
+    extend: {
+      sans: [...defaultTheme.fontFamily.sans],
+    },
+  },
+
+  plugins: [UI],
 };
+
+export default UIConfig;

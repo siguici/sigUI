@@ -13,29 +13,61 @@ jobs:
       fail-fast: true
       matrix:
         os: [ubuntu-latest]
+        php: [8.2, 8.3]
         node: [20.16]
+        pnpm: [9.7.0]
+        dependency: [prefer-stable]
         experimental: [false]
-    name: 👷 CI Styliz with Node-${{ matrix.node }} under ${{ matrix.os }}
+    name: 👷 CI PHP-${{ matrix.php }} ${{ matrix.dependency }} with Node-${{ matrix.node }} on ${{ matrix.os }}
 
     steps:
-      - name: 🚚 Get latest code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: 🎉 Setup Node.js
+      - name: Cache dependencies
+        id: composer-cache
+        run: |
+          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+      - uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-php-${{ matrix.php }}-composer-${{ matrix.dependency }}-${{ hashFiles('composer.json') }}
+          restore-keys: |
+            ${{ runner.os }}-php-${{ matrix.php }}-composer-${{ matrix.dependency }}-
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: curl, dom, gd, intl, mbstring, openssl, tokenizer, zip
+          ini-values: error_reporting=E_ALL
+          tools: composer:v2, php-cs-fixer, phpunit, vimeo/psalm
+          coverage: pcov
+
+      - name: Install Composer dependencies
+        run: |
+          composer install -q --no-ansi --no-cache --no-interaction --no-scripts --no-progress --prefer-dist
+          composer update --${{ matrix.dependency }} --no-interaction --prefer-dist --no-progress --no-suggest
+
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
 
-      - name: ✨ Install dependencies
-        run: |
-          corepack enable
-          make install
-      
-      - name: 📦️ Build for production
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ matrix.pnpm }}
+
+      - name: ✅ Fix code style and build for production
         run: make build
 
-      - name: ✅ Check code style
+      - name: 🧹 Check code lint
         run: make check
 
-      - name: 🧪 Test components
+      - name: ⚗️ Run static analysis
+        run: |
+          composer analyse
+
+      - name: 🧪 Test features
         run: make test

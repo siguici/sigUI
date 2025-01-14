@@ -1,6 +1,7 @@
 {
-  "extends": "astro/tsconfigs/strictest",
+  "extends": "./node_modules/astro/tsconfigs/strictest.json",
   "compilerOptions": {
-    "moduleResolution": "Node"
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js"
   }
 }

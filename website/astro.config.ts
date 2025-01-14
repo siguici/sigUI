@@ -1,55 +1,87 @@
-import sitemap from "@astrojs/sitemap";
 import starlight from "@astrojs/starlight";
 import tailwind from "@astrojs/tailwind";
+import qwikdev from "@qwikdev/astro";
 import { defineConfig } from "astro/config";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://siguici.github.io",
-  base: "/styliz",
-  compressHTML: true,
+  site: "https://sikessem.github.io",
+  base: "/ui",
   integrations: [
     starlight({
-      title: "Styliz",
-      social: {
-        github: "https://github.com/siguici/styliz",
+      favicon: "/favicon.ico",
+      logo: {
+        src: "./src/assets/logo.svg",
+        alt: "Sikessem",
+        replacesTitle: true,
       },
+      title: "Sikessem",
       editLink: {
-        baseUrl: "https://github.com/siguici/styliz/edit/main/website/",
+        baseUrl:
+          "https://github.com/sikessem/ui/edit/0.x/website/src/content/docs/",
+      },
+      social: {
+        github: "https://github.com/sikessem/ui",
+        twitter: "https://twitter.com/@sikessem_news",
+      },
+      locales: {
+        root: {
+          label: "English",
+          lang: "en",
+        },
+        fr: {
+          label: "Français",
+        },
       },
       sidebar: [
         {
-          label: "Home",
-          link: "/",
+          label: "Projects",
+          translations: {
+            fr: "Projets",
+          },
+          autogenerate: {
+            directory: "projects",
+          },
         },
         {
-          label: "Getting started",
-          items: [{ label: "Quickstart", link: "/start/" }],
+          label: "Packages",
+          autogenerate: {
+            directory: "packages",
+          },
         },
         {
-          label: "Guides",
-          items: [{ label: "Guides", link: "/guides/" }],
+          label: "🧪 Testing and Debugging",
+          translations: {
+            fr: "Test et Débogage",
+          },
+          link: "testing",
         },
         {
-          label: "Reference",
-          autogenerate: { directory: "reference" },
+          label: "👥 Contribution Guide",
+          translations: {
+            fr: "👥 Guide de Contribution",
+          },
+          link: "contributions",
+        },
+        {
+          label: "🛂 Code of Conduct",
+          translations: {
+            fr: "🛂 Code de Conduite",
+          },
+          link: "code-of-conduct",
         },
       ],
-      customCss: ["./src/design/global.css"],
+      customCss: ["./src/designs/global.css"],
     }),
     tailwind({
       applyBaseStyles: false,
     }),
-    sitemap({
-      changefreq: "daily",
-      priority: 0.8,
-      lastmod: new Date(),
-      i18n: {
-        defaultLocale: "en",
-        locales: {
-          en: "en-US",
-        },
-      },
-    }),
+    qwikdev(),
   ],
+  // Process images with sharp: https://docs.astro.build/en/guides/assets/#using-sharp
+  image: {
+    service: {
+      entrypoint: "astro/assets/services/sharp",
+    },
+  },
 });

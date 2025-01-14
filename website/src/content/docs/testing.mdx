@@ -1,0 +1,164 @@
+---
+title: Testing and debugging
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+:::danger[Important]
+Be aware that the execution of the commands below depends on the projects. Some may be missing in some projects while all of these commands may work in others.
+
+Please consider they do indeed exist in their respective configuration files:
+
+> - `pnpm`: See **package.json** file
+> - `Composer`: See **composer.json** file
+> - `Make`: See **Makefile**
+:::
+
+## 🧹 Keep a modern codebase
+
+<Tabs>
+<TabItem label="pnpm">
+
+```sh
+pnpm check
+```
+
+</TabItem>
+<TabItem label="Composer">
+
+```sh
+composer check
+```
+
+</TabItem>
+<TabItem label="Make">
+
+```sh
+make check
+```
+
+</TabItem>
+</Tabs>
+
+## ⚗️ Run static analysis
+
+<Tabs>
+<TabItem label="PHPStan">
+
+```sh
+composer analyse
+```
+
+</TabItem>
+<TabItem label="Psalm">
+
+```sh
+composer inspect
+```
+
+</TabItem>
+</Tabs>
+
+## ✅ Run unit tests
+
+<Tabs>
+<TabItem label="pnpm">
+
+```sh
+pnpm test
+```
+
+</TabItem>
+<TabItem label="Composer">
+
+```sh
+composer test
+```
+
+</TabItem>
+<TabItem label="Make">
+
+```sh
+make test
+```
+
+</TabItem>
+</Tabs>
+
+## 🐛 Fix lint, format and types
+
+<Tabs>
+<TabItem label="pnpm">
+
+```sh
+pnpm fix
+```
+
+</TabItem>
+<TabItem label="Composer">
+
+```sh
+composer fix
+```
+
+</TabItem>
+<TabItem label="Make">
+
+```sh
+make fix
+```
+
+</TabItem>
+</Tabs>
+
+## 🧪 Check all code bugs
+
+<Tabs>
+<TabItem label="pnpm">
+
+```sh
+pnpm debug
+```
+
+</TabItem>
+<TabItem label="Composer">
+
+```sh
+composer debug
+```
+
+</TabItem>
+<TabItem label="Make">
+
+```sh
+make debug
+```
+
+</TabItem>
+</Tabs>
+
+## 🚀 End-to-end testing
+
+<Tabs>
+<TabItem label="pnpm">
+
+```sh
+pnpm e2e
+```
+
+</TabItem>
+<TabItem label="Composer">
+
+```sh
+composer e2e
+```
+
+</TabItem>
+<TabItem label="Make">
+
+```sh
+make e2e
+```
+
+</TabItem>
+</Tabs>
