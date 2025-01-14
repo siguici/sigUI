@@ -1,6 +1,6 @@
 # MIT License
 
-Copyright (c) 2022 [Sigui Kessé Emmanuel](https://sigui.ci/) <[contact@sigui.ci](mailto:contact@sigui.ci)>
+Copyright (c) 2022 [Sigui Kessé Emmanuel](https://siguici.deno.dev/) <[siguici@proton.me](mailto:siguici@proton.me)>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
