@@ -1,9 +1,9 @@
 <?php
 
-namespace Sikessem\UI\Components;
+namespace Sigui\UI\Components;
 
 use Illuminate\Support\Collection;
-use Sikessem\UI\Component;
+use Sigui\UI\Component;
 
 class Flashes extends Component
 {

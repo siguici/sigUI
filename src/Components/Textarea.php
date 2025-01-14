@@ -1,8 +1,8 @@
 <?php
 
-namespace Sikessem\UI\Components;
+namespace Sigui\UI\Components;
 
-use Sikessem\UI\FormControl;
+use Sigui\UI\FormControl;
 
 class Textarea extends FormControl
 {

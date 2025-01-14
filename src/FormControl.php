@@ -1,6 +1,6 @@
 <?php
 
-namespace Sikessem\UI;
+namespace Sigui\UI;
 
 abstract class FormControl extends Component
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Sikessem\UI\Components;
+namespace Sigui\UI\Components;
 
-use Sikessem\UI\Component;
+use Sigui\UI\Component;
 
 class Link extends Component
 {

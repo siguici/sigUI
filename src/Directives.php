@@ -1,21 +1,21 @@
 <?php
 
-namespace Sikessem\UI;
+namespace Sigui\UI;
 
 class Directives
 {
     public static function ui(string $expression): string
     {
-        return '{!! \Sikessem\UI\Facade::make('.$expression.') !!}';
+        return '{!! \Sigui\UI\Facade::make('.$expression.') !!}';
     }
 
     public static function tag(string $expression): string
     {
-        return '{!! \Sikessem\UI\Facade::openTag('.$expression.') !!}';
+        return '{!! \Sigui\UI\Facade::openTag('.$expression.') !!}';
     }
 
     public static function endtag(): string
     {
-        return '{!! \Sikessem\UI\Facade::closeTag() !!}';
+        return '{!! \Sigui\UI\Facade::closeTag() !!}';
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Sikessem\UI;
+namespace Sigui\UI;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
@@ -40,24 +40,24 @@ class ServiceProvider extends BaseServiceProvider
     protected function registerServices(): void
     {
         $this->app->singleton(Manager::class);
-        $this->app->instance('ui.path', sikessem_ui_path());
-        $this->app->alias(Manager::class, 'sikessem.ui');
+        $this->app->instance('ui.path', sigui_ui_path());
+        $this->app->alias(Manager::class, 'sigui.ui');
         $this->app->alias('blade.compiler', TemplateCompiler::class);
     }
 
     protected function registerConfig(): void
     {
-        $this->mergeConfigFrom(sikessem_ui_path('config/ui.php'), 'sikessem.ui');
+        $this->mergeConfigFrom(sigui_ui_path('config/ui.php'), 'sigui.ui');
     }
 
     protected function registerTranslations(): void
     {
-        $this->loadTranslationsFrom(sikessem_ui_path('resources/langs'), 'ui');
+        $this->loadTranslationsFrom(sigui_ui_path('resources/langs'), 'ui');
     }
 
     protected function registerViews(): void
     {
-        $this->loadViewsFrom(sikessem_ui_path('resources/views'), 'ui');
+        $this->loadViewsFrom(sigui_ui_path('resources/views'), 'ui');
     }
 
     protected function registerNamespaces(): void
@@ -97,24 +97,24 @@ class ServiceProvider extends BaseServiceProvider
     protected function registerComponents(): void
     {
         $this->callAfterResolving(BladeCompiler::class, function () {
-            $this->registerComponentPath(sikessem_ui_path('src/Components'));
-            $this->registerComponentPath(sikessem_ui_path('resources/views/components'), anonymous: true);
+            $this->registerComponentPath(sigui_ui_path('src/Components'));
+            $this->registerComponentPath(sigui_ui_path('resources/views/components'), anonymous: true);
         });
     }
 
     protected function registerPublishables(): void
     {
         $this->publishesToGroups([
-            sikessem_ui_path('config/ui.php') => sikessem_config_path('ui.php'),
-        ], ['sikessem', 'sikessem:ui', 'sikessem:ui-config']);
+            sigui_ui_path('config/ui.php') => sigui_config_path('ui.php'),
+        ], ['sigui', 'sigui:ui', 'sigui:ui-config']);
 
         $this->publishesToGroups([
-            sikessem_ui_path('resources/langs') => sikessem_lang_path('ui'),
-        ], ['sikessem', 'sikessem:ui', 'sikessem:ui-langs']);
+            sigui_ui_path('resources/langs') => sigui_lang_path('ui'),
+        ], ['sigui', 'sigui:ui', 'sigui:ui-langs']);
 
         $this->publishesToGroups([
-            sikessem_ui_path('resources/views') => sikessem_resource_path('ui'),
-        ], ['sikessem', 'sikessem:ui', 'sikessem:ui-views']);
+            sigui_ui_path('resources/views') => sigui_resource_path('ui'),
+        ], ['sigui', 'sigui:ui', 'sigui:ui-views']);
     }
 
     /**

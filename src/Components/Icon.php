@@ -1,11 +1,11 @@
 <?php
 
-namespace Sikessem\UI\Components;
+namespace Sigui\UI\Components;
 
 use Illuminate\Support\Str;
 use RuntimeException;
-use Sikessem\UI\Component;
-use Sikessem\UI\Facade;
+use Sigui\UI\Component;
+use Sigui\UI\Facade;
 
 class Icon extends Component
 {
@@ -34,7 +34,7 @@ class Icon extends Component
         $name = Str::squish($name);
         $name = Str::kebab($name);
 
-        $root ??= sikessem_ui_path('resources/icons');
+        $root ??= sigui_ui_path('resources/icons');
 
         if (! \is_file($icon = "$root/$size/$type/$name.svg")) {
             throw new RuntimeException("No icon named $name was found for type $type of size $size.");

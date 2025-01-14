@@ -1,11 +1,11 @@
 <?php
 
-namespace Sikessem\UI;
+namespace Sigui\UI;
 
 use Illuminate\Support\Str;
 use Illuminate\View\Compilers\ComponentTagCompiler;
 use Illuminate\View\DynamicComponent;
-use Sikessem\UI\Contracts\IsComponentCompiler;
+use Sigui\UI\Contracts\IsComponentCompiler;
 
 class ComponentCompiler extends ComponentTagCompiler implements IsComponentCompiler
 {

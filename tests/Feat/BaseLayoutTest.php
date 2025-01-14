@@ -1,7 +1,5 @@
 <?php
 
-namespace Tests\Unit;
-
 it('should render anonymous component', function () {
     $this->blade(<<<'BLADE'
 <s-base-layout>

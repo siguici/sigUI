@@ -1,6 +1,6 @@
 <?php
 
-namespace Sikessem\UI\Contracts;
+namespace Sigui\UI\Contracts;
 
 use Illuminate\View\Component;
 

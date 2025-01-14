@@ -1,9 +1,9 @@
 <?php
 
-namespace Sikessem\UI\Components;
+namespace Sigui\UI\Components;
 
 use Illuminate\View\ComponentAttributeBag;
-use Sikessem\UI\Component;
+use Sigui\UI\Component;
 
 class Menu extends Component
 {

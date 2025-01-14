@@ -1,7 +1,5 @@
 <?php
 
-namespace Tests\Unit;
-
 it('should render flashes component', function () {
     expect('')->toBeRenderOf('<s-flashes/>');
 

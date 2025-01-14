@@ -2,11 +2,11 @@
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\View\View as ViewContract;
-use Sikessem\UI\Contracts\IsManager;
-use Sikessem\UI\Manager;
+use Sigui\UI\Contracts\IsManager;
+use Sigui\UI\Manager;
 
-if (! function_exists('sikessem_ui_path')) {
-    function sikessem_ui_path(?string $path = null): string
+if (! function_exists('sigui_ui_path')) {
+    function sigui_ui_path(?string $path = null): string
     {
         $path = dirname(__DIR__).DIRECTORY_SEPARATOR.($path ?: '');
 
@@ -18,28 +18,28 @@ if (! function_exists('sikessem_ui_path')) {
     }
 }
 
-if (! function_exists('sikessem_config_path')) {
-    function sikessem_config_path(?string $path = null): string
+if (! function_exists('sigui_config_path')) {
+    function sigui_config_path(?string $path = null): string
     {
-        $path = config_path(rtrim('sikessem/'.($path ?: ''), '/'));
+        $path = config_path(rtrim('sigui/'.($path ?: ''), '/'));
 
         return realpath($path) ?: $path;
     }
 }
 
-if (! function_exists('sikessem_lang_path')) {
-    function sikessem_lang_path(?string $path = null): string
+if (! function_exists('sigui_lang_path')) {
+    function sigui_lang_path(?string $path = null): string
     {
-        $path = lang_path(rtrim('sikessem/'.($path ?: ''), '/'));
+        $path = lang_path(rtrim('sigui/'.($path ?: ''), '/'));
 
         return realpath($path) ?: $path;
     }
 }
 
-if (! function_exists('sikessem_resource_path')) {
-    function sikessem_resource_path(?string $path = null): string
+if (! function_exists('sigui_resource_path')) {
+    function sigui_resource_path(?string $path = null): string
     {
-        $path = resource_path(rtrim('views/vendor/sikessem/'.($path ?: ''), '/'));
+        $path = resource_path(rtrim('views/vendor/sigui/'.($path ?: ''), '/'));
 
         return realpath($path) ?: $path;
     }

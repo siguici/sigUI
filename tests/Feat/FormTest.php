@@ -1,7 +1,5 @@
 <?php
 
-namespace Tests\Feat;
-
 it('should render form component', function () {
     $view = $this->withViewErrors([
         'name' => 'Input name required',

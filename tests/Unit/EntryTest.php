@@ -1,7 +1,5 @@
 <?php
 
-namespace Sikessem\UI\Tests\Unit;
-
 it('should render input component', function () {
     $this->withViewErrors([])->blade('<s-entry type="email" autocomplete/>')->assertSee(
         '<input type="email" name="email" id="email" aria-invalid="false" autocomplete="email"/>',

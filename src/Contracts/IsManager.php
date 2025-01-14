@@ -1,6 +1,6 @@
 <?php
 
-namespace Sikessem\UI\Contracts;
+namespace Sigui\UI\Contracts;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\View\View as ViewContract;
@@ -10,7 +10,7 @@ use RuntimeException;
 
 interface IsManager
 {
-    public const COMPONENT_NAMESPACE = 'Sikessem\\UI\\Components';
+    public const COMPONENT_NAMESPACE = 'Sigui\\UI\\Components';
 
     public const ANONYMOUS_COMPONENT_NAMESPACE = 'ui::components';
 

@@ -1,8 +1,6 @@
 <?php
 
-namespace Tests\Feat;
-
-use Sikessem\UI\Contracts\IsManager;
+use Sigui\UI\Contracts\IsManager;
 
 test('ui() helper should be an instance of '.IsManager::class, function () {
     expect(ui())->toBeInstanceOf(IsManager::class);

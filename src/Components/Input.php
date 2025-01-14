@@ -1,9 +1,9 @@
 <?php
 
-namespace Sikessem\UI\Components;
+namespace Sigui\UI\Components;
 
-use Sikessem\UI\Concerns\HandlesComponentAlias;
-use Sikessem\UI\FormControl;
+use Sigui\UI\Concerns\HandlesComponentAlias;
+use Sigui\UI\FormControl;
 
 class Input extends FormControl
 {

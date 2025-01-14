@@ -1,7 +1,5 @@
 <?php
 
-namespace Tests\Unit;
-
 it('should render button component', function () {
     expectRender('<s-button>Click me</s-button>')->toContain('<button type="button">Click me</button>');
     expectRender('<s-button text="Click me"/>')->toContain('<button type="button">Click me</button>');

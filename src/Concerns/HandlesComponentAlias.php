@@ -1,9 +1,9 @@
 <?php
 
-namespace Sikessem\UI\Concerns;
+namespace Sigui\UI\Concerns;
 
 use Closure;
-use Sikessem\UI\Facade;
+use Sigui\UI\Facade;
 
 trait HandlesComponentAlias
 {

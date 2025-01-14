@@ -1,12 +1,12 @@
 <?php
 
-namespace Sikessem\UI;
+namespace Sigui\UI;
 
 use Closure;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component as BaseComponent;
-use Sikessem\UI\Contracts\IsComponent;
+use Sigui\UI\Contracts\IsComponent;
 
 abstract class Component extends BaseComponent implements IsComponent
 {

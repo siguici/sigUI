@@ -1,8 +1,8 @@
 <?php
 
-namespace Sikessem\UI;
+namespace Sigui\UI;
 
 use Illuminate\View\Compilers\BladeCompiler;
-use Sikessem\UI\Contracts\IsTemplateCompiler;
+use Sigui\UI\Contracts\IsTemplateCompiler;
 
 class TemplateCompiler extends BladeCompiler implements IsTemplateCompiler {}

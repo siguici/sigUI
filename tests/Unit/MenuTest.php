@@ -1,7 +1,5 @@
 <?php
 
-namespace Tests\Unit;
-
 it('should render menu component', function () {
     $this->render(<<<'BLADE'
 <s-menu :list="['Red', 'Green', 'Blue']" class="menu"/>

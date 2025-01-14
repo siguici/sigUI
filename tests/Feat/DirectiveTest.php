@@ -1,7 +1,5 @@
 <?php
 
-namespace Tests\Feat;
-
 it('should render UI blade component', function () {
     expect('Sikessem')->toBeRenderOf('@ui("text", ["value" => "Sikessem"])');
     expect('<a href="http://localhost">Sikessem</a>')->toBeRenderOf('@ui("link", ["href" => "/", "text" => "Sikessem"])');

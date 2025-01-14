@@ -1,13 +1,13 @@
 <?php
 
-namespace Sikessem\UI\Tests;
+namespace Sigui\UI\Tests;
 
 use Illuminate\Contracts\Config\Repository;
 use Livewire\Livewire;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
-use Sikessem\UI\Facade;
-use Sikessem\UI\ServiceProvider;
+use Sigui\UI\Facade;
+use Sigui\UI\ServiceProvider;
 use Spatie\LaravelRay\RayServiceProvider;
 
 abstract class TestCase extends BaseTestCase

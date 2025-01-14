@@ -13,7 +13,7 @@ use Pest\Expectation;
 |
 */
 
-uses(Sikessem\UI\Tests\TestCase::class)->in('Feat', 'Unit');
+uses(Sigui\UI\Tests\TestCase::class)->in('Feat', 'Unit');
 
 /*
 |--------------------------------------------------------------------------

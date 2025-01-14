@@ -1,9 +1,9 @@
 <?php
 
-namespace Sikessem\UI\Components;
+namespace Sigui\UI\Components;
 
 use InvalidArgumentException;
-use Sikessem\UI\FormControl;
+use Sigui\UI\FormControl;
 
 class Entry extends FormControl
 {

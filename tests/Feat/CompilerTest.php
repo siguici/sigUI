@@ -1,7 +1,5 @@
 <?php
 
-namespace Tests\Unit;
-
 it('should compile self-closing tag', function () {
     expect('Hello')->toBeRenderOf('<s-text value="Hello"/>');
 });

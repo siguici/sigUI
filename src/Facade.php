@@ -1,13 +1,13 @@
 <?php
 
-namespace Sikessem\UI;
+namespace Sigui\UI;
 
 use Illuminate\Support\Facades\Facade as BaseFacade;
 
 /**
  * @method static string closeTag()
  * @method static void component(string $class, string $alias = null, bool $anonymous = false)
- * @method static \Sikessem\UI\IsComponentConfig componentConfig(string $component, mixed $default = [])
+ * @method static \Sigui\UI\IsComponentConfig componentConfig(string $component, mixed $default = [])
  * @method static string compress(string $contents)
  * @method static mixed config(string $key, mixed $default)
  * @method static array|null find(string $name)
@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Facade as BaseFacade;
  * @method static string getComponentContents(string $component, string $default = '')
  * @method static array getComponentVariants(string $component, array $default)
  * @method static string make(string $name, array|\Illuminate\View\ComponentAttributeBag $attributes = [], string|\Illuminate\View\ComponentSlot $slot = null)
- * @method static \Sikessem\UI\Contracts\IsComponentTag makeComponentTag(string $component, array|\Illuminate\View\ComponentAttributeBag $attributes = [], string|\Illuminate\View\ComponentSlot $contents = null)
+ * @method static \Sigui\UI\Contracts\IsComponentTag makeComponentTag(string $component, array|\Illuminate\View\ComponentAttributeBag $attributes = [], string|\Illuminate\View\ComponentSlot $contents = null)
  * @method static \Illuminate\View\ComponentSlot makeComponentSlot(string $component, array|\Illuminate\View\ComponentAttributeBag $attributes = [], string|\Illuminate\View\ComponentSlot $contents = null)
  * @method static \Illuminate\View\ComponentAttributeBag makeComponentAttributes(string $component, array|\Illuminate\View\ComponentAttributeBag $attributes = [])
  * @method static string prefix()
@@ -30,7 +30,7 @@ use Illuminate\Support\Facades\Facade as BaseFacade;
  * @method static string render(string $template, array $data = [], bool $deleteCachedView = true)
  * @method static \Illuminate\Contracts\View\View page(string $contentPath, \Illuminate\Contracts\Support\Arrayable|array $contentData = [], string $layoutPath = null, \Illuminate\Contracts\Support\Arrayable|array $layoutData = [], array $mergeData = [])
  *
- * @see \Sikessem\UI\Manager
+ * @see \Sigui\UI\Manager
  */
 class Facade extends BaseFacade
 {
@@ -41,6 +41,6 @@ class Facade extends BaseFacade
      */
     protected static function getFacadeAccessor()
     {
-        return 'sikessem.ui';
+        return 'sigui.ui';
     }
 }

@@ -1,11 +1,11 @@
 <?php
 
-namespace Sikessem\UI\Components;
+namespace Sigui\UI\Components;
 
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\ComponentSlot;
-use Sikessem\UI\Component;
+use Sigui\UI\Component;
 
 class BaseLayout extends Component
 {

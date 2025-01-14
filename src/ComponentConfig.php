@@ -1,8 +1,8 @@
 <?php
 
-namespace Sikessem\UI;
+namespace Sigui\UI;
 
-use Sikessem\UI\Contracts\IsComponentConfig;
+use Sigui\UI\Contracts\IsComponentConfig;
 
 class ComponentConfig extends Config implements IsComponentConfig
 {

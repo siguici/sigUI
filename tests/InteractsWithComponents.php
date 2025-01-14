@@ -1,6 +1,6 @@
 <?php
 
-namespace Sikessem\UI\Tests;
+namespace Sigui\UI\Tests;
 
 use Illuminate\Foundation\Testing\Concerns\InteractsWithViews;
 use Pest\Expectation;

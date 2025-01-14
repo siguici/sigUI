@@ -1,11 +1,11 @@
 <?php
 
-namespace Sikessem\UI;
+namespace Sigui\UI;
 
 use Illuminate\Support\Str;
 use Illuminate\View\ComponentAttributeBag;
 use Illuminate\View\ComponentSlot;
-use Sikessem\UI\Contracts\IsComponentTag;
+use Sigui\UI\Contracts\IsComponentTag;
 
 class ComponentTag implements IsComponentTag
 {

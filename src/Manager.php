@@ -1,6 +1,6 @@
 <?php
 
-namespace Sikessem\UI;
+namespace Sigui\UI;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\View\View as ViewContract;
@@ -10,13 +10,13 @@ use Illuminate\Support\Str;
 use Illuminate\View\ComponentAttributeBag as ComponentAttributes;
 use Illuminate\View\ComponentSlot;
 use RuntimeException;
-use Sikessem\UI\Contracts\IsComponentConfig;
-use Sikessem\UI\Contracts\IsComponentTag;
-use Sikessem\UI\Contracts\IsManager;
+use Sigui\UI\Contracts\IsComponentConfig;
+use Sigui\UI\Contracts\IsComponentTag;
+use Sigui\UI\Contracts\IsManager;
 
 class Manager implements IsManager
 {
-    final public const COMPONENT_NAMESPACE = 'Sikessem\\UI\\Components';
+    final public const COMPONENT_NAMESPACE = 'Sigui\\UI\\Components';
 
     final public const ANONYMOUS_COMPONENT_NAMESPACE = 'ui::components';
 
@@ -38,7 +38,7 @@ class Manager implements IsManager
      */
     public function config(string $key, mixed $default = null): mixed
     {
-        return config("sikessem.ui.$key", $default);
+        return config("sigui.ui.$key", $default);
     }
 
     public function componentConfig(string $component, mixed $default = []): IsComponentConfig

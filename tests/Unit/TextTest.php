@@ -1,7 +1,5 @@
 <?php
 
-namespace Tests\Unit;
-
 it('should render text component', function () {
     expect('Sigui Kessé Emmanuel<contact@sigui.ci>')->toBeRenderOf('<s-text value="Sigui Kessé Emmanuel<contact@sigui.ci>"/>');
 });

@@ -1,8 +1,8 @@
 <?php
 
-namespace Sikessem\UI;
+namespace Sigui\UI;
 
-use Sikessem\UI\Contracts\IsConfig;
+use Sigui\UI\Contracts\IsConfig;
 
 class Config implements IsConfig
 {
