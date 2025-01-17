@@ -21,10 +21,10 @@
 </div>
 
 [php-icon]: https://img.shields.io/badge/PHP-ccc.svg?style=flat&logo=php
-[php-link]: https://github.com/siguici/sigUI/search?l=php "SigUI PHP code"
+[php-link]: https://github.com/siguici/sigui/search?l=php "SigUI PHP code"
 
 [typescript-icon]: https://img.shields.io/badge/TypeScript-294E80.svg?logo=typescript
-[typescript-link]:  https://github.com/siguici/sigUI/search?l=typescript "SigUI TypeScript code"
+[typescript-link]:  https://github.com/siguici/sigui/search?l=typescript "SigUI TypeScript code"
 
 [packagist-version-icon]: https://img.shields.io/packagist/v/siguici/sigui
 [packagist-version-link]: https://packagist.org/packages/siguici/sigui "SigUI Releases"
@@ -32,15 +32,15 @@
 [packagist-download-icon]: https://img.shields.io/packagist/dt/siguici/sigui
 [packagist-download-link]: https://packagist.org/packages/siguici/sigui "SigUI Downloads"
 
-[actions-icon]: https://github.com/siguici/sigUI/workflows/CI/badge.svg
-[actions-link]: https://github.com/siguici/sigUI/actions "SigUI status"
+[actions-icon]: https://github.com/siguici/sigui/workflows/CI/badge.svg
+[actions-link]: https://github.com/siguici/sigui/actions "SigUI status"
 
-[twitter-icon]: https://img.shields.io/twitter/follow/siguici_news.svg?label=@siguici_news
-[twitter-link]: https://x.com/intent/follow?screen_name=siguici_news "Ping ⚡ Sigui"
+[twitter-icon]: https://img.shields.io/twitter/follow/siguici.svg?label=@siguici
+[twitter-link]: https://x.com/intent/follow?screen_name=siguici "Ping ⚡ Sigui"
 
 [license-icon]: https://img.shields.io/badge/license-MIT-blue.svg
-[license-link]: https://github.com/siguici/sigUI/blob/HEAD/LICENSE "SigUI License"
-[docs-link]: https://siguici.github.io/sigUI "SigUI Documentation"
+[license-link]: https://github.com/siguici/sigui/blob/HEAD/LICENSE "SigUI License"
+[docs-link]: https://siguici.github.io/sigui "SigUI Documentation"
 
 [tailwindcss-home]: https://tailwindcss.com "TailwindCSS"
 [blade-home]: https://laravel.com/docs/11.x/blade "Laravel Blade"
